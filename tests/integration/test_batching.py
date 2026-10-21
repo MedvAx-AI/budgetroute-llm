@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import asyncio
+import json
+from pathlib import Path
 
 import pytest
 
@@ -26,6 +28,51 @@ def test_microbatcher_preserves_order_and_flushes() -> None:
         assert [output.text for output in outputs] == ["A deterministic fake response."] * 5
 
     asyncio.run(scenario())
+
+
+@pytest.mark.parametrize("batch", [False, True])
+def test_infeasible_cascade_always_escalates(
+    fake_config: AppConfig, tmp_path: Path, batch: bool
+) -> None:
+    path = tmp_path / "disabled.json"
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": 4,
+                "serving_threshold": 0.0,
+                "threshold_selection": {
+                    "status": "infeasible",
+                    "threshold": None,
+                    "reason": "No feasible subset",
+                },
+                "certification_status": "not_requested",
+                "calibrator": {},
+            }
+        ),
+        encoding="utf-8",
+    )
+    config = fake_config.model_copy(
+        update={
+            "routing": fake_config.routing.model_copy(
+                update={
+                    "policy": "cascade",
+                    "cascade_calibrator_path": path,
+                    "cascade_confidence_threshold": 0.0,
+                }
+            )
+        }
+    )
+    service = build_service(config)
+    requests = [GenerationRequest(request_id=str(i), prompt="What is 2 + 2?") for i in range(2)]
+    try:
+        responses = (
+            service.generate_batch(requests) if batch else [service.generate(r) for r in requests]
+        )
+        assert all(response.execution.escalated for response in responses)
+        assert all(response.execution.final_backend == BackendName.LARGE for response in responses)
+        assert [response.request_id for response in responses] == ["0", "1"]
+    finally:
+        service.close()
 
 
 def test_full_inference_batcher_enforces_deadline_and_closed_state(

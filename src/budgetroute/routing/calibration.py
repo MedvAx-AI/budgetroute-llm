@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Literal
+from math import isfinite
+from typing import Any, Literal
 
 import numpy as np
+
+from budgetroute.exceptions import RouterTrainingError
 
 
 @dataclass(frozen=True)
@@ -13,6 +16,55 @@ class ThresholdResult:
     threshold: float
     coverage: float
     selective_accuracy: float
+
+
+@dataclass(frozen=True)
+class ThresholdSelection:
+    status: Literal["feasible", "infeasible", "legacy"]
+    threshold: float | None
+    reason: str | None = None
+
+    def accepts(self, probability: float | None) -> bool:
+        return bool(
+            self.status != "infeasible"
+            and self.threshold is not None
+            and probability is not None
+            and isfinite(probability)
+            and 0 <= probability <= 1
+            and probability >= self.threshold
+        )
+
+
+def resolve_threshold_selection(
+    artifact: dict[str, Any], override: float | None = None
+) -> ThresholdSelection:
+    """Numerical overrides cannot reopen explicitly disabled routing."""
+    modern = int(artifact.get("schema_version", 1)) >= 4
+    selection = artifact.get("threshold_selection")
+    if modern:
+        certificate = artifact.get("certification_status", "not_requested")
+        if certificate not in {"not_requested", "passed"}:
+            return ThresholdSelection("infeasible", None, f"Certification {certificate}")
+        if not isinstance(selection, dict) or selection.get("status") != "feasible":
+            reason = selection.get("reason") if isinstance(selection, dict) else None
+            return ThresholdSelection("infeasible", None, str(reason or "No feasible threshold"))
+        value = selection.get("threshold")
+    else:
+        value = artifact.get("serving_threshold", 0.5)
+    try:
+        selected_value = override if override is not None else value
+        if selected_value is None:
+            raise TypeError("missing numeric threshold")
+        threshold = float(selected_value)
+    except (TypeError, ValueError) as exc:
+        raise RouterTrainingError("invalid routing threshold") from exc
+    if not isfinite(threshold) or not 0 <= threshold <= 1:
+        raise RouterTrainingError("routing threshold must be finite and between zero and one")
+    return ThresholdSelection(
+        "feasible" if modern else "legacy",
+        threshold,
+        None if modern else "Legacy empirical threshold; not certified",
+    )
 
 
 @dataclass(frozen=True)

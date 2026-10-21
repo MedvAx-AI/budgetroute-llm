@@ -13,7 +13,7 @@ from budgetroute.profiling.memory import current_memory
 from budgetroute.profiling.system import Timer
 from budgetroute.retrieval.service import RetrievalService
 from budgetroute.routing.base import RoutingPolicy
-from budgetroute.routing.calibration import ProbabilityCalibrator
+from budgetroute.routing.calibration import ProbabilityCalibrator, ThresholdSelection
 from budgetroute.routing.cascade import escalation_reason
 from budgetroute.schemas import (
     BackendGeneration,
@@ -48,6 +48,7 @@ class InferenceEngine:
         feature_extractor: RequestFeatureExtractor | None = None,
         confidence_calibrator: ProbabilityCalibrator | None = None,
         cascade_confidence_threshold: float | None = None,
+        cascade_threshold_selection: ThresholdSelection | None = None,
     ) -> None:
         self.small_backend = small_backend
         self.large_backend = large_backend
@@ -56,11 +57,20 @@ class InferenceEngine:
         self.retriever = retriever
         self.feature_extractor = feature_extractor or RequestFeatureExtractor()
         self.confidence_calibrator = confidence_calibrator
+        self.cascade_threshold_selection = cascade_threshold_selection
         self.cascade_confidence_threshold = (
             cascade_confidence_threshold
             if cascade_confidence_threshold is not None
             else routing_config.cascade_confidence_threshold
         )
+
+    def _escalation_reason(self, confidence: float | None) -> str | None:
+        if (
+            self.cascade_threshold_selection is not None
+            and self.cascade_threshold_selection.status == "infeasible"
+        ):
+            return f"Routing infeasible: {self.cascade_threshold_selection.reason}"
+        return escalation_reason(confidence, self.cascade_confidence_threshold)
 
     def _calibrate_small_confidence(self, confidence: float | None) -> float | None:
         if confidence is None or self.confidence_calibrator is None:
@@ -249,9 +259,7 @@ class InferenceEngine:
             execution.initial_confidence_raw = initial.confidence
             execution.initial_confidence_calibrated = calibrated_initial_confidence
             execution.cascade_threshold = self.cascade_confidence_threshold
-            reason = escalation_reason(
-                calibrated_initial_confidence, self.cascade_confidence_threshold
-            )
+            reason = self._escalation_reason(calibrated_initial_confidence)
             if reason is None:
                 final = initial
                 answer = initial.text
@@ -366,7 +374,7 @@ class InferenceEngine:
                 if cascade:
                     initial_generations[index] = output
                     calibrated = self._calibrate_small_confidence(output.confidence)
-                    if escalation_reason(calibrated, self.cascade_confidence_threshold) is not None:
+                    if self._escalation_reason(calibrated) is not None:
                         large_jobs.append((index, output))
                         continue
                 execution = ExecutionTrace(
@@ -406,10 +414,7 @@ class InferenceEngine:
             for (index, initial), output in zip(large_jobs, large_outputs, strict=True):
                 escalated = initial is not None
                 reason = (
-                    escalation_reason(
-                        self._calibrate_small_confidence(initial.confidence),
-                        self.cascade_confidence_threshold,
-                    )
+                    self._escalation_reason(self._calibrate_small_confidence(initial.confidence))
                     if initial is not None
                     else None
                 )

@@ -4,11 +4,15 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 
 ## [Unreleased]
 
+### Fixed
+
+- New router and backend-confidence artifacts explicitly disable cheap acceptance when calibration is infeasible or certification failed/is insufficient. Numeric overrides cannot bypass this state; single and batch cascades always escalate. Legacy numeric artifacts remain readable and uncertified.
+
 ### Added
 
 - Research reassessment covering current routing literature/model candidates, confirmed methodological defects, a proposed free-Colab replication-and-extension direction, and fresh October 21 remote CI evidence. The scientific redesign is pending approval; no runtime fixes, model migration, or Colab GPU result are claimed.
 - A written measurement-repair and free-Colab pilot specification for review, following acceptance of the research direction. In-app-browser Colab access is verified; GPU execution and implementation remain pending.
-- A test-first implementation plan following user approval of the pilot specification. Plan review/execution-method selection is pending; application behavior is unchanged.
+- An approved test-first implementation plan, now executing natively; remote GPU execution remains pending.
 
 ### Changed
 

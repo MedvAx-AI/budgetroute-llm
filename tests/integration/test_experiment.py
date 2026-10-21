@@ -90,3 +90,39 @@ def test_benchmark_report_and_fake_router(
         assert response.route in {RouteName.SMALL, RouteName.LARGE}
     finally:
         service.close()
+
+
+def test_impossible_calibration_routes_all_large(tmp_path: Path) -> None:
+    rows = [
+        {
+            "example_id": f"bad-{index}",
+            "group_id": f"group-{index}",
+            "policy": "always_small",
+            "error": None,
+            "backend_confidence_raw": 0.9,
+            "quality_score": 0.0,
+        }
+        for index in range(12)
+    ]
+    (tmp_path / "predictions.jsonl").write_text(
+        "".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8"
+    )
+    output = tmp_path / "confidence.json"
+    metadata = train_backend_confidence_calibrator(tmp_path, output, target_selective_accuracy=0.8)
+    assert metadata["serving_threshold"] is None
+    assert metadata["threshold_selection"]["status"] == "infeasible"
+    assert metadata["metrics"]["confusion_matrix"] == [[len(metadata["test_ids"]), 0], [0, 0]]
+    json.dumps(metadata, allow_nan=False)
+
+
+def test_legacy_calibrator_remains_readable_and_uncertified(tmp_path: Path) -> None:
+    from budgetroute.routing.training import load_backend_confidence_calibrator
+
+    path = tmp_path / "legacy.json"
+    path.write_text(
+        json.dumps({"schema_version": 1, "serving_threshold": 0.7, "calibrator": {}}),
+        encoding="utf-8",
+    )
+    _, selection, _ = load_backend_confidence_calibrator(path)
+    assert selection.status == "legacy"
+    assert selection.threshold == 0.7

@@ -18,8 +18,10 @@ from budgetroute.evaluation.calibration_metrics import (
 from budgetroute.exceptions import RouterTrainingError
 from budgetroute.routing.calibration import (
     ProbabilityCalibrator,
+    ThresholdSelection,
     choose_threshold,
     fit_probability_calibrator,
+    resolve_threshold_selection,
 )
 
 
@@ -292,12 +294,19 @@ def train_router(
     threshold_result = choose_threshold(
         calibrated_probabilities, calibration_labels, target_selective_accuracy
     )
-    serving_threshold = threshold_result.threshold if threshold_result is not None else 0.5
+    selection = (
+        ThresholdSelection("feasible", threshold_result.threshold)
+        if threshold_result
+        else ThresholdSelection(
+            "infeasible", None, "No calibration subset met the requested accuracy"
+        )
+    )
+    serving_threshold = selection.threshold
 
     raw_test_probabilities = _probabilities(model, matrix[test_indices])
     test_probabilities = calibrator.transform(raw_test_probabilities)
     test_labels = target[test_indices].astype(int).tolist()
-    test_predictions = [int(value >= serving_threshold) for value in test_probabilities]
+    test_predictions = [int(selection.accepts(value)) for value in test_probabilities]
     metrics = _classification_metrics(test_labels, test_predictions, test_probabilities)
     metrics["raw_brier_score"] = brier_score(raw_test_probabilities, test_labels)
     metrics["raw_expected_calibration_error"] = expected_calibration_error(
@@ -327,13 +336,15 @@ def train_router(
     if warning is None and not disjoint:
         raise RouterTrainingError("group leakage was detected across router partitions")
     metadata = {
-        "schema_version": 3,
+        "schema_version": 4,
         "label_strategy": label_strategy,
         "label_definition": _label_definition(label_strategy, quality_threshold),
         "quality_threshold": quality_threshold,
         "target_selective_accuracy": target_selective_accuracy,
         "serving_threshold": serving_threshold,
-        "threshold_selection": asdict(threshold_result) if threshold_result is not None else None,
+        "threshold_selection": asdict(selection),
+        "empirical_threshold_metrics": asdict(threshold_result) if threshold_result else None,
+        "certification_status": "not_requested",
         "calibrator": asdict(calibrator),
         "seed": seed,
         "dataset_hash": source_hash,
@@ -354,10 +365,12 @@ def train_router(
     temporary = output_path.with_suffix(output_path.suffix + ".tmp")
     joblib.dump(
         {
-            "schema_version": 3,
+            "schema_version": 4,
             "model": model,
             "calibrator": calibrator,
             "serving_threshold": serving_threshold,
+            "threshold_selection": asdict(selection),
+            "certification_status": "not_requested",
             "feature_order": feature_order,
             "label_definition": metadata["label_definition"],
             "training_metadata": metadata,
@@ -397,9 +410,10 @@ def evaluate_router(
     raw_probabilities = _probabilities(artifact["model"], matrix[selected])
     calibrator = artifact.get("calibrator", ProbabilityCalibrator())
     probabilities = calibrator.transform(raw_probabilities)
-    serving_threshold = float(artifact.get("serving_threshold", 0.5))
+    selection = resolve_threshold_selection(artifact)
+    serving_threshold = selection.threshold
     labels = [rows.labels[int(index)] for index in selected]
-    predictions = [int(value >= serving_threshold) for value in probabilities]
+    predictions = [int(selection.accepts(value)) for value in probabilities]
     result = _classification_metrics(labels, predictions, probabilities)
     result.update(
         {
@@ -448,18 +462,28 @@ def train_backend_confidence_calibrator(
     threshold_result = choose_threshold(
         calibration_probabilities, calibration_labels, target_selective_accuracy
     )
-    serving_threshold = threshold_result.threshold if threshold_result is not None else 0.5
+    selection = (
+        ThresholdSelection("feasible", threshold_result.threshold)
+        if threshold_result
+        else ThresholdSelection(
+            "infeasible", None, "No calibration subset met the requested accuracy"
+        )
+    )
+    serving_threshold = selection.threshold
     test_raw = [raw[int(index)] for index in test_indices]
     test_labels = [labels[int(index)] for index in test_indices]
     test_probabilities = calibrator.transform(test_raw)
-    test_predictions = [int(value >= serving_threshold) for value in test_probabilities]
+    test_predictions = [int(selection.accepts(value)) for value in test_probabilities]
     metadata = {
-        "schema_version": 1,
+        "schema_version": 4,
         "kind": "backend_confidence_calibrator",
         "policy": policy,
         "quality_threshold": quality_threshold,
         "target_selective_accuracy": target_selective_accuracy,
         "serving_threshold": serving_threshold,
+        "threshold_selection": asdict(selection),
+        "empirical_threshold_metrics": asdict(threshold_result) if threshold_result else None,
+        "certification_status": "not_requested",
         "calibrator": asdict(calibrator),
         "calibration_ids": [predictions[int(index)]["example_id"] for index in calibration_indices],
         "test_ids": [predictions[int(index)]["example_id"] for index in test_indices],
@@ -473,11 +497,11 @@ def train_backend_confidence_calibrator(
 
 def load_backend_confidence_calibrator(
     path: Path,
-) -> tuple[ProbabilityCalibrator, float, dict[str, Any]]:
+) -> tuple[ProbabilityCalibrator, ThresholdSelection, dict[str, Any]]:
     try:
         metadata = json.loads(path.read_text(encoding="utf-8"))
         calibrator = ProbabilityCalibrator(**metadata["calibrator"])
-        threshold = float(metadata["serving_threshold"])
+        selection = resolve_threshold_selection(metadata)
     except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
         raise RouterTrainingError(f"invalid backend confidence calibrator {path}: {exc}") from exc
-    return calibrator, threshold, metadata
+    return calibrator, selection, metadata

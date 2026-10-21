@@ -10,7 +10,7 @@ import numpy as np
 
 from budgetroute.exceptions import RouterTrainingError
 from budgetroute.routing.base import feature_snapshot
-from budgetroute.routing.calibration import ProbabilityCalibrator
+from budgetroute.routing.calibration import ProbabilityCalibrator, resolve_threshold_selection
 from budgetroute.schemas import GenerationRequest, RequestFeatures, RouteDecision, RouteName
 
 
@@ -55,21 +55,21 @@ class LearnedPolicy:
             raw_success_probability = float(model.predict(vector)[0])
         calibrator = artifact.get("calibrator", ProbabilityCalibrator())
         success_probability = calibrator.transform_one(raw_success_probability)
-        serving_threshold = (
-            self.success_threshold
-            if self.success_threshold is not None
-            else float(artifact.get("serving_threshold", 0.5))
-        )
-        route = RouteName.SMALL if success_probability >= serving_threshold else RouteName.LARGE
+        selection = resolve_threshold_selection(artifact, self.success_threshold)
+        route = RouteName.SMALL if selection.accepts(success_probability) else RouteName.LARGE
         return RouteDecision(
             route=route,
             confidence=max(success_probability, 1.0 - success_probability),
             difficulty_score=1.0 - success_probability,
             reason=(
-                f"Predicted small-model success {success_probability:.3f} is "
+                f"Routing infeasible: {selection.reason}"
+                if selection.status == "infeasible"
+                else f"Predicted small-model success {success_probability:.3f} is "
                 f"{'above' if route == RouteName.SMALL else 'below'} the serving threshold"
             ),
             policy=self.name,
             features=feature_snapshot(features),
-            thresholds={"small_success": serving_threshold},
+            thresholds={"small_success": selection.threshold}
+            if selection.threshold is not None
+            else {},
         )

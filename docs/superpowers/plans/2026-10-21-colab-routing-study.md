@@ -8,7 +8,7 @@
 
 **Tech Stack:** Python 3.11–3.13, Pydantic, NumPy, existing scikit-learn/joblib and Transformers/PyTorch extras, pytest, GitHub Actions, free Google Colab, existing MiniLM/FAISS integrations. No additional evaluation framework or paid provider.
 
-**Spec:** [Approved design](../specs/2026-10-21-colab-routing-study-design.md), approved by the user on 2026-10-21. This plan awaits user review and execution-method selection.
+**Spec:** [Approved design](../specs/2026-10-21-colab-routing-study-design.md). Specification and plan approved on 2026-10-21; Native execution selected. Implementation is in progress in an isolated checkout.
 
 ## Global Constraints
 
@@ -45,12 +45,12 @@ Dependency order: 1 → 2; 3 → 8; 2+4+5+6 → 7; all 1–8 → 9 → 10. Work 
 
 **Interfaces:** Add frozen `ThresholdSelection(status: Literal['feasible','infeasible','legacy'], threshold: float | None, reason: str | None)` in `routing/calibration.py`; `resolve_threshold_selection(artifact: dict[str, Any], override: float | None = None) -> ThresholdSelection`. Keep `choose_threshold` empirical. Change `load_backend_confidence_calibrator(path: Path)` to return `tuple[ProbabilityCalibrator, ThresholdSelection, dict[str, Any]]`; add optional `cascade_threshold_selection: ThresholdSelection | None = None` to `InferenceEngine.__init__` while retaining the existing numeric keyword for compatibility. New learned artifacts use schema version 4, serialize the selection object as `threshold_selection`, and include `certification_status: Literal['not_requested','passed','failed','insufficient']` (pilot default `not_requested`). The resolver disables a failed/insufficient certificate as well as an infeasible selection; legacy artifacts remain uncertified.
 
-- [ ] **1. Write failing regressions.** `test_infeasible_threshold_ignores_override`: a v4 artifact with `status='infeasible', threshold=None`, override `0.0`, and score `1.0` remains disabled. `test_impossible_calibration_routes_all_large`: scores `[0.9,0.8]`, labels `[0,0]`, target `0.8` produce no cheap decisions. Add single/batch cascade cases requiring all large escalations, JSON round-trip with `allow_nan=False`, and legacy numeric-threshold loading tagged `legacy`, never certified.
+- [x] **1. Write failing regressions.** `test_infeasible_threshold_ignores_override`: a v4 artifact with `status='infeasible', threshold=None`, override `0.0`, and score `1.0` remains disabled. `test_impossible_calibration_routes_all_large`: scores `[0.9,0.8]`, labels `[0,0]`, target `0.8` produce no cheap decisions. Add single/batch cascade cases requiring all large escalations, JSON round-trip with `allow_nan=False`, and legacy numeric-threshold loading tagged `legacy`, never certified.
   Assertions: `assert result.status == 'infeasible'`; `assert result.threshold is None`; `assert all(response.execution.escalated for response in responses)`. A v4 artifact's certification state `failed` or `insufficient` must also disable routing even if its empirical selection was feasible; the pilot records certification as `not_requested`, never generates a `passed` certificate.
-- [ ] **2. Run the red tests.** `python -m pytest tests/unit/test_routing.py tests/integration/test_experiment.py tests/integration/test_batching.py -q`; confirm the new regressions fail for the intended fallback/schema behavior, not unrelated fixtures.
-- [ ] **3. Implement the interfaces and update every caller.** Serialize state instead of `0.5` fallback; new infeasible state overrides numerical overrides. Reuse the selection object in training evaluation and live policy, and pass it through service composition into both engine paths. Update routing documentation, including legacy limitations.
-- [ ] **4. Run the same tests green.** Assert saved metadata, reloaded router decisions, evaluation decisions, and single/batch behavior agree; no NaN/infinity sentinels.
-- [ ] **5. Commit the named files:** `fix: fail closed when routing calibration is infeasible`.
+- [x] **2. Run the red tests.** `python -m pytest tests/unit/test_routing.py tests/integration/test_experiment.py tests/integration/test_batching.py -q`; confirm the new regressions fail for the intended fallback/schema behavior, not unrelated fixtures.
+- [x] **3. Implement the interfaces and update every caller.** Serialize state instead of `0.5` fallback; new infeasible state overrides numerical overrides. Reuse the selection object in training evaluation and live policy, and pass it through service composition into both engine paths. Update routing documentation, including legacy limitations.
+- [x] **4. Run the same tests green.** Assert saved metadata, reloaded router decisions, evaluation decisions, and single/batch behavior agree; no NaN/infinity sentinels.
+- [x] **5. Commit the named files:** `fix: fail closed when routing calibration is infeasible`.
 
 ### Task 2: Separate router-target probabilities from answer confidence
 

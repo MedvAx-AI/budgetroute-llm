@@ -2,7 +2,7 @@
 
 - [Research reassessment (2026-10-21)](research-reassessment.md): relevance, primary literature, model candidates, confirmed methodology gaps, accepted direction, and actual versus missing remote-test evidence.
 - [Approved Colab research pilot specification](superpowers/specs/2026-10-21-colab-routing-study-design.md): scope, hypothesis, measurement repairs, remote acceptance evidence, free-compute boundaries, and confirmation gates.
-- [Colab pilot implementation plan](superpowers/plans/2026-10-21-colab-routing-study.md): test-first tasks, shared interfaces, remote execution/evidence requirements, and progress; pending plan review and execution-method selection.
+- [Approved Colab pilot implementation plan](superpowers/plans/2026-10-21-colab-routing-study.md): Native test-first execution, shared interfaces, remote execution/evidence requirements, and current progress.
 - [Architecture](architecture.md): data/control planes, batch/global admission, durable operations, adaptation, artifacts.
 - [Evaluation](evaluation.md): deterministic quality, routing, selective, and calibration metrics.
 - [Benchmarking](benchmarking.md): timing, warm-up, CUDA, percentiles, memory, and interpretation.

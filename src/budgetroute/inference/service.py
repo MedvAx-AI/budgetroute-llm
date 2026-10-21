@@ -187,7 +187,8 @@ def build_service(config: AppConfig) -> InferenceService:
         config.routing,
         retriever,
         confidence_calibrator=confidence_calibrator,
-        cascade_confidence_threshold=cascade_threshold,
+        cascade_confidence_threshold=cascade_threshold.threshold if cascade_threshold else None,
+        cascade_threshold_selection=cascade_threshold,
     )
     return InferenceService(
         config,
