@@ -373,6 +373,7 @@ def train_router(
             "certification_status": "not_requested",
             "feature_order": feature_order,
             "label_definition": metadata["label_definition"],
+            "label_strategy": label_strategy,
             "training_metadata": metadata,
         },
         temporary,

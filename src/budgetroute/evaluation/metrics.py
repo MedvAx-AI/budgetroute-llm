@@ -48,8 +48,13 @@ def aggregate_metrics(
         by_category[item.category].append(item.quality_score)
     route_counts = Counter(item.route.value for item in successful)
     measurement_seconds = wall_time_ms / 1000.0 if wall_time_ms is not None else None
-    outcomes = [int(item.quality_score >= quality_threshold) for item in successful]
-    confidences = [item.confidence for item in successful]
+    answer_probabilities = [item for item in successful if item.backend_confidence is not None]
+    outcomes = [int(item.quality_score >= quality_threshold) for item in answer_probabilities]
+    confidences = [
+        float(item.backend_confidence)
+        for item in answer_probabilities
+        if item.backend_confidence is not None
+    ]
     selective = selective_metrics(qualities, [item.abstained for item in successful])
     return {
         "request_count": len(predictions),
@@ -154,6 +159,8 @@ def aggregate_metrics(
         ),
         **selective,
         "brier_score": brier_score(confidences, outcomes),
+        "probability_count": len(confidences),
+        "calibration_target": "final_answer_correctness",
         "expected_calibration_error": expected_calibration_error(confidences, outcomes),
         "reliability": reliability_diagram_data(confidences, outcomes),
         "confidence_correctness_threshold": quality_threshold,

@@ -11,6 +11,7 @@ from budgetroute.evaluation.calibration_metrics import (
     expected_calibration_error,
     reliability_diagram_data,
 )
+from budgetroute.schemas import PredictionRecord, RouteName
 
 
 def _safe_ratio(numerator: int, denominator: int) -> float | None:
@@ -42,7 +43,7 @@ def routing_quality_metrics(
     true_escalation = int((predicted_escalate & actual_escalate).sum())
     false_escalation = int((predicted_escalate & ~actual_escalate).sum())
     missed_escalation = int((~predicted_escalate & actual_escalate).sum())
-    probabilities = probabilities or [float(item) for item in predicted_small_success]
+    probabilities = probabilities if probabilities is not None else []
     true_positive = int(((predicted == 1) & (actual == 1)).sum())
     true_negative = int(((predicted == 0) & (actual == 0)).sum())
     false_positive = int(((predicted == 1) & (actual == 0)).sum())
@@ -61,6 +62,66 @@ def routing_quality_metrics(
         ),
         "reliability": reliability_diagram_data(probabilities, actual_small_success),
     }
+
+
+def router_probability_metrics(
+    predictions: list[PredictionRecord],
+    baselines: list[PredictionRecord],
+    quality_threshold: float,
+) -> dict[str, Any]:
+    """Score only explicitly recorded gate probabilities against their own target."""
+    lookup = {
+        (row.example_id, row.policy): row.quality_score
+        for row in baselines
+        if row.policy in {"always_small", "always_large"} and row.error is None
+    }
+    targets = {
+        row.router_probability.target for row in predictions if row.router_probability is not None
+    }
+    if len(targets) > 1:
+        raise ValueError("cannot pool probabilities for different router targets")
+    probabilities: list[float] = []
+    raw: list[float] = []
+    labels: list[int] = []
+    decisions: list[int] = []
+    missing = 0
+    for row in predictions:
+        probability = row.router_probability
+        if probability is None:
+            continue
+        small = lookup.get((row.example_id, "always_small"))
+        large = lookup.get((row.example_id, "always_large"))
+        if small is None or (probability.target == "paired_quality" and large is None):
+            missing += 1
+            continue
+        if probability.target == "small_success":
+            label = int(small >= quality_threshold)
+        else:
+            assert large is not None
+            label = int(small >= large)
+        probabilities.append(probability.probability)
+        raw.append(probability.raw_probability)
+        labels.append(label)
+        decisions.append(
+            int(
+                not row.escalated
+                and row.route
+                in {RouteName.SMALL, RouteName.SMALL_WITH_RETRIEVAL, RouteName.CASCADE}
+            )
+        )
+    result = routing_quality_metrics(decisions, labels, probabilities)
+    result.update(
+        {
+            "target": next(iter(targets), None),
+            "probability_count": len(probabilities),
+            "missing_probability_count": sum(row.router_probability is None for row in predictions),
+            "missing_baseline_count": missing,
+            "raw_brier_score": brier_score(raw, labels),
+        }
+    )
+    if result["target"] == "paired_quality":
+        result.pop("small_model_success_prediction_accuracy", None)
+    return result
 
 
 def selective_metrics(quality: list[float], abstained: list[bool]) -> dict[str, float | None]:

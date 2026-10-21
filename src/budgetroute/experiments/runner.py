@@ -14,7 +14,10 @@ from budgetroute.evaluation.dataset import (
 )
 from budgetroute.evaluation.harness import evaluate_records
 from budgetroute.evaluation.metrics import aggregate_metrics
-from budgetroute.evaluation.routing_metrics import routing_quality_metrics
+from budgetroute.evaluation.routing_metrics import (
+    router_probability_metrics,
+    routing_quality_metrics,
+)
 from budgetroute.experiments.artifacts import ArtifactWriter, create_run_directory
 from budgetroute.experiments.metadata import environment_metadata, run_metadata
 from budgetroute.inference.service import build_service
@@ -140,12 +143,13 @@ def run_benchmark(config: AppConfig, repository_root: Path | None = None) -> Pat
             for item in policy_predictions
         ]
         actual_labels = [small_success[item.example_id] for item in policy_predictions]
-        small_success_probabilities = [
-            item.confidence if predicted else 1.0 - item.confidence
-            for item, predicted in zip(policy_predictions, predicted_labels, strict=True)
-        ]
-        policy_metrics[policy_name]["routing"] = routing_quality_metrics(
-            predicted_labels, actual_labels, small_success_probabilities
+        policy_metrics[policy_name]["route_decision_diagnostics"] = routing_quality_metrics(
+            predicted_labels, actual_labels
+        )
+        policy_metrics[policy_name]["routing"] = router_probability_metrics(
+            [row for row in all_predictions if row.policy == policy_name],
+            all_predictions,
+            config.benchmark.quality_threshold,
         )
 
     metrics = aggregate_metrics(

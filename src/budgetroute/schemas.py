@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import Any
+from typing import Any, Literal
 from uuid import uuid4
 
 from pydantic import BaseModel, Field, field_validator
@@ -71,6 +71,13 @@ class RequestFeatures(BaseModel):
         return {key: float(value) for key, value in data.items()}
 
 
+class RouterProbability(BaseModel):
+    raw_probability: float = Field(ge=0.0, le=1.0)
+    probability: float = Field(ge=0.0, le=1.0)
+    target: Literal["small_success", "paired_quality"]
+    calibrated: bool
+
+
 class RouteDecision(BaseModel):
     route: RouteName
     confidence: float = Field(ge=0.0, le=1.0)
@@ -81,6 +88,7 @@ class RouteDecision(BaseModel):
     thresholds: dict[str, float] = Field(default_factory=dict)
     estimated_cost_units: float | None = Field(default=None, ge=0.0)
     estimated_latency_ms: float | None = Field(default=None, ge=0.0)
+    router_probability: RouterProbability | None = None
 
 
 class RetrievalHit(BaseModel):
@@ -98,6 +106,7 @@ class RouterTrace(BaseModel):
     reason: str
     features: dict[str, Any] = Field(default_factory=dict)
     thresholds: dict[str, float] = Field(default_factory=dict)
+    router_probability: RouterProbability | None = None
 
 
 class ExecutionTrace(BaseModel):
@@ -233,6 +242,8 @@ class PredictionRecord(BaseModel):
     confidence_method: str | None = None
     replayed: bool = False
     error: str | None = None
+    router_probability: RouterProbability | None = None
+    fake: bool | None = None
 
 
 class FeedbackRecord(BaseModel):

@@ -88,6 +88,15 @@ def test_benchmark_report_and_fake_router(
         response = service.generate(GenerationRequest(prompt="What is the capital of France?"))
         assert response.router.policy == "learned"
         assert response.route in {RouteName.SMALL, RouteName.LARGE}
+        assert response.router.router_probability is not None
+        assert response.router.router_probability.target == "small_success"
+        from budgetroute.evaluation.dataset import load_dataset
+        from budgetroute.evaluation.harness import evaluate_records
+
+        records = load_dataset(learned_config.benchmark.dataset_path)[:2]
+        predictions, _, _ = evaluate_records(service, records, fake=True)
+        assert all(row.router_probability is not None for row in predictions)
+        assert all(row.fake is True for row in predictions)
     finally:
         service.close()
 

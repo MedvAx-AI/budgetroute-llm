@@ -171,6 +171,7 @@ class InferenceEngine:
                 reason=decision.reason,
                 features=decision.features,
                 thresholds=decision.thresholds,
+                router_probability=decision.router_probability,
             ),
             execution=execution,
             usage=usage,

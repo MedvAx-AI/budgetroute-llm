@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import pytest
 
 from budgetroute.evaluation.calibration_metrics import (
@@ -11,7 +13,7 @@ from budgetroute.evaluation.evaluators import exact_match, keyword, numeric, tok
 from budgetroute.evaluation.routing_metrics import routing_quality_metrics, selective_metrics
 from budgetroute.evaluation.uncertainty import grouped_bootstrap_mean
 from budgetroute.experiments.runner import _warm_up
-from budgetroute.schemas import BenchmarkRecord, EvaluationType, GenerationRequest
+from budgetroute.schemas import BenchmarkRecord, EvaluationType, GenerationRequest, PredictionRecord
 
 
 def test_deterministic_evaluators() -> None:
@@ -66,3 +68,73 @@ def test_warm_up_uses_a_cache_isolation_marker() -> None:
     _warm_up(Service(), [record], 1, fake=False)
 
     assert requests[0].metadata["benchmark_warmup"] is True
+
+
+def test_missing_answer_confidence_is_unavailable(
+    prediction_factory: Callable[..., PredictionRecord],
+) -> None:
+    from budgetroute.evaluation.metrics import aggregate_metrics
+
+    metrics = aggregate_metrics([prediction_factory(confidence=0.99, backend_confidence=None)])
+    assert metrics["brier_score"] is None
+    assert metrics["expected_calibration_error"] is None
+    assert metrics["probability_count"] == 0
+
+
+@pytest.mark.parametrize("target, expected", [("small_success", 0.04), ("paired_quality", 0.64)])
+def test_router_probability_is_not_large_answer_complement(
+    prediction_factory: Callable[..., PredictionRecord],
+    target: str,
+    expected: float,
+) -> None:
+    from budgetroute.evaluation.routing_metrics import router_probability_metrics
+
+    candidate = prediction_factory(
+        backend_confidence=0.99,
+        router_probability={
+            "raw_probability": 0.3,
+            "probability": 0.2,
+            "target": target,
+            "calibrated": True,
+        },
+    )
+    baselines = [
+        prediction_factory(policy=policy, quality_score=0.0)
+        for policy in ["always_small", "always_large"]
+    ]
+    metrics = router_probability_metrics([candidate], baselines, 1.0)
+    assert metrics["probability_count"] == 1
+    assert metrics["target"] == target
+    assert metrics["brier_score"] == pytest.approx(expected)
+    expected_raw = 0.09 if target == "small_success" else 0.49
+    assert metrics["raw_brier_score"] == pytest.approx(expected_raw)
+    restored = PredictionRecord.model_validate_json(candidate.model_dump_json())
+    assert restored.router_probability == candidate.router_probability
+
+
+def test_missing_paired_baseline_does_not_fabricate_label(
+    prediction_factory: Callable[..., PredictionRecord],
+) -> None:
+    from budgetroute.evaluation.routing_metrics import router_probability_metrics
+
+    candidate = prediction_factory(
+        router_probability={
+            "raw_probability": 0.2,
+            "probability": 0.2,
+            "target": "paired_quality",
+            "calibrated": False,
+        }
+    )
+    metrics = router_probability_metrics(
+        [candidate], [prediction_factory(policy="always_small")], 1.0
+    )
+    assert metrics["probability_count"] == 0
+    assert metrics["missing_baseline_count"] == 1
+    assert metrics["brier_score"] is None
+
+
+def test_route_decisions_without_probabilities_have_no_calibration() -> None:
+    metrics = routing_quality_metrics([1], [0])
+    assert metrics["routing_accuracy"] == 0.0
+    assert metrics["brier_score"] is None
+    assert metrics["reliability"] == []

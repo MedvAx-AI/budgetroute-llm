@@ -56,6 +56,7 @@ See the [relevance/methods audit and proposed study](docs/research-reassessment.
 - [x] Approve the written specification and write the [implementation plan](docs/superpowers/plans/2026-10-21-colab-routing-study.md).
 - [x] Approve the implementation plan and choose Native execution with one independent final review.
 - [x] Repair infeasible-threshold fallback in newly trained artifacts and single/batch serving; preserve uncertified legacy readability.
+- [x] Separate router-target probabilities from answer confidence and remove fabricated routing/answer calibration.
 - [ ] Repair infeasible-threshold fallback, router/answer confidence metrics, cache identity, missing-cost semantics, and grouped/paired uncertainty before confirmatory claims.
 - [ ] Execute a development-only modern-model feasibility pilot on free Colab and determine whether an adequately powered study fits the available budget.
 - [ ] Freeze fresh splits, primary policy, scoring, stopping rules, and the complete non-inferiority/latency decision rule before examining final outcomes.

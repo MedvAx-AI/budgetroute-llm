@@ -149,6 +149,8 @@ def evaluate_records(
                         else None
                     ),
                     replayed=response.replayed,
+                    router_probability=response.router.router_probability,
+                    fake=response.fake,
                 )
             )
             routes.append(
@@ -158,6 +160,9 @@ def evaluate_records(
                     "policy": response.router.policy,
                     "route": response.route.value,
                     "confidence": response.router.confidence,
+                    "router_probability": response.router.router_probability.model_dump(mode="json")
+                    if response.router.router_probability
+                    else None,
                     "features": response.router.features,
                     "estimated_cost_units": response.estimated_cost_units,
                     "escalated": response.execution.escalated,

@@ -31,6 +31,8 @@ Learned routing declares its label strategy. `small_success` uses `small_model_q
 
 ## Calibration
 
+Router probabilities now carry explicit raw/probability values, target (`small_success` or `paired_quality`), and calibration state separately from final-answer confidence. Router Brier/ECE use paired baseline labels for that declared target; large-answer confidence is never complemented into a gate probability. Final-answer calibration uses only available backend probabilities and records their count; missing confidence produces null metrics, not a fallback to router confidence. Route-decision diagnostics without probability evidence have no calibration score. Legacy records remain readable with unavailable gate probabilities and unknown fake/real identity.
+
 - **Brier score:** mean squared difference between confidence and binary correctness; lower is better.
 - **Expected calibration error:** weighted absolute gap between mean confidence and empirical accuracy across equal-width bins.
 - **Reliability data:** bin boundaries, count, mean confidence, and empirical accuracy, including empty bins.

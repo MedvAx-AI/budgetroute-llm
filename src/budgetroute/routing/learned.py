@@ -11,7 +11,13 @@ import numpy as np
 from budgetroute.exceptions import RouterTrainingError
 from budgetroute.routing.base import feature_snapshot
 from budgetroute.routing.calibration import ProbabilityCalibrator, resolve_threshold_selection
-from budgetroute.schemas import GenerationRequest, RequestFeatures, RouteDecision, RouteName
+from budgetroute.schemas import (
+    GenerationRequest,
+    RequestFeatures,
+    RouteDecision,
+    RouteName,
+    RouterProbability,
+)
 
 
 class LearnedPolicy:
@@ -72,4 +78,13 @@ class LearnedPolicy:
             thresholds={"small_success": selection.threshold}
             if selection.threshold is not None
             else {},
+            router_probability=RouterProbability(
+                raw_probability=raw_success_probability,
+                probability=success_probability,
+                target=artifact.get(
+                    "label_strategy",
+                    artifact.get("training_metadata", {}).get("label_strategy", "small_success"),
+                ),
+                calibrated=calibrator.method != "identity",
+            ),
         )

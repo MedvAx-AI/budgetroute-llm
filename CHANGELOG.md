@@ -6,6 +6,8 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 
 ### Fixed
 
+- Router probability/target records and calibration are separate from final-answer confidence. Missing probability evidence yields unavailable calibration rather than complemented large-answer confidence or binary route scores. Prediction records preserve explicit fake/real identity when known.
+
 - New router and backend-confidence artifacts explicitly disable cheap acceptance when calibration is infeasible or certification failed/is insufficient. Numeric overrides cannot bypass this state; single and batch cascades always escalate. Legacy numeric artifacts remain readable and uncertified.
 
 ### Added
