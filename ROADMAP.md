@@ -46,14 +46,15 @@ Completed milestones are marked explicitly. Completion means the repository capa
 
 ## Next evidence milestones
 
-### Research-first direction (2026-10-21; written specification pending review)
+### Research-first direction (2026-10-21; specification approved, implementation plan pending review)
 
 See the [relevance/methods audit and proposed study](docs/research-reassessment.md). Use free Colab only. Freeze additional infrastructure expansion while reviewing this direction; existing completed engineering milestones are not scientific-success claims.
 
 - [x] Reassess recent routing literature, modern small-model candidates, the historical negative result, and remote validation gaps.
 - [x] Refresh existing-source remote CPU/API/storage contracts and real PostgreSQL CI on October 21.
 - [x] Accept the narrow research direction and write the [pilot specification](docs/superpowers/specs/2026-10-21-colab-routing-study-design.md); verify signed-in Colab access through the in-app browser only.
-- [ ] Review the written specification, then the implementation plan and execution method before product changes.
+- [x] Approve the written specification and write the [implementation plan](docs/superpowers/plans/2026-10-21-colab-routing-study.md).
+- [ ] Review the implementation plan and choose an execution method before product changes.
 - [ ] Repair infeasible-threshold fallback, router/answer confidence metrics, cache identity, missing-cost semantics, and grouped/paired uncertainty before confirmatory claims.
 - [ ] Execute a development-only modern-model feasibility pilot on free Colab and determine whether an adequately powered study fits the available budget.
 - [ ] Freeze fresh splits, primary policy, scoring, stopping rules, and the complete non-inferiority/latency decision rule before examining final outcomes.

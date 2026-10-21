@@ -1,6 +1,6 @@
 # Free-Colab routing research: measurement repair and feasibility pilot
 
-Date: 2026-10-21. Status: **written specification awaiting user review**. The user approved continuing the recommended scientific direction and restricted execution to free Colab and browser-only interaction. This is a replication-and-extension project, not a claim of a novel routing algorithm.
+Date: 2026-10-21. Status: **approved by the user on 2026-10-21**. The user approved the written specification and restricted execution to free Colab and browser-only interaction. The [implementation plan](../plans/2026-10-21-colab-routing-study.md) awaits review and execution-method selection. This is a replication-and-extension project, not a claim of a novel routing algorithm.
 
 ## 1. Intent and scope
 
@@ -135,4 +135,4 @@ Update README, roadmap, changelog, configuration/evaluation/reproducibility/real
 
 As of this specification: existing-source remote CI passed on October 21; the in-app browser successfully opened signed-in Colab. No GPU allocation, notebook creation/execution, modern-model migration, measurement repair, or new research result has been completed. Desktop automation is not used in this continuation.
 
-Next process gate: user review of this written specification, then a written implementation plan and execution-method selection under Superpowers. Product changes start only after those reviews.
+The written specification was approved by the user. Next process gate: review of the [implementation plan](../plans/2026-10-21-colab-routing-study.md) and execution-method selection under Superpowers. Product changes start only after that review.

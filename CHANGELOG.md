@@ -8,6 +8,7 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 
 - Research reassessment covering current routing literature/model candidates, confirmed methodological defects, a proposed free-Colab replication-and-extension direction, and fresh October 21 remote CI evidence. The scientific redesign is pending approval; no runtime fixes, model migration, or Colab GPU result are claimed.
 - A written measurement-repair and free-Colab pilot specification for review, following acceptance of the research direction. In-app-browser Colab access is verified; GPU execution and implementation remain pending.
+- A test-first implementation plan following user approval of the pilot specification. Plan review/execution-method selection is pending; application behavior is unchanged.
 
 ### Changed
 

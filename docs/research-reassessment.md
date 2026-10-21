@@ -1,6 +1,6 @@
 # Research reassessment — 2026-10-21
 
-Status: completed relevance/methods audit; the user approved continuing the recommended direction. The [written pilot specification](superpowers/specs/2026-10-21-colab-routing-study-design.md) awaits review and is not an approved experimental protocol or a new positive routing result. Budget: free Google Colab only. No paid compute, subscriptions, hosted inference, or public service deployment is authorized by this assessment.
+Status: completed relevance/methods audit; the user approved the [written pilot specification](superpowers/specs/2026-10-21-colab-routing-study-design.md). The [implementation plan](superpowers/plans/2026-10-21-colab-routing-study.md) awaits review. Approval is not remote execution, a final confirmatory protocol, or a new positive routing result. Budget: free Google Colab only. No paid compute, subscriptions, hosted inference, or public service deployment is authorized by this assessment.
 
 ## Bottom line
 
@@ -93,4 +93,4 @@ The initial desktop-access attempt was stopped because the Windows browser safet
 
 ## Next decision
 
-The in-chat direction was approved by the user's continuation. Review the [written pilot specification](superpowers/specs/2026-10-21-colab-routing-study-design.md), then the implementation plan before product changes under the requested Superpowers workflow. Browser access does not establish GPU execution, and design approval is not a scientific result.
+The written pilot specification is approved. Review the [implementation plan](superpowers/plans/2026-10-21-colab-routing-study.md) and select an execution method before product changes under the requested Superpowers workflow. Browser access does not establish GPU execution, and design approval is not a scientific result.
