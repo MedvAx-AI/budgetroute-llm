@@ -14,6 +14,7 @@ from budgetroute.evaluation.dataset import (
 )
 from budgetroute.evaluation.harness import evaluate_records
 from budgetroute.evaluation.metrics import aggregate_metrics
+from budgetroute.evaluation.paired import paired_policy_summary
 from budgetroute.evaluation.routing_metrics import (
     router_probability_metrics,
     routing_quality_metrics,
@@ -31,7 +32,15 @@ def _measured_records(records: list[BenchmarkRecord], measured_runs: int) -> lis
     result: list[BenchmarkRecord] = []
     for run_number in range(measured_runs):
         for record in records:
-            result.append(record.model_copy(update={"id": f"{record.id}__run-{run_number:03d}"}))
+            result.append(
+                record.model_copy(
+                    update={
+                        "id": f"{record.id}__run-{run_number:03d}",
+                        "group_id": record.group_id or record.id,
+                        "metadata": {**record.metadata, "original_example_id": record.id},
+                    }
+                )
+            )
     return result
 
 
@@ -161,6 +170,17 @@ def run_benchmark(config: AppConfig, repository_root: Path | None = None) -> Pat
         seed=config.seed,
     )
     metrics["policies"] = policy_metrics
+    baseline_predictions = [row for row in all_predictions if row.policy == "always_large"]
+    metrics["paired_comparisons"] = {
+        name: paired_policy_summary(
+            [row for row in all_predictions if row.policy == name],
+            baseline_predictions,
+            samples=config.benchmark.bootstrap_samples,
+            seed=config.seed,
+        )
+        for name in policy_metrics
+        if baseline_predictions and name != "always_large"
+    }
     metrics["fake"] = config.benchmark.fake
     errors = [item.model_dump(mode="json") for item in all_predictions if item.error]
     writer.write_jsonl(

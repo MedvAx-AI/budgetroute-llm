@@ -74,3 +74,7 @@ See the [relevance/methods audit and proposed study](docs/research-reassessment.
 - Integrate an external identity provider, secret manager, WAF/service mesh, centralized telemetry, and ticketing system for sensitive production use.
 - Add domain-specific semantic/human evaluation and red-team evidence; no generic filter can prove factuality, usefulness, or prompt-injection safety.
 - Validate HNSW recall/latency and autoscaling behavior on the target corpus and fleet before setting production thresholds.
+# Active research implementation
+
+Completed measurement foundations: fail-closed thresholds, typed probability targets, cache/runtime identity, per-call cost provenance, and failure-aware paired descriptive evaluation. Independent pilot data, semantic gates, modern adapters and actual Colab execution remain the next gates.
+

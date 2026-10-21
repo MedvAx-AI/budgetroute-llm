@@ -253,3 +253,7 @@ scripts/              PowerShell and Bash setup/check/demo helpers
 ## Resume use
 
 The architecture and test evidence can be described today. Replace every quality, latency, throughput, savings, recall, and scale placeholder with a link to a real immutable run. Never present fake-mode values as model evidence. See [portfolio notes](docs/portfolio-notes.md).
+# Research implementation status
+
+Measurement updates now retain generation failures in quality denominators and report complete paired comparisons with grouped descriptive uncertainty. Live speedup evidence is withheld without matching verified trial identities. The new free-Colab pilot is still under implementation; software tests are not GPU or scientific evidence.
+

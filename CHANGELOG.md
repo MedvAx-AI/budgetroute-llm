@@ -101,3 +101,7 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 ### Added
 
 - Initial quality-aware routing, retrieval, inference, evaluation, reporting, CLI, API, and offline fake-mode implementation.
+# Research measurement updates
+
+- Align paired quality denominators, failure handling and observation-weighted cluster uncertainty; block unverified live latency ratios.
+

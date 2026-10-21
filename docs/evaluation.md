@@ -64,3 +64,9 @@ Cache replay cannot reproduce queueing or contention and is labeled accordingly.
 The in-process monitor combines mean and q10/q50/q90 numeric shifts in baseline-standard-deviation units with category-distribution total variation. It freezes an automatic baseline at `minimum_samples`, or loads a supplied baseline. `drift_detected` compares the combined score with a configured threshold. This is an operational warning, not a statistical guarantee or automatic retraining trigger.
 
 The operational store retains a prediction's tenant/request ID, route, confidence, numeric features, and timestamp, then joins idempotent correctness feedback. Notes are not persisted. Operator-invoked adaptation orders labels by time, trains on the earlier segment, tests the candidate on a held-out tail against the active calibrator, applies Brier/ECE gates, records Page-Hinkley error change points, and supports explicit rollback. Promotion is not proof against future shift.
+# Failure-aware paired evaluation
+
+Quality uses all scheduled records: failed generations score zero. Successful-only quality remains explicitly named for diagnosis. Repeated measurements retain their original question group. Cluster resamples recompute the observation-weighted mean, matching the reported point estimate even for unequal groups.
+
+`paired_comparisons` aligns complete unique IDs against always-large and reports failures, discordance and descriptive grouped intervals. Missing counterparts make the comparison incomplete. A latency ratio additionally requires explicitly real, non-replay, successful records and matching hardware, generation, data and trial-block identities; generic benchmark reports do not infer these contexts. These intervals are not non-inferiority certification.
+

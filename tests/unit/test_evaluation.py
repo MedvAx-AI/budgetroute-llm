@@ -179,3 +179,30 @@ def test_cost_derivation_rejects_unrepresentable_total() -> None:
         BackendCallUsage(
             backend="small", input_tokens=3000, output_tokens=1, input_rate=1e308, output_rate=0
         )
+
+
+def test_unequal_groups_keep_observation_weighted_estimand() -> None:
+    interval = grouped_bootstrap_mean([0.0, 1.0, 1.0, 1.0], ["a", "b", "b", "b"], samples=1, seed=7)
+    assert interval is not None
+    assert interval["estimate"] == 0.75
+    assert interval["lower"] == 0.75
+    assert interval["upper"] == 0.75
+    assert interval["estimand"] == "observation_weighted"
+
+
+def test_repeated_records_keep_original_independent_groups() -> None:
+    from budgetroute.experiments.runner import _measured_records
+
+    original = [
+        BenchmarkRecord(
+            id=f"q{i}",
+            prompt="Question",
+            category="test",
+            reference_answer="A",
+            evaluation_type=EvaluationType.CLASSIFICATION,
+        )
+        for i in range(2)
+    ]
+    repeated = _measured_records(original, 3)
+    assert len(repeated) == 6
+    assert {row.group_id for row in repeated} == {"q0", "q1"}

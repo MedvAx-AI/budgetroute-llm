@@ -56,6 +56,24 @@ def render_report(metrics: dict[str, Any], run: dict[str, Any]) -> str:
             f"| {values.get('escalations', 0)} | {values.get('abstentions', 0)} "
             f"| {values.get('human_review_requests', 0)} |"
         )
+    comparisons = metrics.get("paired_comparisons", {})
+    if comparisons:
+        lines.extend(
+            [
+                "",
+                "## Paired comparison against always-large",
+                "",
+                "All scheduled answers count; failures are incorrect. Intervals are descriptive, not a non-inferiority certificate. Unverified latency comparisons remain unavailable.",
+                "",
+                "| Policy | Paired n | Accuracy delta | Wins | Losses | Live latency ratio |",
+                "|---|---:|---:|---:|---:|---:|",
+            ]
+        )
+        for name, values in sorted(comparisons.items()):
+            lines.append(
+                f"| {name} | {values['paired_count']} | {_format(values['accuracy_delta'])} "
+                f"| {values['wins']} | {values['losses']} | {_format(values['latency_ratio'])} |"
+            )
     lines.extend(
         [
             "",

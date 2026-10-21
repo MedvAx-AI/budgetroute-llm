@@ -46,7 +46,8 @@ def aggregate_metrics(
     seed: int = 42,
 ) -> dict[str, Any]:
     successful = [item for item in predictions if item.error is None]
-    qualities = [item.quality_score for item in successful]
+    qualities = [item.quality_score if item.error is None else 0.0 for item in predictions]
+    successful_qualities = [item.quality_score for item in successful]
     latencies = [item.latency_ms for item in successful]
     latency = summarize_latencies(latencies)
     generation_latency = summarize_latencies(
@@ -64,8 +65,8 @@ def aggregate_metrics(
     )
     queue_latency = summarize_latencies([item.queue_ms for item in successful if item.queue_ms > 0])
     by_category: dict[str, list[float]] = defaultdict(list)
-    for item in successful:
-        by_category[item.category].append(item.quality_score)
+    for item in predictions:
+        by_category[item.category].append(item.quality_score if item.error is None else 0.0)
     route_counts = Counter(item.route.value for item in successful)
     measurement_seconds = wall_time_ms / 1000.0 if wall_time_ms is not None else None
     answer_probabilities = [item for item in successful if item.backend_confidence is not None]
@@ -75,7 +76,9 @@ def aggregate_metrics(
         for item in answer_probabilities
         if item.backend_confidence is not None
     ]
-    selective = selective_metrics(qualities, [item.abstained for item in successful])
+    selective = selective_metrics(
+        qualities, [item.abstained or item.error is not None for item in predictions]
+    )
     call_usage = summarize_backend_calls(
         [call for item in predictions for call in (item.backend_calls or [])]
     )
@@ -88,19 +91,28 @@ def aggregate_metrics(
         "successful_requests": len(successful),
         "failed_requests": len(predictions) - len(successful),
         "mean_quality": sum(qualities) / len(qualities) if qualities else None,
+        "quality_population": "all_scheduled_requests_failures_score_zero",
+        "successful_mean_quality": sum(successful_qualities) / len(successful_qualities)
+        if successful_qualities
+        else None,
+        "successful_accuracy": sum(score == 1.0 for score in successful_qualities)
+        / len(successful_qualities)
+        if successful_qualities
+        else None,
+        "independent_group_count": len({item.group_id or item.example_id for item in predictions}),
         "mean_quality_confidence_interval": grouped_bootstrap_mean(
             qualities,
-            [item.group_id or item.example_id for item in successful],
+            [item.group_id or item.example_id for item in predictions],
             samples=bootstrap_samples,
             seed=seed,
         ),
         "scientific_claim_warning": (
             None
-            if len({item.group_id or item.example_id for item in successful})
+            if len({item.group_id or item.example_id for item in predictions})
             >= minimum_samples_for_claims
             else (
                 "too few independent groups for stable comparative claims: "
-                f"{len({item.group_id or item.example_id for item in successful})} < "
+                f"{len({item.group_id or item.example_id for item in predictions})} < "
                 f"{minimum_samples_for_claims}"
             )
         ),
@@ -124,6 +136,7 @@ def aggregate_metrics(
             "p99_ms": latency.p99_ms,
             "warning": latency.warning,
         },
+        "latency_population": "successful_requests_only_not_failure_adjusted_speedup",
         "generation_latency": {
             "count": generation_latency.count,
             "mean_ms": generation_latency.mean_ms,
