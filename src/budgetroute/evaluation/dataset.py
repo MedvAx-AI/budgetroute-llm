@@ -7,6 +7,7 @@ import importlib.metadata
 import importlib.util
 import json
 import re
+import unicodedata
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Literal, Protocol
@@ -79,6 +80,11 @@ def _stable_group(value: str) -> str:
     return hashlib.sha256(value.strip().encode("utf-8")).hexdigest()[:20]
 
 
+def normalized_question_hash(question: str) -> str:
+    normalized = " ".join(unicodedata.normalize("NFKC", question).casefold().split())
+    return hashlib.sha256(normalized.encode()).hexdigest()
+
+
 def _gsm8k_answer(value: object) -> str:
     text = str(value)
     match = re.search(r"####\s*([^\n]+)\s*$", text)
@@ -146,16 +152,25 @@ def convert_dataset_row(
             f"{label}. {choice}" for label, choice in zip(labels, choices, strict=True)
         )
         subject = str(row.get("subject", "unknown"))
+        version_two = spec.prompt_version == "direct-mcq-v2"
+        content_sha = hashlib.sha256(
+            json.dumps([question, choices], ensure_ascii=False).encode()
+        ).hexdigest()
         record = BenchmarkRecord(
             id=prefix,
-            group_id=_stable_group(question),
+            group_id=normalized_question_hash(question) if version_two else _stable_group(question),
             source=spec.source,
             source_split=spec.split,
             category=f"mmlu:{subject}",
             prompt=f"Choose the correct option. Answer with only its letter.\n\n{question}\n{options}",
             reference_answer=labels[answer_index],
             evaluation_type=EvaluationType.CLASSIFICATION,
-            metadata={**source_metadata, "subject": subject, "choice_count": len(choices)},
+            metadata={
+                **source_metadata,
+                "subject": subject,
+                "choice_count": len(choices),
+                **({"content_sha256": content_sha} if version_two else {}),
+            },
         )
         return record, None
     question = str(row["question"]).strip()

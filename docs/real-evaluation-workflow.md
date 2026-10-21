@@ -114,3 +114,9 @@ After single-request live/replay agreement is established, create separate resol
 Cache replay can compare policy quality/cost composition but cannot measure dynamic batching, load-aware routes, model-server contention, queueing, or thermals. Those require live artifacts. The bundled local OpenAI-compatible profile is an integration example, not a compatibility or speed claim for every vLLM, llama.cpp, or Ollama release.
 
 Use `compatibility-matrix` for exact runtime revisions, then `load-test` against authorized deployed endpoints for wall throughput and tail latency. Preserve each artifact and re-test the tool's heuristic replica suggestion rather than treating it as an autoscaling decision.
+# Independent development pilot
+
+`prepare-routing-pilot --spec configs/datasets/mmlu-pilot.yaml --exclusions data/exclusions/mmlu-500-v1.json --output data/materialized/routing-pilot` freezes exactly 200 development questions before fitting. Historical exclusions were reconstructed from the SHA-256-verified MMLU-500 file and rehydrated pinned upstream rows; no historical prompt/answer text is published in the exclusion manifest. Canonical source indices and normalized question hashes prevent a new prefix or whitespace change from evading exclusion.
+
+The pilot partitions are 120 fitting, 40 threshold selection and 40 diagnostic questions, never a confirmatory test. The direct-mcq-v2 evaluator accepts only a valid single option letter (optionally parenthesized); incomplete/truncated output scores zero. Version-one datasets retain their existing evaluator. Source materialization and GPU execution are separate steps; preparing data is not experimental evidence.
+

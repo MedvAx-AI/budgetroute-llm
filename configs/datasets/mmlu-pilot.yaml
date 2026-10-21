@@ -1,0 +1,10 @@
+schema_version: 1
+name: mmlu
+adapter: mmlu
+source: cais/mmlu
+config_name: all
+revision: c30699e8356da336a370243923dbaf21066bb9fe
+split: test
+license: MIT
+homepage: https://huggingface.co/datasets/cais/mmlu
+prompt_version: direct-mcq-v2

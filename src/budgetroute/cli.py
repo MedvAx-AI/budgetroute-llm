@@ -216,6 +216,19 @@ def inspect_data(
     )
 
 
+@app.command("prepare-routing-pilot")
+def prepare_routing_pilot_command(
+    spec: Path = typer.Option(..., "--spec", exists=True, dir_okay=False),
+    exclusions: Path = typer.Option(..., "--exclusions", exists=True, dir_okay=False),
+    output: Path = typer.Option(..., "--output"),
+    seed: int = typer.Option(20261021, "--seed"),
+) -> None:
+    """Freeze 200 independent development questions and 120/40/40 pilot roles."""
+    from budgetroute.experiments.pilot_data import prepare_pilot_data
+
+    typer.echo(prepare_pilot_data(spec, exclusions, output, seed=seed).model_dump_json(indent=2))
+
+
 @app.command("materialize-dataset")
 def materialize_dataset_command(
     spec: Path = typer.Option(..., "--spec", exists=True, dir_okay=False),

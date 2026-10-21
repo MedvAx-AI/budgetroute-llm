@@ -1,0 +1,2510 @@
+{
+  "schema_version": 1,
+  "source": "cais/mmlu",
+  "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+  "split": "test",
+  "parent_sha256": "5b25d20f38e91120bd3303ad32cc35d54ae9eb0326468532f41dcfaa2b31ede7",
+  "entries": [
+    {
+      "id": "mmlu-test-0001307",
+      "source_index": 1307,
+      "group_sha256": "baf6ea8acbac82c3f98727b0e8fe5420b543c6a84766ac317dc31c6e2ca171e6"
+    },
+    {
+      "id": "mmlu-test-0001126",
+      "source_index": 1126,
+      "group_sha256": "e36c58c8a8fc825e64034ace4d4cae37dd4e8d432ee5d92634ad2d809d106f19"
+    },
+    {
+      "id": "mmlu-test-0010077",
+      "source_index": 10077,
+      "group_sha256": "562493eb8c2fd450d88eb15f48c50530cbf5fb4924576e5dd836710441fd822f"
+    },
+    {
+      "id": "mmlu-test-0000704",
+      "source_index": 704,
+      "group_sha256": "d09a27ff2e76eff645f29434b7ffe93c45cb61eb4088eb0c68806454f1156dbb"
+    },
+    {
+      "id": "mmlu-test-0012059",
+      "source_index": 12059,
+      "group_sha256": "ae984aacfe71aa420451fc084a3dffe336a041693303ca7698a5ca715371d218"
+    },
+    {
+      "id": "mmlu-test-0003805",
+      "source_index": 3805,
+      "group_sha256": "07296fc3c409d19cf31df829f4692e0b4bcf22a2902fc3971fb0ef766b2604e0"
+    },
+    {
+      "id": "mmlu-test-0012826",
+      "source_index": 12826,
+      "group_sha256": "5a848fbd2e6e041355df36dba3c2c9b70aff5d1b7556e60e59207b1920d14c42"
+    },
+    {
+      "id": "mmlu-test-0006855",
+      "source_index": 6855,
+      "group_sha256": "837081a42c66b28951053027cf6b3f90bfb034fe69e2a2c2aecb55d4b138f0b5"
+    },
+    {
+      "id": "mmlu-test-0002063",
+      "source_index": 2063,
+      "group_sha256": "3789ce2bb45dd2fae2fb60a268db39323f847b3dcf5285255de5b6e7e623e5f2"
+    },
+    {
+      "id": "mmlu-test-0012301",
+      "source_index": 12301,
+      "group_sha256": "084e0dd441f1fd64a38fedbab15ed52694047b88e31fa429f4653de23afc249e"
+    },
+    {
+      "id": "mmlu-test-0003266",
+      "source_index": 3266,
+      "group_sha256": "24eb85f236139d2ae8b664c49820e78198b6cb7ea3793f974c69a7e75dda6509"
+    },
+    {
+      "id": "mmlu-test-0002337",
+      "source_index": 2337,
+      "group_sha256": "6d38986988851ced2a3852820585b7478920375cb1f4597d4e03851cc7f00d1b"
+    },
+    {
+      "id": "mmlu-test-0004248",
+      "source_index": 4248,
+      "group_sha256": "2b3ea3b91b46f0bcdbeabea0c5a714470ba6f3f56038e2f5911389cb66f8ea7b"
+    },
+    {
+      "id": "mmlu-test-0006633",
+      "source_index": 6633,
+      "group_sha256": "9b73b98e0fede1d1f788b83e7918d2597f1ef066d6c2d1e054b7e141174304e8"
+    },
+    {
+      "id": "mmlu-test-0000385",
+      "source_index": 385,
+      "group_sha256": "695baa8602d7a9bcb9ba2979dc7593df1f2648422c55ded98c8b432bce1bb378"
+    },
+    {
+      "id": "mmlu-test-0003549",
+      "source_index": 3549,
+      "group_sha256": "05a24073d9df698a25f768dffed113a9ff00ea1605ba2c4f01d25ab7592be973"
+    },
+    {
+      "id": "mmlu-test-0008473",
+      "source_index": 8473,
+      "group_sha256": "ea704a272e443ecbd022f6d2c0ac7121cc7fda0b19d9e5e89631df1cfb09976a"
+    },
+    {
+      "id": "mmlu-test-0000163",
+      "source_index": 163,
+      "group_sha256": "3e6ae93857f3dbd6b577ba04a8f46a39033355810c50d15340ba21f7ae99128c"
+    },
+    {
+      "id": "mmlu-test-0013274",
+      "source_index": 13274,
+      "group_sha256": "0fccda10467abca7e720e3d8ab457bdd78bf66be3abb448761edbbb21cda6cad"
+    },
+    {
+      "id": "mmlu-test-0001540",
+      "source_index": 1540,
+      "group_sha256": "39e1c413f5204928c0f7efe0fce50de3e518cb4d3a61ca3c6d48769b6be92515"
+    },
+    {
+      "id": "mmlu-test-0005485",
+      "source_index": 5485,
+      "group_sha256": "94c86b7c6d3967eb5c9cc8a5e2043bff496fc1e556a31444aeaa64cfd51cb698"
+    },
+    {
+      "id": "mmlu-test-0005742",
+      "source_index": 5742,
+      "group_sha256": "b7fd9810707f01e2c8f1f3b799606bb00e4b5d7ac3a12de87365e10ff14891b1"
+    },
+    {
+      "id": "mmlu-test-0004176",
+      "source_index": 4176,
+      "group_sha256": "72881a7b76d1d1471edbfdeedcce4ed08327970af51a7675d8ea2e34fe4c94f9"
+    },
+    {
+      "id": "mmlu-test-0001729",
+      "source_index": 1729,
+      "group_sha256": "d1ebbff00ebce8ab3932813aad71dd0fadd507097f8f74f15fe0ced1df7cfd35"
+    },
+    {
+      "id": "mmlu-test-0006702",
+      "source_index": 6702,
+      "group_sha256": "8767a99720e80853dc4e111adc61269f8ddc11072b26f74e0bd93c7c5c113c9a"
+    },
+    {
+      "id": "mmlu-test-0007043",
+      "source_index": 7043,
+      "group_sha256": "26a1e216cf20552f5d48476b429e09fd7772cab08d8d9cb6bd62569747f6bea8"
+    },
+    {
+      "id": "mmlu-test-0009911",
+      "source_index": 9911,
+      "group_sha256": "ccff33d1328d087f82b5280a21c46bfb1dc2d3fd45b692fcf1786c878b905630"
+    },
+    {
+      "id": "mmlu-test-0002623",
+      "source_index": 2623,
+      "group_sha256": "4b0833511327d1a415d44a511205421692e8d33b77618a7078764d59acd065f9"
+    },
+    {
+      "id": "mmlu-test-0006288",
+      "source_index": 6288,
+      "group_sha256": "c113cd2d234b59f4dcfee6a5d8e5ef2c8d096226d46d720d8c45d903b27e7025"
+    },
+    {
+      "id": "mmlu-test-0006532",
+      "source_index": 6532,
+      "group_sha256": "a5852a106691f35c63193b687e2bfbb48411f41f9c893014391e8213f8561bd9"
+    },
+    {
+      "id": "mmlu-test-0013527",
+      "source_index": 13527,
+      "group_sha256": "b65b33ed9f270925b1eb876bf4363d91a6a1e2a039555ecf520da40c1ae32576"
+    },
+    {
+      "id": "mmlu-test-0006435",
+      "source_index": 6435,
+      "group_sha256": "121abc7804da759a396bd1e6eebbf07fc1f76db6918967a54730b936fd13079a"
+    },
+    {
+      "id": "mmlu-test-0007372",
+      "source_index": 7372,
+      "group_sha256": "d8af6891c4bd9fc64f99c74ae17c00fdc963a53b5726f4585f1b195ddd16cdad"
+    },
+    {
+      "id": "mmlu-test-0004793",
+      "source_index": 4793,
+      "group_sha256": "3576377ee5f50062fa407c0f6bfebffdf30ba677b57ecfc47bdc85c74eed03b2"
+    },
+    {
+      "id": "mmlu-test-0002449",
+      "source_index": 2449,
+      "group_sha256": "22674ee2b36ad9cd971df31141da636fe23d51e7c2e75aa3a28c8dfdfc46bdfe"
+    },
+    {
+      "id": "mmlu-test-0013820",
+      "source_index": 13820,
+      "group_sha256": "beb37d189340f841b8a3eef223d588d5dd5c036bd4e4de85bfe6ed315ce37113"
+    },
+    {
+      "id": "mmlu-test-0013084",
+      "source_index": 13084,
+      "group_sha256": "7ca9886548a3ca8d288414e1ac5e2bbd5381b5bea0dc9b8361006dc43ee4ab89"
+    },
+    {
+      "id": "mmlu-test-0001023",
+      "source_index": 1023,
+      "group_sha256": "de13177f0aed930c63e95f1679f730d10f1c2dcc77028906036623e55a2de77b"
+    },
+    {
+      "id": "mmlu-test-0000389",
+      "source_index": 389,
+      "group_sha256": "df3faf83a36cb0303abe3ca5ccc070bf2d0438e4d02e2b0daa02c87d664cc183"
+    },
+    {
+      "id": "mmlu-test-0005996",
+      "source_index": 5996,
+      "group_sha256": "b0d0091f204134108e5f3f8cfbcb0f2004fa96799d6edbb8551f9721fd7aead9"
+    },
+    {
+      "id": "mmlu-test-0000786",
+      "source_index": 786,
+      "group_sha256": "f20349397cfca0b5ea49cee21dada6f5102acfc6f72ab242cbe1d06a848a5a92"
+    },
+    {
+      "id": "mmlu-test-0001836",
+      "source_index": 1836,
+      "group_sha256": "378e5bb9b93a92c5abf24b7b8df17d986e8f2fa84e7c7cceaaab9717b716f39f"
+    },
+    {
+      "id": "mmlu-test-0007281",
+      "source_index": 7281,
+      "group_sha256": "641a978618122e9de075ba6425c533376985d302a63ca69f330357959eaf9556"
+    },
+    {
+      "id": "mmlu-test-0009466",
+      "source_index": 9466,
+      "group_sha256": "6e46cdfc5bf39ec8623b7a646d762ee3641e7a5b11dbe80439faa13a9a9a232a"
+    },
+    {
+      "id": "mmlu-test-0000976",
+      "source_index": 976,
+      "group_sha256": "3763cd686b9edd38ca1f6008a7103f56614c77a0f8b8148651235ed3a1230efc"
+    },
+    {
+      "id": "mmlu-test-0008142",
+      "source_index": 8142,
+      "group_sha256": "299aefc4f60f27dee8af063c72955fde631fc43bf271e98a23bc13a905899fe5"
+    },
+    {
+      "id": "mmlu-test-0002720",
+      "source_index": 2720,
+      "group_sha256": "dfdbbf76b086f54e3659d430987eb381098accc669aad8c8c1c0d046951198b6"
+    },
+    {
+      "id": "mmlu-test-0013992",
+      "source_index": 13992,
+      "group_sha256": "4fb235bb21a447b1ec511a6dfb16a2ee5f5540a50d69b50101e7821aee58b6fd"
+    },
+    {
+      "id": "mmlu-test-0010407",
+      "source_index": 10407,
+      "group_sha256": "5e8b8d33f97846aa8beeed0260bc9c70e9093e2cae6bb6e3adb4e60d8cd15f68"
+    },
+    {
+      "id": "mmlu-test-0008604",
+      "source_index": 8604,
+      "group_sha256": "0a7dd979798819e9d67be5e384791f474e526515a6193f2ce0ee7c2d193b8f98"
+    },
+    {
+      "id": "mmlu-test-0004694",
+      "source_index": 4694,
+      "group_sha256": "a736a3147164a15486b4ec670ca57004fde2adf10c8c0e513ab71b01d9bcab5f"
+    },
+    {
+      "id": "mmlu-test-0001450",
+      "source_index": 1450,
+      "group_sha256": "2e1c04286c59a9bdae88bc16a92e031282d03acc529a27126fd80462c6bfcb0d"
+    },
+    {
+      "id": "mmlu-test-0003084",
+      "source_index": 3084,
+      "group_sha256": "ac0854fca742e46c393ddedbc90de53291d0a5957c88becd5a546a7c508e9895"
+    },
+    {
+      "id": "mmlu-test-0013643",
+      "source_index": 13643,
+      "group_sha256": "4b2471e347395db32a54c6c740455603d75526fc72e0758ac1b2670d75cd9a1b"
+    },
+    {
+      "id": "mmlu-test-0000007",
+      "source_index": 7,
+      "group_sha256": "21acc71a0cdf09e5e60b6a0c25868336f641d53fa012ae28bc048a18cdbc3616"
+    },
+    {
+      "id": "mmlu-test-0005099",
+      "source_index": 5099,
+      "group_sha256": "c674545178393e198964c9af6a057e81a46499c50a77a47b8e1e8804b12b84c3"
+    },
+    {
+      "id": "mmlu-test-0003292",
+      "source_index": 3292,
+      "group_sha256": "6afd083982f1c314f16382b3006958d0c3c7a0b151ea8c2fc4c9dd90e1ba6a30"
+    },
+    {
+      "id": "mmlu-test-0001243",
+      "source_index": 1243,
+      "group_sha256": "456aef9b5919935fe6dba8aae056df0d65b18057cebb0c9f7837a9a02711819a"
+    },
+    {
+      "id": "mmlu-test-0001184",
+      "source_index": 1184,
+      "group_sha256": "b47b1abb47a7fc2b38f60910f26257ea53de27afc62640a7c37450b2634751e6"
+    },
+    {
+      "id": "mmlu-test-0010334",
+      "source_index": 10334,
+      "group_sha256": "059bd505546aa308b22eaf54285a9f14a812c27cab227efadbcd4f1b55ae198b"
+    },
+    {
+      "id": "mmlu-test-0000597",
+      "source_index": 597,
+      "group_sha256": "9a221cd73c064541c5e9bc53a7acab79a04a1a2f5132c1dfd4bf3855ae1130fe"
+    },
+    {
+      "id": "mmlu-test-0011613",
+      "source_index": 11613,
+      "group_sha256": "9bd7e45832ad0629fd4001bb460b5c7737f6873c56475225f32712967ff0d8ea"
+    },
+    {
+      "id": "mmlu-test-0003718",
+      "source_index": 3718,
+      "group_sha256": "fb51e157a6f4850f22cd27068854276fa4986ad95c9cd78ee19dca9830a08318"
+    },
+    {
+      "id": "mmlu-test-0012517",
+      "source_index": 12517,
+      "group_sha256": "f2f9b485c469f4be1682eb28ca7e240e67c830cd1c0cff7138ee98b090fccf3f"
+    },
+    {
+      "id": "mmlu-test-0006859",
+      "source_index": 6859,
+      "group_sha256": "4e254051c1f2720454cab84d79922a6657772492caa0b2ae537c5100396d19db"
+    },
+    {
+      "id": "mmlu-test-0002048",
+      "source_index": 2048,
+      "group_sha256": "ab1b30d3b68172ce9f773e2aa0335ebbe1cc360da1affd3b1139342d0eacb2fb"
+    },
+    {
+      "id": "mmlu-test-0012356",
+      "source_index": 12356,
+      "group_sha256": "88cd20f471559d64de4f1838add6c09c5c4c51b17c3e346adf04a5851ceb4304"
+    },
+    {
+      "id": "mmlu-test-0003230",
+      "source_index": 3230,
+      "group_sha256": "7c32c04e8eb2b182901ce00088368f13b314e006d4f76e218f038fe85e507ef3"
+    },
+    {
+      "id": "mmlu-test-0002087",
+      "source_index": 2087,
+      "group_sha256": "38e69897ac13997e861d283cf127fb28da955931219bc20a4b0a9bc1b0034b26"
+    },
+    {
+      "id": "mmlu-test-0004476",
+      "source_index": 4476,
+      "group_sha256": "99a31bd4727bc6fc228f779c109d17b1f3ce2414e0ec97e9775be7f6f5bedad9"
+    },
+    {
+      "id": "mmlu-test-0006618",
+      "source_index": 6618,
+      "group_sha256": "023f429aa696a18eec2a3e0baa7874124e69ffa1990a62fe087d4378ed45bf7b"
+    },
+    {
+      "id": "mmlu-test-0000350",
+      "source_index": 350,
+      "group_sha256": "df4949c4420a9c2331c0da26e0581ae03d3e3eb235910e0456a30bdb9872ee21"
+    },
+    {
+      "id": "mmlu-test-0003592",
+      "source_index": 3592,
+      "group_sha256": "555669e80f3ceed90b7302dc5a7c17ffc14768877c1361c642269d061e79e428"
+    },
+    {
+      "id": "mmlu-test-0008273",
+      "source_index": 8273,
+      "group_sha256": "8127b44a529d0ace242d12d51c662bdcb2f929c91aef8dbc507dd04c5af8073d"
+    },
+    {
+      "id": "mmlu-test-0000159",
+      "source_index": 159,
+      "group_sha256": "fae8f04d9b0612af7650208fe85d84354766e7d9f70560cfa462973f5df51a71"
+    },
+    {
+      "id": "mmlu-test-0013186",
+      "source_index": 13186,
+      "group_sha256": "9ddf77a8151234becf8d831a644fa8a915f7456c2cc6b1bb68022746e4380c3a"
+    },
+    {
+      "id": "mmlu-test-0001556",
+      "source_index": 1556,
+      "group_sha256": "f5c0cc964b50ee263cb6b8c2c01526cb4780cfa7090a1098b95c640c24dae66e"
+    },
+    {
+      "id": "mmlu-test-0005448",
+      "source_index": 5448,
+      "group_sha256": "9304a8e53338a76381091dc263089e8be3d438a751ed36e3eb13ebc1d3ad2463"
+    },
+    {
+      "id": "mmlu-test-0005778",
+      "source_index": 5778,
+      "group_sha256": "b3ff4938e46e41079f7ed31a44f132e95332543bf28bf3f09722ef244ece76f5"
+    },
+    {
+      "id": "mmlu-test-0003852",
+      "source_index": 3852,
+      "group_sha256": "c62fd023709509a970ebd7bd37e2da3f45cbb0fe1a5357c217c3c68d5ac72d83"
+    },
+    {
+      "id": "mmlu-test-0001686",
+      "source_index": 1686,
+      "group_sha256": "f5fdbae8272be617c11e6323fca7cdeb2779c939c179012ab0af1cebec0d9a40"
+    },
+    {
+      "id": "mmlu-test-0006749",
+      "source_index": 6749,
+      "group_sha256": "1c5d60b3d94c39d2567b86ce6ba08d2ba93eb6f7fd51b9576413192485912176"
+    },
+    {
+      "id": "mmlu-test-0006992",
+      "source_index": 6992,
+      "group_sha256": "8d65114fb5d4fa54a8aea4988b54b031ea0f260e054bf54ad7a1ce7c33842802"
+    },
+    {
+      "id": "mmlu-test-0009858",
+      "source_index": 9858,
+      "group_sha256": "9dceb84703631b8a589b63b410af78ea736f91171c87c8e4bb84dbad15c53907"
+    },
+    {
+      "id": "mmlu-test-0002618",
+      "source_index": 2618,
+      "group_sha256": "2259b138ba49cd5bcda3cecedfbbb0c0677c221c307b131e05d2fb277d3db57b"
+    },
+    {
+      "id": "mmlu-test-0006100",
+      "source_index": 6100,
+      "group_sha256": "9f9db0b8eca3d06463a919f5b505b07d721274980a7ea2ab2e8e349ea2f82d7e"
+    },
+    {
+      "id": "mmlu-test-0006549",
+      "source_index": 6549,
+      "group_sha256": "49e498274d892b27e4a7f0361ba3695b6cff16addd46612e4d3e096c91d114d3"
+    },
+    {
+      "id": "mmlu-test-0013542",
+      "source_index": 13542,
+      "group_sha256": "5e18877d9c0c4bff91d5fdd9785979272e44eb2c6a8a918b4c342f2a44ea3529"
+    },
+    {
+      "id": "mmlu-test-0006333",
+      "source_index": 6333,
+      "group_sha256": "f0d11b1e5285bbbf67fc39f3208eb2539d3354ae71a42cadd6ec8e9d55d4336f"
+    },
+    {
+      "id": "mmlu-test-0007322",
+      "source_index": 7322,
+      "group_sha256": "78ee0ae2c9db4c25fed2e3dacfdb60d9317cfd300877f8de6b5fe396c070ea32"
+    },
+    {
+      "id": "mmlu-test-0004757",
+      "source_index": 4757,
+      "group_sha256": "7f4b499c8f90029f9458c3fbca2505af13c7e9d5af45d29e8c9a59f6f071d906"
+    },
+    {
+      "id": "mmlu-test-0002528",
+      "source_index": 2528,
+      "group_sha256": "a49eee9c973f43f48cf7bf3319aa0086b8118af0688ce39d2cc5d219ebeb8f85"
+    },
+    {
+      "id": "mmlu-test-0013868",
+      "source_index": 13868,
+      "group_sha256": "0888faaef705460e4913dbad2db4d42216157b417601a793bee7d5dcac9d04be"
+    },
+    {
+      "id": "mmlu-test-0013064",
+      "source_index": 13064,
+      "group_sha256": "987069dc8014bd4f810d9aa301a19856334d14e58f0402f079deef5d932f3135"
+    },
+    {
+      "id": "mmlu-test-0001046",
+      "source_index": 1046,
+      "group_sha256": "ea89ffcf84fd662c22b4afddf0fcb2bda07d898e60feb176c1664ba1b0e215f6"
+    },
+    {
+      "id": "mmlu-test-0000432",
+      "source_index": 432,
+      "group_sha256": "470c59b7f3574a7416dcb7fdd735203959514ed57843c92635ea7825142f267e"
+    },
+    {
+      "id": "mmlu-test-0005982",
+      "source_index": 5982,
+      "group_sha256": "19a6ef24cc6dc0dd87223acbffc8740dc3cd32433fe22a9d22761260b6364429"
+    },
+    {
+      "id": "mmlu-test-0000777",
+      "source_index": 777,
+      "group_sha256": "2b1534734628abed37cb899a3ac5ad930fd249472b0b5d0beea48a0fc894960f"
+    },
+    {
+      "id": "mmlu-test-0001865",
+      "source_index": 1865,
+      "group_sha256": "2f961d2645fc35469a637bc7af0c2e2b11823d04c53d671bb4eb3fa7d7cff395"
+    },
+    {
+      "id": "mmlu-test-0007216",
+      "source_index": 7216,
+      "group_sha256": "3e193b0d16b77d23f1de4080680ec3425cb8db7567b2662cc47b440e8357125f"
+    },
+    {
+      "id": "mmlu-test-0009623",
+      "source_index": 9623,
+      "group_sha256": "c5289c3a11c31041c413e463a444a7c347e6d23f76e15002d79bb5b94bcd39a2"
+    },
+    {
+      "id": "mmlu-test-0000905",
+      "source_index": 905,
+      "group_sha256": "5cac56b3f25e3dc7aa77354f5241cc77082cddc82270cc8bccae89efefd06e4f"
+    },
+    {
+      "id": "mmlu-test-0007525",
+      "source_index": 7525,
+      "group_sha256": "fef939e3db29eff2ce6d3ba7a92ff7d20328092756a1240b7bf02d3c920cd7df"
+    },
+    {
+      "id": "mmlu-test-0002881",
+      "source_index": 2881,
+      "group_sha256": "ed63826c63aca3b9af81fa06f3b855bd3c0ec43e386e26c419c5da57eebaec9f"
+    },
+    {
+      "id": "mmlu-test-0013994",
+      "source_index": 13994,
+      "group_sha256": "226504cdbea30ae796890b088cc7498f065091c4e3d12d16fbf3fdebe8fe4dcc"
+    },
+    {
+      "id": "mmlu-test-0010510",
+      "source_index": 10510,
+      "group_sha256": "7aa31ea041ffc19c9eeda5ec9c38dd51e3e0c324176a36e517169f0a6f71627e"
+    },
+    {
+      "id": "mmlu-test-0008640",
+      "source_index": 8640,
+      "group_sha256": "e9376fe4d4d793d7f347c740a8c0bf449539f9367c33c22e4e011f19a7ac0ef2"
+    },
+    {
+      "id": "mmlu-test-0004713",
+      "source_index": 4713,
+      "group_sha256": "e1ada3278d2406f4933c1a02c85e8cd3eaf8c408a03f9765239775425034cca9"
+    },
+    {
+      "id": "mmlu-test-0001427",
+      "source_index": 1427,
+      "group_sha256": "a807b0def3b981ad145910b6156ca53c7c2dbbb183ef4ef5dc4c3743a05ccd92"
+    },
+    {
+      "id": "mmlu-test-0003172",
+      "source_index": 3172,
+      "group_sha256": "243c00e62876525961ab02d5c012982727a215edf4f0b76269464755dd0f1daf"
+    },
+    {
+      "id": "mmlu-test-0013606",
+      "source_index": 13606,
+      "group_sha256": "d83ecc8e375af128b2bb79811483276a103dbb713180ddd6da6fa60a51a1d28e"
+    },
+    {
+      "id": "mmlu-test-0000091",
+      "source_index": 91,
+      "group_sha256": "861ba6de0adc7f7723e00246e09c519a11399222c7275d5c8927bfaf301e3487"
+    },
+    {
+      "id": "mmlu-test-0004900",
+      "source_index": 4900,
+      "group_sha256": "b34302678c85b72096d8031af942d4ecf94458af90d75ae757520956da4f33ed"
+    },
+    {
+      "id": "mmlu-test-0003349",
+      "source_index": 3349,
+      "group_sha256": "507666a71e689abfdd97bf2ae7fcf60548ba7e80bed5a19428b1f12098a42f96"
+    },
+    {
+      "id": "mmlu-test-0001259",
+      "source_index": 1259,
+      "group_sha256": "5a7ddddb319a88c5213fc2f2245b0a7e6855be004e584cc3118308df6aec2f54"
+    },
+    {
+      "id": "mmlu-test-0001136",
+      "source_index": 1136,
+      "group_sha256": "9c87b946a9ee16c345e01c1b6c1d510f467ad77ebec3f78e46ce3e9ec1a1250c"
+    },
+    {
+      "id": "mmlu-test-0010116",
+      "source_index": 10116,
+      "group_sha256": "71f7444fb3d8d5e7407d4a88e67e20f4d3d75da63b1b8a894dd446b97399de15"
+    },
+    {
+      "id": "mmlu-test-0000671",
+      "source_index": 671,
+      "group_sha256": "0c31339d630146a303c1f76f07b77a17b257b947425ed7d4c6abd6b9564fc71b"
+    },
+    {
+      "id": "mmlu-test-0011306",
+      "source_index": 11306,
+      "group_sha256": "8007bcc793c187c7e1e8812ba541b11d8247fcce59a38b47028a9ce2d90dc961"
+    },
+    {
+      "id": "mmlu-test-0003696",
+      "source_index": 3696,
+      "group_sha256": "9e85138686d67550e99d765df44cd134d63d28b96766ed8270913b0cd23590af"
+    },
+    {
+      "id": "mmlu-test-0012769",
+      "source_index": 12769,
+      "group_sha256": "a37c75db8e9e16764f7c3a018630ea33d7e5c1d3faabe7914bd03d0c87c03062"
+    },
+    {
+      "id": "mmlu-test-0006906",
+      "source_index": 6906,
+      "group_sha256": "75a7543a83e760be2c742f440cfd1a89a55abac3e3c9bec379ac9f509604b49d"
+    },
+    {
+      "id": "mmlu-test-0001940",
+      "source_index": 1940,
+      "group_sha256": "7a8ade1244c5c3aeeb1b5b698a4a31e0dbef3d08c4445da78689b9506352bd49"
+    },
+    {
+      "id": "mmlu-test-0012180",
+      "source_index": 12180,
+      "group_sha256": "de1e42f8d2c8e170b12c5ab0f6e97d9682a699ea03303d7d6da65e81ca2ae567"
+    },
+    {
+      "id": "mmlu-test-0003243",
+      "source_index": 3243,
+      "group_sha256": "4ac0a566506a1dcb0c1bf5b086d9c4e18f6fa35c71ff3fb0458fb4344e1979f0"
+    },
+    {
+      "id": "mmlu-test-0002129",
+      "source_index": 2129,
+      "group_sha256": "3c9ea7c93263bf775b039b84eaa1eff78d82d12f1f05b6df7cd4c0ee9ffe93fe"
+    },
+    {
+      "id": "mmlu-test-0004404",
+      "source_index": 4404,
+      "group_sha256": "10930e55ceff99c523859dd7c3310230eef864c22fce1629ecf63a4b8087da26"
+    },
+    {
+      "id": "mmlu-test-0006631",
+      "source_index": 6631,
+      "group_sha256": "94807ca25c201b0117b1c1a83b62f43e4622d1f3eb6e2a982c84d72e59e99a8f"
+    },
+    {
+      "id": "mmlu-test-0000297",
+      "source_index": 297,
+      "group_sha256": "cea004e79f8bac8f9bb496aae6cd60435c5976d4c040ebcfc38727f22733f60a"
+    },
+    {
+      "id": "mmlu-test-0003502",
+      "source_index": 3502,
+      "group_sha256": "71c3e95c1925f9cdf96f2be79175cb938dc82762730d59997f78deb06b73e9ce"
+    },
+    {
+      "id": "mmlu-test-0008389",
+      "source_index": 8389,
+      "group_sha256": "32fd6d9cc00daac3374ebc44d95957515bed4aa94380ec58fe283a40724a4ec7"
+    },
+    {
+      "id": "mmlu-test-0000158",
+      "source_index": 158,
+      "group_sha256": "9d3e4330833230db1e02edcb933bc107abd5098bf933d70b0f69facd19eb724b"
+    },
+    {
+      "id": "mmlu-test-0013401",
+      "source_index": 13401,
+      "group_sha256": "0ad95cc5b96c49572c429e9c35da793d62ec0721a76e97ff000b303dfaeeaba1"
+    },
+    {
+      "id": "mmlu-test-0001515",
+      "source_index": 1515,
+      "group_sha256": "ad8e6a19d06169fa922d5144ef124749ffca238b886de79e132d3d396af07f64"
+    },
+    {
+      "id": "mmlu-test-0005491",
+      "source_index": 5491,
+      "group_sha256": "2f5cefbae59872220d01d6cb8678522e0b8514c880872f11dea49428200e9cd8"
+    },
+    {
+      "id": "mmlu-test-0005774",
+      "source_index": 5774,
+      "group_sha256": "636c0b91b160a34fa9443492bfe24ce20ba42f3a94c67dbf57312f3981ea6469"
+    },
+    {
+      "id": "mmlu-test-0004166",
+      "source_index": 4166,
+      "group_sha256": "f195b2207e088e6e75d7bf9cfbab1c95e4818a71c114abc8694d804b9382384b"
+    },
+    {
+      "id": "mmlu-test-0001648",
+      "source_index": 1648,
+      "group_sha256": "5e5e2930e5bde0c2310090e72db40d2479b6fd84c1efa949786a46f184a8d662"
+    },
+    {
+      "id": "mmlu-test-0006767",
+      "source_index": 6767,
+      "group_sha256": "14226be838c12c3e363c93dfdaeee8e6bdf7200d359c6921f4c58e590ccecaf7"
+    },
+    {
+      "id": "mmlu-test-0007019",
+      "source_index": 7019,
+      "group_sha256": "05ffde0bb7dfdbacc0561f58cb4fa6632a6cc71a4a0eee0cc290dba929f8977d"
+    },
+    {
+      "id": "mmlu-test-0009809",
+      "source_index": 9809,
+      "group_sha256": "8767119134de9dd66aa8316c08dceba5f2ca988c8bc150482590327bc66b9f12"
+    },
+    {
+      "id": "mmlu-test-0002586",
+      "source_index": 2586,
+      "group_sha256": "15f442118c42bd4a0983d3ff1d0e86a3dd77e80dd8296e912b4e2b661b30c1cb"
+    },
+    {
+      "id": "mmlu-test-0006220",
+      "source_index": 6220,
+      "group_sha256": "e28a4dc890bb9438f3dd085a64a94a9f53f963da148e365f304699eb0598fad9"
+    },
+    {
+      "id": "mmlu-test-0006448",
+      "source_index": 6448,
+      "group_sha256": "0fab7ee2dc00be8cacf72d434b042648dc25854ae701a3d3400b3ca1b61ca48d"
+    },
+    {
+      "id": "mmlu-test-0013567",
+      "source_index": 13567,
+      "group_sha256": "a0a0c94978379ba99f4829ce89d6843633894af1df99924272729470b1211fa8"
+    },
+    {
+      "id": "mmlu-test-0006362",
+      "source_index": 6362,
+      "group_sha256": "692203bd3b750e1d6272afe001228598af521ce0ab2d9b6667f4ee2f3a29193e"
+    },
+    {
+      "id": "mmlu-test-0007377",
+      "source_index": 7377,
+      "group_sha256": "71ed99e32f9bd30673653a627d7958f15c85a762888828b53e2b7e680fc512af"
+    },
+    {
+      "id": "mmlu-test-0004853",
+      "source_index": 4853,
+      "group_sha256": "f48de31b92a1e0efcb6a767b6fa505e36e3f72649e3040c1abb88b4cd948d1c1"
+    },
+    {
+      "id": "mmlu-test-0002468",
+      "source_index": 2468,
+      "group_sha256": "9033fa82f057357eb3f1c7e0da5ebbc3f7fdeaa59f3b0fbb2236ab3f1d43a2c0"
+    },
+    {
+      "id": "mmlu-test-0013705",
+      "source_index": 13705,
+      "group_sha256": "1113c4327b52a6cf8fe40a0a34c14545c1cf5bd047206703bf22beaff2c8eb77"
+    },
+    {
+      "id": "mmlu-test-0013150",
+      "source_index": 13150,
+      "group_sha256": "f9a7225f805a3c02f61e444615be84593ea68961a3a09528a491aad15f28428c"
+    },
+    {
+      "id": "mmlu-test-0001050",
+      "source_index": 1050,
+      "group_sha256": "05094730330ca1fd1ecc4926cf023d7a8b0a0d06336db3d49510a53dd0fbcd5e"
+    },
+    {
+      "id": "mmlu-test-0000424",
+      "source_index": 424,
+      "group_sha256": "20aee1a4dd8fd10dd7e8cb108c1a2173d0e625eb411a101fde90e69b3fca87ec"
+    },
+    {
+      "id": "mmlu-test-0005858",
+      "source_index": 5858,
+      "group_sha256": "4839a4ba9ab723f0668bc77cc1385d1d2b5eab38946857eaf173dbe0589f45c9"
+    },
+    {
+      "id": "mmlu-test-0000859",
+      "source_index": 859,
+      "group_sha256": "76233973b5eadac0dabaa4770b42c085e7529659d3cf539dec796ef8f76d1a53"
+    },
+    {
+      "id": "mmlu-test-0001847",
+      "source_index": 1847,
+      "group_sha256": "79dadcf9e389996bf81754f1a5289f48041412dc65c6614fb35674864e251127"
+    },
+    {
+      "id": "mmlu-test-0007146",
+      "source_index": 7146,
+      "group_sha256": "5783b086d552c2c6ec8c26d79716974e706cbe49c388389afcfa66302b7e1178"
+    },
+    {
+      "id": "mmlu-test-0009412",
+      "source_index": 9412,
+      "group_sha256": "3be374e84cf82d63f62abb2a61edfc03a6c3404288dacfbd1be2800f60129e02"
+    },
+    {
+      "id": "mmlu-test-0000933",
+      "source_index": 933,
+      "group_sha256": "6fbdbf3f7a4a1c60d083c105805db8051c2176cd3c18d71be93f88cc4534e64f"
+    },
+    {
+      "id": "mmlu-test-0007751",
+      "source_index": 7751,
+      "group_sha256": "ffb491c96073753a236fd731ebf98a2658580056005a3298939daf70a074a6ac"
+    },
+    {
+      "id": "mmlu-test-0002779",
+      "source_index": 2779,
+      "group_sha256": "1fdac2004ad02f423ee5bf4357a29fe221a61c91c619de9cedbcd948816024e1"
+    },
+    {
+      "id": "mmlu-test-0014029",
+      "source_index": 14029,
+      "group_sha256": "d00b4c05eb61f0eda909640ed52f4e610d4410ad5d421e38c9c2a1e46328cb24"
+    },
+    {
+      "id": "mmlu-test-0010545",
+      "source_index": 10545,
+      "group_sha256": "27c2632087b55f5d5919367ea31aedc155bbdf261b49b038ece8e9169e4b46d6"
+    },
+    {
+      "id": "mmlu-test-0008638",
+      "source_index": 8638,
+      "group_sha256": "749842c0e02a043ad8303c3981a4ff0e5af758906041a49bc1a5a4cbe30f9cb6"
+    },
+    {
+      "id": "mmlu-test-0004509",
+      "source_index": 4509,
+      "group_sha256": "cf1d8599612e4061265e74d4954fa156f917ad6734971419762250da34c3caf5"
+    },
+    {
+      "id": "mmlu-test-0001461",
+      "source_index": 1461,
+      "group_sha256": "ee6d73df11e891443a83e21ae22cd21f9cbbc249805744cfa1d4fc9d7d1a4af3"
+    },
+    {
+      "id": "mmlu-test-0003173",
+      "source_index": 3173,
+      "group_sha256": "e02a83baaeca08186a3514cfa7c668d0dded3c318f6ff7d761022ffbcf22ad81"
+    },
+    {
+      "id": "mmlu-test-0013679",
+      "source_index": 13679,
+      "group_sha256": "f0d689deab52c03bcfe04f44bc0141a822a7304596d1d4337ad8148a7787e0dd"
+    },
+    {
+      "id": "mmlu-test-0000014",
+      "source_index": 14,
+      "group_sha256": "859e517903ae7f6c62a40c0d0eede132e167fd30db62e56c717df18590f26140"
+    },
+    {
+      "id": "mmlu-test-0005019",
+      "source_index": 5019,
+      "group_sha256": "bc4ec0cd38605f3e9a32e31d2df0a2eeb75ffccd0970d89bf53d75290cad371e"
+    },
+    {
+      "id": "mmlu-test-0003340",
+      "source_index": 3340,
+      "group_sha256": "1960addaf68b33356d529f14dd93673ee3e75fab87f7d42c2224a3748d5d1a2a"
+    },
+    {
+      "id": "mmlu-test-0001314",
+      "source_index": 1314,
+      "group_sha256": "b6c8b407b2386ed30213a3cee34d42e022f745c7e7d96118499e52bce9a38fde"
+    },
+    {
+      "id": "mmlu-test-0001140",
+      "source_index": 1140,
+      "group_sha256": "f55be3d5f26c3adbe1758dbf95ac302fd2484facd0fb35e941007e1e876c4b43"
+    },
+    {
+      "id": "mmlu-test-0010199",
+      "source_index": 10199,
+      "group_sha256": "38dc73fad1d0032092031f4fd48b89bbae9a578984b72e6af8acadd30c07b086"
+    },
+    {
+      "id": "mmlu-test-0000508",
+      "source_index": 508,
+      "group_sha256": "d1acb16c30b655ccad3579490828376dd599ab4c7f45ba0629db1f2e97f3ceff"
+    },
+    {
+      "id": "mmlu-test-0011210",
+      "source_index": 11210,
+      "group_sha256": "87099635d47cc56dd44083defe3375dbcb54910a311eafaeaab8857243bc773c"
+    },
+    {
+      "id": "mmlu-test-0003780",
+      "source_index": 3780,
+      "group_sha256": "20920e7dba8df2d862da63a978eb35e5d80399255fc590dd076424d3ab98b9c2"
+    },
+    {
+      "id": "mmlu-test-0012948",
+      "source_index": 12948,
+      "group_sha256": "b551bc11ef1c13cd52a59812564a09bea053410ed552fbf902245d17a1239b60"
+    },
+    {
+      "id": "mmlu-test-0006884",
+      "source_index": 6884,
+      "group_sha256": "838791e914bd2c73f9f2a1959329501f6631a7891ff06853870045beac73f6b4"
+    },
+    {
+      "id": "mmlu-test-0001979",
+      "source_index": 1979,
+      "group_sha256": "b7705fed444afbdf334313fd7e64df6b5a25ef6808b8a1d7b110b0ceff976123"
+    },
+    {
+      "id": "mmlu-test-0012269",
+      "source_index": 12269,
+      "group_sha256": "d731f8aa9f93d4f3e52dfa06c1fe96b4e7d09d0cf9c2b794c231a2a2e550671a"
+    },
+    {
+      "id": "mmlu-test-0003226",
+      "source_index": 3226,
+      "group_sha256": "4a099825dd2f06c59dcd3d8581020a31b214fc8d3323463906b323f6f1943b5b"
+    },
+    {
+      "id": "mmlu-test-0002246",
+      "source_index": 2246,
+      "group_sha256": "22ddef3894be5fa219627e8dc4e57bee08c9cee91c1c4a366b56c813195780c3"
+    },
+    {
+      "id": "mmlu-test-0004427",
+      "source_index": 4427,
+      "group_sha256": "5a1c16e179166e6abf45dedd84ac60e29b1869b735697e1cf8645a6e98344fe6"
+    },
+    {
+      "id": "mmlu-test-0006590",
+      "source_index": 6590,
+      "group_sha256": "dfe30b54a2a10745a3d5f5021ab6196072ea68dbfbb0fbc89994c67735c07cab"
+    },
+    {
+      "id": "mmlu-test-0000366",
+      "source_index": 366,
+      "group_sha256": "9119e6837963d9bc6690cf3460c8c3bc9dcd388a60e4a5a1ef036d26eb594892"
+    },
+    {
+      "id": "mmlu-test-0003626",
+      "source_index": 3626,
+      "group_sha256": "477567863203543df6ce892cf3133ac5c1f37bae0bf79767c94ee7fd7f33522d"
+    },
+    {
+      "id": "mmlu-test-0008184",
+      "source_index": 8184,
+      "group_sha256": "35a4e89ab19cd8b0b75c83f6945ad1a69fe798687abe93c724c946965034ba53"
+    },
+    {
+      "id": "mmlu-test-0000144",
+      "source_index": 144,
+      "group_sha256": "7fa6c7fbbc2f2757e7add412018ab530307a0cdfe119baa6c275a9a7e4ce9b8a"
+    },
+    {
+      "id": "mmlu-test-0013229",
+      "source_index": 13229,
+      "group_sha256": "8d465b29d449494a809fc3d1d573f91b2fb49e4bc85d9572f905dca2382289ab"
+    },
+    {
+      "id": "mmlu-test-0001523",
+      "source_index": 1523,
+      "group_sha256": "dd379ce1a701b653c2f12c83796399dc92b28c56db15c4e6ce364ddc63f844af"
+    },
+    {
+      "id": "mmlu-test-0005536",
+      "source_index": 5536,
+      "group_sha256": "ef4072f4cb7b9125b52794b403e72dab799098424e44aa4f13384a2a5e3bd30f"
+    },
+    {
+      "id": "mmlu-test-0005735",
+      "source_index": 5735,
+      "group_sha256": "d6e624cdcadf33c64e4250e38604f096be27a9f2d4d69a8df16bef5b2dc2832e"
+    },
+    {
+      "id": "mmlu-test-0004202",
+      "source_index": 4202,
+      "group_sha256": "9abed9f8aea57d1dbda18bae40955774d95cbbfafb161f9b60956765832b5bd8"
+    },
+    {
+      "id": "mmlu-test-0001643",
+      "source_index": 1643,
+      "group_sha256": "2a95b66c4c5a657e610d055529d2bfc5ea1b931067cfd885641f276ba7aca12e"
+    },
+    {
+      "id": "mmlu-test-0006796",
+      "source_index": 6796,
+      "group_sha256": "5df59f78b60065a30da5a9b76728db8607182a645f4329c934b1839ada239b67"
+    },
+    {
+      "id": "mmlu-test-0007000",
+      "source_index": 7000,
+      "group_sha256": "7bf3e2a29d70a6215492a492bbe14089b7a8a7bd8dc31ba31899b770f8818f08"
+    },
+    {
+      "id": "mmlu-test-0009719",
+      "source_index": 9719,
+      "group_sha256": "a83e3f61d819eb08a63921d2bb136df065fc9fed97a8e95ecce5ad6e10919781"
+    },
+    {
+      "id": "mmlu-test-0002611",
+      "source_index": 2611,
+      "group_sha256": "9ecee552390ea7684d1747d9ca1f10aa06ed0d7d9ff761e15ff2ea543e89485a"
+    },
+    {
+      "id": "mmlu-test-0006092",
+      "source_index": 6092,
+      "group_sha256": "832fbaf92aee11f541474be79d671409e338a69fb69420cd8b50dade9c0be420"
+    },
+    {
+      "id": "mmlu-test-0006504",
+      "source_index": 6504,
+      "group_sha256": "2a7c2976103bd01123aab9176c850bf2de19ed5b793eada6ebd94574c499ff4d"
+    },
+    {
+      "id": "mmlu-test-0013539",
+      "source_index": 13539,
+      "group_sha256": "7db500dfc3aa85df3ac05fd17040b3d66de6444cec509e6c4d4acf82c4859995"
+    },
+    {
+      "id": "mmlu-test-0006430",
+      "source_index": 6430,
+      "group_sha256": "578e0789cfd9a69116fb6da3b417035b65391d499f43da74b3b6e6799403dc2e"
+    },
+    {
+      "id": "mmlu-test-0007302",
+      "source_index": 7302,
+      "group_sha256": "fa396006fecc760a2d76a18f1196182b3f7c6a59ae4b062ed774f0f466b5bb4a"
+    },
+    {
+      "id": "mmlu-test-0004772",
+      "source_index": 4772,
+      "group_sha256": "ef11dd885f63b1616857763c6892fae02b55eee405f77b078703d460592b9f4a"
+    },
+    {
+      "id": "mmlu-test-0002461",
+      "source_index": 2461,
+      "group_sha256": "6c4e295a59eace1f193238cadc4d7b44c7bb8b2d4f68112c97816c890220e890"
+    },
+    {
+      "id": "mmlu-test-0013808",
+      "source_index": 13808,
+      "group_sha256": "d15302bc43671563dc74dc80b564e6b3b857d0b89fcec5c0dd9327593a61f32e"
+    },
+    {
+      "id": "mmlu-test-0013103",
+      "source_index": 13103,
+      "group_sha256": "8ca514ef2dc513f35dfb3bf9358a3652cdea0ba655917cc772aef17fedfdca7b"
+    },
+    {
+      "id": "mmlu-test-0001079",
+      "source_index": 1079,
+      "group_sha256": "be780877153c4860ca33f3aa4efb68a1340b6eee1403a3051240b668a77803ea"
+    },
+    {
+      "id": "mmlu-test-0000402",
+      "source_index": 402,
+      "group_sha256": "0e775906b1838dac9c09006031ab28238aca2f5b1dfaf40926b1981866b8424c"
+    },
+    {
+      "id": "mmlu-test-0006088",
+      "source_index": 6088,
+      "group_sha256": "86b116f94a6cbcdc758861e3168eb0698f37c43546e74329b01dff0d50b14c10"
+    },
+    {
+      "id": "mmlu-test-0000771",
+      "source_index": 771,
+      "group_sha256": "00e239acbb1240909f5db5ad15092d023e236fdbc18e30fea9b5e49f98985210"
+    },
+    {
+      "id": "mmlu-test-0001876",
+      "source_index": 1876,
+      "group_sha256": "93774554ecb09b653ad7d1cfee220418ab1173db539891979ba731947d3faf8a"
+    },
+    {
+      "id": "mmlu-test-0007145",
+      "source_index": 7145,
+      "group_sha256": "d4f689834a507a9653ce040486761c6d9c2e6472827a55eca5ea45e06d360426"
+    },
+    {
+      "id": "mmlu-test-0009462",
+      "source_index": 9462,
+      "group_sha256": "f658cc8e1232787da72bf6e03aa3f71f61d9b2e1cbd9cb34e78e29b12865dcfb"
+    },
+    {
+      "id": "mmlu-test-0000912",
+      "source_index": 912,
+      "group_sha256": "3c67d846c5e75a7a3ea38202d0754ba8e014ff4a8d46860e521f9541c64e322c"
+    },
+    {
+      "id": "mmlu-test-0007402",
+      "source_index": 7402,
+      "group_sha256": "8a61377a8fd7c6ee211dc6e80c65343ed996ebd8c657d331e376890dd2c85395"
+    },
+    {
+      "id": "mmlu-test-0002879",
+      "source_index": 2879,
+      "group_sha256": "7256a88ef89dcbaaa4629e87e95350b3ddd2c951d268fd9ad285670a984b5d80"
+    },
+    {
+      "id": "mmlu-test-0014001",
+      "source_index": 14001,
+      "group_sha256": "d95c7952f2ee6b5dab26588ce1df5cf7c5e51c94e9fdd677185db800027e1297"
+    },
+    {
+      "id": "mmlu-test-0010470",
+      "source_index": 10470,
+      "group_sha256": "6b6271c34b67ca94f9eb6ffb2cff689b853aec1adc99bde032d2b742aef63693"
+    },
+    {
+      "id": "mmlu-test-0009346",
+      "source_index": 9346,
+      "group_sha256": "2453ed2c4702aac2c34f0046f662a18bc06388c67497c4e75323913a62cc6c05"
+    },
+    {
+      "id": "mmlu-test-0004514",
+      "source_index": 4514,
+      "group_sha256": "9923419a9403f89e46cff56ab09346d32346fcbe83f9cc278a4a116863298013"
+    },
+    {
+      "id": "mmlu-test-0001470",
+      "source_index": 1470,
+      "group_sha256": "c083ae36b58a91143a7b8a4c058de73ef09a82cabeb5094801ebc08016928e3a"
+    },
+    {
+      "id": "mmlu-test-0003100",
+      "source_index": 3100,
+      "group_sha256": "767f6118012b422bb723a81a76af68d29cdcd25a3cd98780a821092d51eb7b00"
+    },
+    {
+      "id": "mmlu-test-0013683",
+      "source_index": 13683,
+      "group_sha256": "842f603a5c0f64b80d5d8c3d2815fcc1a8048f8d0aab3780aed3416bb6b92549"
+    },
+    {
+      "id": "mmlu-test-0000069",
+      "source_index": 69,
+      "group_sha256": "9758a460b1b1193173fc36b900fae3dae652bb9ff0f1475249d4be911420b3b2"
+    },
+    {
+      "id": "mmlu-test-0004976",
+      "source_index": 4976,
+      "group_sha256": "1c581a119989568318085780fe07f11db6446211ffde8ccd39d4ea86a0c7e6c8"
+    },
+    {
+      "id": "mmlu-test-0003354",
+      "source_index": 3354,
+      "group_sha256": "66798e7ebf659facffaf9b2e0a38b223146c216575c4d911f692e9cf6b182d88"
+    },
+    {
+      "id": "mmlu-test-0001274",
+      "source_index": 1274,
+      "group_sha256": "056443b790c37c5d9d29688584c83e7b2302e9d689e65d1770aed73b87a83742"
+    },
+    {
+      "id": "mmlu-test-0001152",
+      "source_index": 1152,
+      "group_sha256": "05dff78678aea1b1e7f449b064b98d6c3fa4ec6ac9c2e43df0a6393c97b6258b"
+    },
+    {
+      "id": "mmlu-test-0010331",
+      "source_index": 10331,
+      "group_sha256": "094c3f3e215bb3fb6804d08e9479c237d234d042f4db159856438ac071f2cd21"
+    },
+    {
+      "id": "mmlu-test-0000535",
+      "source_index": 535,
+      "group_sha256": "debf58cdfc78e42b1abfe13a97d855a767c650ceb86dcf1a6d8b1f7492abfb21"
+    },
+    {
+      "id": "mmlu-test-0010985",
+      "source_index": 10985,
+      "group_sha256": "a27aabe3675b4d5d7669a4b29a58d86d15669da6d3ebd7ab672c20a83e9aa980"
+    },
+    {
+      "id": "mmlu-test-0003645",
+      "source_index": 3645,
+      "group_sha256": "850cb454557627583989c13410f69b9e3937c6bbda608ecdf56d66e949d42ea3"
+    },
+    {
+      "id": "mmlu-test-0012870",
+      "source_index": 12870,
+      "group_sha256": "8850d92fc17ae10f94df200f7028c899fb738f775a0ddaafe9c9d503865d3943"
+    },
+    {
+      "id": "mmlu-test-0006913",
+      "source_index": 6913,
+      "group_sha256": "ac6422cc19033f71e778154eb498515960018b1d2c7973261d9046d0a2044244"
+    },
+    {
+      "id": "mmlu-test-0001959",
+      "source_index": 1959,
+      "group_sha256": "15163693e7b368a6308aa0e28216a78024d6b75e1e0429b17152aae21d122e3c"
+    },
+    {
+      "id": "mmlu-test-0012240",
+      "source_index": 12240,
+      "group_sha256": "3d7e22bc2615c993763cf9f8672bda18ec0a4b09dce3862b98fe59c03d9090e2"
+    },
+    {
+      "id": "mmlu-test-0003186",
+      "source_index": 3186,
+      "group_sha256": "79456264e2b7012ab917f96972accaeb568db19b4e4450eccfb080efe83aef45"
+    },
+    {
+      "id": "mmlu-test-0002397",
+      "source_index": 2397,
+      "group_sha256": "9b231ddcc18f84b8d253a8312c07e98cb84b9dd25040f806f15d6ab598e0685b"
+    },
+    {
+      "id": "mmlu-test-0004346",
+      "source_index": 4346,
+      "group_sha256": "fe18395fa4308f3c2e09da746bd35e152fe2919f39ab62fc48fbd099902653c7"
+    },
+    {
+      "id": "mmlu-test-0006574",
+      "source_index": 6574,
+      "group_sha256": "92af89669a2a492b68b90f856b3cd2811eb7e642d253dc941bec3df14720a546"
+    },
+    {
+      "id": "mmlu-test-0000355",
+      "source_index": 355,
+      "group_sha256": "e93d3aa42bb8347f3d71d90d69f9614b2c51f8802762e935c21c257fc083e0bf"
+    },
+    {
+      "id": "mmlu-test-0003643",
+      "source_index": 3643,
+      "group_sha256": "120d9d75f0811484f697d9f71b4821d4c19c44b8724b77551f8bb92ad0377ca1"
+    },
+    {
+      "id": "mmlu-test-0008462",
+      "source_index": 8462,
+      "group_sha256": "9564b56a0970d983c59b9420b9f983619122d18548ac46e5912cce1ad296c4cd"
+    },
+    {
+      "id": "mmlu-test-0000201",
+      "source_index": 201,
+      "group_sha256": "7184a9b4362dba3ed9050150dc56703fd3a1f77e8b9269a3d93559b6ff0b3318"
+    },
+    {
+      "id": "mmlu-test-0013214",
+      "source_index": 13214,
+      "group_sha256": "680f91929d90eb2220939ba685cc876c13a4746b2aa36d1dd8bce724ace64903"
+    },
+    {
+      "id": "mmlu-test-0001475",
+      "source_index": 1475,
+      "group_sha256": "11be1be2560a90430c520f4a7216081701214c1316271bc6fa0ffd79237b89e1"
+    },
+    {
+      "id": "mmlu-test-0005486",
+      "source_index": 5486,
+      "group_sha256": "c2e9cc74ef8675a2a16994f1dad4592e1789013e95b2b44cfa45937d5238c4cf"
+    },
+    {
+      "id": "mmlu-test-0005650",
+      "source_index": 5650,
+      "group_sha256": "5e81d722eec7c982575ad88053301d7c37fc9c7379954e2e21fe44d93609fe50"
+    },
+    {
+      "id": "mmlu-test-0004107",
+      "source_index": 4107,
+      "group_sha256": "dfff7608b9d33bfc5a14ecff3aae46bb691f9377745f7f96aa58da2fc8ef0b13"
+    },
+    {
+      "id": "mmlu-test-0001622",
+      "source_index": 1622,
+      "group_sha256": "308cfc2f7e546801e018856d24cb7f77d57796ee67ed9e17b8a099d14de99b1e"
+    },
+    {
+      "id": "mmlu-test-0006679",
+      "source_index": 6679,
+      "group_sha256": "1e7bab123b73c6bf0d0e7d1e145b0886610088c3491c8b910a3b78ad89da2865"
+    },
+    {
+      "id": "mmlu-test-0007035",
+      "source_index": 7035,
+      "group_sha256": "425d1e4c0683d0a3b01ba5532b063378e1c55ab7dbe128617e2a578eec82d12a"
+    },
+    {
+      "id": "mmlu-test-0009920",
+      "source_index": 9920,
+      "group_sha256": "79347fd75521ea32f2f0c982d54c89a9a776dd452846c74520a448b321ebc789"
+    },
+    {
+      "id": "mmlu-test-0002649",
+      "source_index": 2649,
+      "group_sha256": "83fe52d32ef03c18f34c84821b39d5a2c6b5e66f8b50f2d729b4d90c9a3990f4"
+    },
+    {
+      "id": "mmlu-test-0006262",
+      "source_index": 6262,
+      "group_sha256": "38f168beb3ff51a59600091c1746ac2ffe5161bb972234504d1b07295faf094e"
+    },
+    {
+      "id": "mmlu-test-0006516",
+      "source_index": 6516,
+      "group_sha256": "9bcb23b1f995af6ff5eb755ce88822c6bb930e10d95042f4ef30999e21171f30"
+    },
+    {
+      "id": "mmlu-test-0013443",
+      "source_index": 13443,
+      "group_sha256": "349074dcb3f62ae20b0944e1cec301e7ea6fe250fe00dd6fa90b770c9c49ca0c"
+    },
+    {
+      "id": "mmlu-test-0006374",
+      "source_index": 6374,
+      "group_sha256": "9fb4ed9bcca8093481642d1a629c0027470c907914750aae6a28fddab42814b3"
+    },
+    {
+      "id": "mmlu-test-0007301",
+      "source_index": 7301,
+      "group_sha256": "7a29aaad80b16d3bfae62486cca96d02472b693b7a3479b07da30ef74f97b3db"
+    },
+    {
+      "id": "mmlu-test-0004843",
+      "source_index": 4843,
+      "group_sha256": "2d43bacca39957ac44f0ab7caaf23a1d9bfefedc9e63cb38380b3ca5974707df"
+    },
+    {
+      "id": "mmlu-test-0002482",
+      "source_index": 2482,
+      "group_sha256": "9fc3486e9b0f41f478a83a90a1c08f5478fce0f6d6643a65846ec224e20f573b"
+    },
+    {
+      "id": "mmlu-test-0013782",
+      "source_index": 13782,
+      "group_sha256": "68b26cd5eb40c47cc42e9529b47bccfb5ea7c26f57515815af9f3d8d9a3e7651"
+    },
+    {
+      "id": "mmlu-test-0013145",
+      "source_index": 13145,
+      "group_sha256": "83f0429a16ed5d03cb35e204b27580b5427c30223149279914effdfe0ce1d059"
+    },
+    {
+      "id": "mmlu-test-0001010",
+      "source_index": 1010,
+      "group_sha256": "4915d4be3a7104a927564e4bf63ee95c14ab2d90dbc95abaa2a4f3bc6e1a7183"
+    },
+    {
+      "id": "mmlu-test-0000387",
+      "source_index": 387,
+      "group_sha256": "681fd79b0f5079ac0951c415124e17c45289dc2182c532ebce896e733e727615"
+    },
+    {
+      "id": "mmlu-test-0006032",
+      "source_index": 6032,
+      "group_sha256": "906af6b59a25562a38b42b91524641a05bf40149a76462e09d5dcba26ad0f849"
+    },
+    {
+      "id": "mmlu-test-0000856",
+      "source_index": 856,
+      "group_sha256": "b809ff88eeb509154c6df5a1f5304b65bd6dd499c4265d59eb13a76d3219b8fe"
+    },
+    {
+      "id": "mmlu-test-0001843",
+      "source_index": 1843,
+      "group_sha256": "7b83992f4308e05ae65b906ee3f09e6661740ef0c91cc2edeb75790884cbdc0e"
+    },
+    {
+      "id": "mmlu-test-0007096",
+      "source_index": 7096,
+      "group_sha256": "99b09448c686f28c89fefff97612143f6d2fd556efeeb4424ae6b5fa567e9f90"
+    },
+    {
+      "id": "mmlu-test-0009625",
+      "source_index": 9625,
+      "group_sha256": "c26864add111f8d8cff9a9178357a782a04a5b0d85d38e8711a17be204ef3862"
+    },
+    {
+      "id": "mmlu-test-0000962",
+      "source_index": 962,
+      "group_sha256": "ffb7a3a489e7983e154f57d4b4ed8ed5736fe0d4c51b199f8ab0dfae3f660540"
+    },
+    {
+      "id": "mmlu-test-0007972",
+      "source_index": 7972,
+      "group_sha256": "5cc21d25d8ca878e007487a4ae6fc5f612da315f88728937baa0151a547d5e3a"
+    },
+    {
+      "id": "mmlu-test-0002848",
+      "source_index": 2848,
+      "group_sha256": "64a80b55c1a34686437521d3dcd83bb53f28ad7ffcfb8471a76f625c0a78da28"
+    },
+    {
+      "id": "mmlu-test-0013894",
+      "source_index": 13894,
+      "group_sha256": "5116367f7017301e7870be905098f95aecc2b16308396f7fab688be38d3882e3"
+    },
+    {
+      "id": "mmlu-test-0010528",
+      "source_index": 10528,
+      "group_sha256": "73996241413c02922e249b2dba516db8c8d8297856e11c164462a96e30e7d842"
+    },
+    {
+      "id": "mmlu-test-0009282",
+      "source_index": 9282,
+      "group_sha256": "bd216ca654bcdfb9fea5789a581e1d7bdff4e873c5e75526747d548fac546f91"
+    },
+    {
+      "id": "mmlu-test-0004537",
+      "source_index": 4537,
+      "group_sha256": "db45c252746fd8b7bd09dd92e9eb6298e054614d411fe0c1d2f606e278388542"
+    },
+    {
+      "id": "mmlu-test-0001420",
+      "source_index": 1420,
+      "group_sha256": "b0a61fda69f20a30d9f435dbd8b5d8757216c16da9baf2aaa09108e6ca6b1e77"
+    },
+    {
+      "id": "mmlu-test-0002986",
+      "source_index": 2986,
+      "group_sha256": "d18239a1261ae000c21b1bbae494bb1bd625ff4fb7d9d94540365960d57aa3aa"
+    },
+    {
+      "id": "mmlu-test-0013618",
+      "source_index": 13618,
+      "group_sha256": "91557530eca4a684bf58da0ac99cfdde6130d707d054acdb353bf67ed71b266a"
+    },
+    {
+      "id": "mmlu-test-0000065",
+      "source_index": 65,
+      "group_sha256": "1e82813cb73d06c5e6daa6fc73678cf74fe8401b09493f76db12d2ef2021868a"
+    },
+    {
+      "id": "mmlu-test-0005005",
+      "source_index": 5005,
+      "group_sha256": "7b51e81afc4fc18a870a412f8cc301b40c049cfc4235932ccdd18713e6773257"
+    },
+    {
+      "id": "mmlu-test-0003333",
+      "source_index": 3333,
+      "group_sha256": "8d3646b261fc3402d59cd546f3b5255e7f1fc496c7a051bf5e76acdefef237aa"
+    },
+    {
+      "id": "mmlu-test-0001211",
+      "source_index": 1211,
+      "group_sha256": "f3d550fba2305ff5e5a99ca7b2643cda7493191ea76f9357c653d79ad1f2ab9e"
+    },
+    {
+      "id": "mmlu-test-0001127",
+      "source_index": 1127,
+      "group_sha256": "3932a3fc04abcea18e3e971e4b2ed949ab4e059780ecbb0c2d95288c76bf1a98"
+    },
+    {
+      "id": "mmlu-test-0010057",
+      "source_index": 10057,
+      "group_sha256": "968538134761356a4ba373e17c81665132caec13a3d295eaee9ce42da321c3fc"
+    },
+    {
+      "id": "mmlu-test-0000697",
+      "source_index": 697,
+      "group_sha256": "9020d9b2a45f21b3d9c2c8f632fc8634a8faff0f219d05f4cea1097c846ad317"
+    },
+    {
+      "id": "mmlu-test-0011199",
+      "source_index": 11199,
+      "group_sha256": "dbbc785be24d9cbf2bcf7038902bab444923f28944860058f89508e2fe9eb49d"
+    },
+    {
+      "id": "mmlu-test-0003814",
+      "source_index": 3814,
+      "group_sha256": "662de2dea77c1564ae95ffdb11266a57181c4d5aff24a2c18fad2e92ac848731"
+    },
+    {
+      "id": "mmlu-test-0013036",
+      "source_index": 13036,
+      "group_sha256": "0fca4fc10c5785902cd49230702a440474e820a05caf3b6757196d1f8231dc41"
+    },
+    {
+      "id": "mmlu-test-0006890",
+      "source_index": 6890,
+      "group_sha256": "38c2eb58b0396d23f9181a1ac7f516ccf98a70b3f3e1e8a099e01ab6b9d914af"
+    },
+    {
+      "id": "mmlu-test-0002002",
+      "source_index": 2002,
+      "group_sha256": "5a245d2d87e02ed7ce5ae7aca36f30d9672c45a8ace972c2f8bb29647729e1c3"
+    },
+    {
+      "id": "mmlu-test-0012384",
+      "source_index": 12384,
+      "group_sha256": "8d30df6c5a88300df4ce44def0cf1b604527c6b51bf1ef2f28aef25a07980ffc"
+    },
+    {
+      "id": "mmlu-test-0003213",
+      "source_index": 3213,
+      "group_sha256": "0bf6bc2185b01dfeef1689252bb53406301baf270e8148cf7107a4df1aa3ae8b"
+    },
+    {
+      "id": "mmlu-test-0002075",
+      "source_index": 2075,
+      "group_sha256": "1fda349556bd5c0a6ba13a615e9530ed6656bf06c594c07295ccf6e46ffba802"
+    },
+    {
+      "id": "mmlu-test-0004253",
+      "source_index": 4253,
+      "group_sha256": "70323c7d57866b08a1e13ba4a091a872daf2a9404e727c8b293ddb3a93245ca9"
+    },
+    {
+      "id": "mmlu-test-0006662",
+      "source_index": 6662,
+      "group_sha256": "8ae5345ea4f630a5c99c6f8dcdedb02d51488e6b193a33da1e812b052e80126c"
+    },
+    {
+      "id": "mmlu-test-0000376",
+      "source_index": 376,
+      "group_sha256": "c200704b5d604b5038928cdedf4347291b1ee42b7cf71bdb5ecb818133aab345"
+    },
+    {
+      "id": "mmlu-test-0003452",
+      "source_index": 3452,
+      "group_sha256": "2d84bbe56964adb32ebfefe9298d2c507be44040a677b6dedb4a1eed48284836"
+    },
+    {
+      "id": "mmlu-test-0008266",
+      "source_index": 8266,
+      "group_sha256": "f541e608f36e9c73b8ad678b87285b54849009b02ecc125556443445ccce72ee"
+    },
+    {
+      "id": "mmlu-test-0000232",
+      "source_index": 232,
+      "group_sha256": "90f03d43d187e9271c6da625c4cc186a2080f29b71951f4189a27fe19402c77e"
+    },
+    {
+      "id": "mmlu-test-0013180",
+      "source_index": 13180,
+      "group_sha256": "acae0d37fe6915e4f228bb8a1d261b2fb9e29f3e5bb772d0cbc66a28ab0bee58"
+    },
+    {
+      "id": "mmlu-test-0001525",
+      "source_index": 1525,
+      "group_sha256": "25f73963c392691fb33772441a59138782f5584c39cc3d6c4748828b6a9cc537"
+    },
+    {
+      "id": "mmlu-test-0005632",
+      "source_index": 5632,
+      "group_sha256": "db9cf493da5ec9fe5a7fe94626ce9f985d0a23acf66028b97418b342e12b80de"
+    },
+    {
+      "id": "mmlu-test-0005760",
+      "source_index": 5760,
+      "group_sha256": "3e034e60583cc24d51425b236f1f2cf748b834f7faa759107b300a9e2aadf59f"
+    },
+    {
+      "id": "mmlu-test-0004194",
+      "source_index": 4194,
+      "group_sha256": "a751f71eb0874c1ed00b88f760157c4c44956e8a2bbbcf37041c2d021ebef583"
+    },
+    {
+      "id": "mmlu-test-0001733",
+      "source_index": 1733,
+      "group_sha256": "c16f588a6bee09ace61b12d2583c2f2a0c739d1bfc4e5502cd89006006907b98"
+    },
+    {
+      "id": "mmlu-test-0006694",
+      "source_index": 6694,
+      "group_sha256": "1ca73c86003c9b06e872bfc11bf73e39b6c8136fe2ef111b27c1eb178d931649"
+    },
+    {
+      "id": "mmlu-test-0007010",
+      "source_index": 7010,
+      "group_sha256": "05922239eed4821136352dec8a48b88f4341657805f1d826309ce327cbc1117a"
+    },
+    {
+      "id": "mmlu-test-0009817",
+      "source_index": 9817,
+      "group_sha256": "af8f421dd54b757c737ed62183bd7f7fcd9f079fe6a97ccd9a8437f0e32214fd"
+    },
+    {
+      "id": "mmlu-test-0002637",
+      "source_index": 2637,
+      "group_sha256": "804248aedc76a295b3a3f4dd7a3a6ca837a79f260c025b051353629b829e6cc6"
+    },
+    {
+      "id": "mmlu-test-0006178",
+      "source_index": 6178,
+      "group_sha256": "f1c441c7d8ab4e525fa339581cdb01cf3035b1b09c88d819b9fc1b371c69d565"
+    },
+    {
+      "id": "mmlu-test-0006446",
+      "source_index": 6446,
+      "group_sha256": "ea3afa996c2abe387c8584e2b82c654babc45db5af15d7e19e6693711c01c527"
+    },
+    {
+      "id": "mmlu-test-0013557",
+      "source_index": 13557,
+      "group_sha256": "eb5a9a60de32c6120d706e134fad28918c8cd44e327830c05c71ecae75a2b749"
+    },
+    {
+      "id": "mmlu-test-0006369",
+      "source_index": 6369,
+      "group_sha256": "b21e4f8d8d76c8f0f23c72dbdd71447571f5481cb1e875d9a603d3fa494cd06e"
+    },
+    {
+      "id": "mmlu-test-0007352",
+      "source_index": 7352,
+      "group_sha256": "b53993bcc355222e9bfa93c61879cb16b18a6c862a24550eb3d60a49e68ca6ea"
+    },
+    {
+      "id": "mmlu-test-0004792",
+      "source_index": 4792,
+      "group_sha256": "b5f51ca0aff0956240b5457abe8b43c52ad9d4629a596ce91a70fbcb9e5070a1"
+    },
+    {
+      "id": "mmlu-test-0002514",
+      "source_index": 2514,
+      "group_sha256": "3c0b1b439fc3ad0d4b8692abd3b6bafb40dc7b0aa476898cfdad8afaf12e3349"
+    },
+    {
+      "id": "mmlu-test-0013793",
+      "source_index": 13793,
+      "group_sha256": "d9bee829207da847e00998695dd0a5bb24a88a20cd70b12bd35996df214818a3"
+    },
+    {
+      "id": "mmlu-test-0013114",
+      "source_index": 13114,
+      "group_sha256": "2f3081c98e3e60246f0cef0401212d6ea36961c4916a755e4c0a4ad75d5a1bcc"
+    },
+    {
+      "id": "mmlu-test-0001053",
+      "source_index": 1053,
+      "group_sha256": "c7dc3d40d4c4ee1dbe1542c75b851971cea836598df6a230857fa2446dc442f9"
+    },
+    {
+      "id": "mmlu-test-0000394",
+      "source_index": 394,
+      "group_sha256": "4276bc4659c076b4f91e9d7ab6113d67c16649bf879c40dc6b496aa9f6560f93"
+    },
+    {
+      "id": "mmlu-test-0005970",
+      "source_index": 5970,
+      "group_sha256": "cce51af3653bc1428ad73c5b55de968c1926551a31f12dd92aa1da0e6e409d81"
+    },
+    {
+      "id": "mmlu-test-0000847",
+      "source_index": 847,
+      "group_sha256": "6b1657bbb80d8c8e173827285c20fc766ec1a24a908e7191cacf995913f54043"
+    },
+    {
+      "id": "mmlu-test-0001887",
+      "source_index": 1887,
+      "group_sha256": "1a160fa47cbc78f05db3060407369246d1078b3b936da70402bc7e725b094324"
+    },
+    {
+      "id": "mmlu-test-0007100",
+      "source_index": 7100,
+      "group_sha256": "bcb84c61b012ebe07b0acfb08fc7ac036a63ef5de86b8dc4d5e294c4e87e24a4"
+    },
+    {
+      "id": "mmlu-test-0009547",
+      "source_index": 9547,
+      "group_sha256": "dd4cf317c1e579602f86a730dc63430543515205587a2533012043aadff637ba"
+    },
+    {
+      "id": "mmlu-test-0000917",
+      "source_index": 917,
+      "group_sha256": "145450a8589a3eb88fef2d02f0106d9450146ff26014dbc277df54bfe2ea74e1"
+    },
+    {
+      "id": "mmlu-test-0007564",
+      "source_index": 7564,
+      "group_sha256": "a96c754faf69296fca9069550ee7fc166bcbf09a78b404b4c824523beddab28b"
+    },
+    {
+      "id": "mmlu-test-0002959",
+      "source_index": 2959,
+      "group_sha256": "265704ce74452bcedeb2a145f784cd95fcaa29cf89d0b8a8d5457d61f0a7742b"
+    },
+    {
+      "id": "mmlu-test-0014017",
+      "source_index": 14017,
+      "group_sha256": "3a33066b093e45201f5cee4dba285aaf48a56fc4cd5645ba9175a52edc67e815"
+    },
+    {
+      "id": "mmlu-test-0010571",
+      "source_index": 10571,
+      "group_sha256": "c6c068a817ec872c8a11a9f128307ce95a94f768b50c9194863f4e4ac9ba2212"
+    },
+    {
+      "id": "mmlu-test-0009407",
+      "source_index": 9407,
+      "group_sha256": "9c6e315c31cf9c8e5da77b485861e0a1e5589d8f79e0e624107216570fcd7d89"
+    },
+    {
+      "id": "mmlu-test-0004524",
+      "source_index": 4524,
+      "group_sha256": "437bce88291fc61db294a64604d8e45eb83b2deea7cde35e946454a16c7621ee"
+    },
+    {
+      "id": "mmlu-test-0001464",
+      "source_index": 1464,
+      "group_sha256": "91141ab409904e5c22cf1c2d0f72512a28125023410b7b76f55268d6d0f14a0e"
+    },
+    {
+      "id": "mmlu-test-0003086",
+      "source_index": 3086,
+      "group_sha256": "048daa8a6cf1020ad797d3dd98f9c5b1f4e80f5a648ca2184f0b449de762333f"
+    },
+    {
+      "id": "mmlu-test-0013654",
+      "source_index": 13654,
+      "group_sha256": "72649e7d733f13521785557567d70fa9b8b604de25b089d9e852aebdca8bd181"
+    },
+    {
+      "id": "mmlu-test-0000063",
+      "source_index": 63,
+      "group_sha256": "a43d429c2a1b39529e5c8296281a08b34972e14f1e616fa9e8a46c498a44efe9"
+    },
+    {
+      "id": "mmlu-test-0004981",
+      "source_index": 4981,
+      "group_sha256": "379ccc1b373b5eba5be99f261cfee5584b91990b77934b421de0a51961bb7116"
+    },
+    {
+      "id": "mmlu-test-0003397",
+      "source_index": 3397,
+      "group_sha256": "de0d4c177c4340978449a9168ca701fea1e3a2401e790dd93424d296c8dc2186"
+    },
+    {
+      "id": "mmlu-test-0001340",
+      "source_index": 1340,
+      "group_sha256": "0a82da88ff0bf97f2373640c166fbdc790b2e24423cba8933bf6e84579cd450b"
+    },
+    {
+      "id": "mmlu-test-0001192",
+      "source_index": 1192,
+      "group_sha256": "f23d1510ea432dc7d93cbdc779eab316b85aa8b7b81b1577e7a744bf5dc3a0fc"
+    },
+    {
+      "id": "mmlu-test-0010127",
+      "source_index": 10127,
+      "group_sha256": "ef000f8c853a3ec3eca2a55490bdaa9cf85942654f2bb8ae269b5e1864ee5d72"
+    },
+    {
+      "id": "mmlu-test-0000732",
+      "source_index": 732,
+      "group_sha256": "e4ff6d70edd739f15463786fb207821b4cc4da3997107464617987cb5b7460f7"
+    },
+    {
+      "id": "mmlu-test-0011770",
+      "source_index": 11770,
+      "group_sha256": "8ce1ad4c52a7b7c07a176b14e5fabe80dc3a2ec16c95642404bd908d465ce761"
+    },
+    {
+      "id": "mmlu-test-0003722",
+      "source_index": 3722,
+      "group_sha256": "297139cbd702358d0e61d2d5916390dc1884fa2e177b67b861b1325ac0c6c4eb"
+    },
+    {
+      "id": "mmlu-test-0012922",
+      "source_index": 12922,
+      "group_sha256": "145f4ec2edb7c7b4e5d1b640072fa34d6a9020131312b14cc3faf2945cea99da"
+    },
+    {
+      "id": "mmlu-test-0006891",
+      "source_index": 6891,
+      "group_sha256": "c314b164861bdafb489659659a429e92f9d05f9e91e893fc46413335ba39a124"
+    },
+    {
+      "id": "mmlu-test-0001956",
+      "source_index": 1956,
+      "group_sha256": "7b42d20def8ba4158b2bf01d1f796177eb8a0cef6e96379e30335834fd94cfde"
+    },
+    {
+      "id": "mmlu-test-0012208",
+      "source_index": 12208,
+      "group_sha256": "5bc34712dd0b666c162aa79f657d8670d1ae6075b9883c5271390686927bc198"
+    },
+    {
+      "id": "mmlu-test-0003258",
+      "source_index": 3258,
+      "group_sha256": "bc8b37e6d5a4bbda88026e75fe49b4414a45fb48764a8166d1414c8b6d82fc1b"
+    },
+    {
+      "id": "mmlu-test-0002139",
+      "source_index": 2139,
+      "group_sha256": "8d462b52f22344f65ddcbab1b0c27a8c01b4cb21a27cee3d14e35c6b8f353371"
+    },
+    {
+      "id": "mmlu-test-0004412",
+      "source_index": 4412,
+      "group_sha256": "4003a29f65346fec66e39daa7e0607e228aeb3bcb735f1db1e868c2c7c31d2b1"
+    },
+    {
+      "id": "mmlu-test-0006579",
+      "source_index": 6579,
+      "group_sha256": "63fdcb1f927fdb93b202187f3799c13e9e05d09f2d8dca667dc31dcffa9c1f8f"
+    },
+    {
+      "id": "mmlu-test-0000281",
+      "source_index": 281,
+      "group_sha256": "287e5f7948c0fadf89c3a6e11f7ff2d7c394353c662d98c54212ffb15ae3ea68"
+    },
+    {
+      "id": "mmlu-test-0003575",
+      "source_index": 3575,
+      "group_sha256": "e7f28d2d073ad55312124b7d0aa3ed6bd9c1459e0f71a0fb7c62e740344cc64d"
+    },
+    {
+      "id": "mmlu-test-0008168",
+      "source_index": 8168,
+      "group_sha256": "121c9cd397f10363ceef24896cbfb06bf2ee127fd752f02369f310eb93d6327d"
+    },
+    {
+      "id": "mmlu-test-0000218",
+      "source_index": 218,
+      "group_sha256": "4c5886e78866a92941e353be78a7a9699c3598e6ba7761aba613ca9b8b85b823"
+    },
+    {
+      "id": "mmlu-test-0013365",
+      "source_index": 13365,
+      "group_sha256": "6d8a78b0eb10aa80840fe67f859934d8d07bc782aaad83f8722e3bb577277662"
+    },
+    {
+      "id": "mmlu-test-0001503",
+      "source_index": 1503,
+      "group_sha256": "571f857f87fb877ff5520853aa30b63660b68b1c2b41ad0fb1cea58482f92164"
+    },
+    {
+      "id": "mmlu-test-0005512",
+      "source_index": 5512,
+      "group_sha256": "b18d277d6988b19632c66183b378a1ff2fc7ba4c9cb401ec2b653f8fd6126315"
+    },
+    {
+      "id": "mmlu-test-0005805",
+      "source_index": 5805,
+      "group_sha256": "bef7d0277c8e3b8a7b656f95194d76a740bddbd31c1367bb6bc6d55d6bb61a9b"
+    },
+    {
+      "id": "mmlu-test-0004144",
+      "source_index": 4144,
+      "group_sha256": "323f81e08269580236ea0f4f2e428ad9f36df03e93f0364e6d0b27a6df098514"
+    },
+    {
+      "id": "mmlu-test-0001793",
+      "source_index": 1793,
+      "group_sha256": "e2c0c7aaa78b4d488176f5958144f5e7b90bd43d4dfc708cc9e41c1cc597b280"
+    },
+    {
+      "id": "mmlu-test-0006706",
+      "source_index": 6706,
+      "group_sha256": "59b86dcc83a1da893e06bd27d3bebfff4d59c4c0e2f98c6ed3eb2ea153dbd9e6"
+    },
+    {
+      "id": "mmlu-test-0007009",
+      "source_index": 7009,
+      "group_sha256": "1f11bdf8af6847c908fbb893ec22d730aecbfbe9f4342758d2dc928551d4212c"
+    },
+    {
+      "id": "mmlu-test-0009867",
+      "source_index": 9867,
+      "group_sha256": "14d5df658339f81f596a6caa5345ded37df2ef4d399e971dac5cb204a342eba7"
+    },
+    {
+      "id": "mmlu-test-0002664",
+      "source_index": 2664,
+      "group_sha256": "460e8ccea0e56638dbcdc7e5c77652cddd3caecb943587e72ef41782339658a4"
+    },
+    {
+      "id": "mmlu-test-0006273",
+      "source_index": 6273,
+      "group_sha256": "26143274dd15ebbb6869f4e022c0fcf50f4a8d7277cd0d471b842f5ea809d1f8"
+    },
+    {
+      "id": "mmlu-test-0006447",
+      "source_index": 6447,
+      "group_sha256": "ea350a1db97f679b7a9cb4672b10d7bd8b9a08c677a1381adf090158905bef9a"
+    },
+    {
+      "id": "mmlu-test-0013530",
+      "source_index": 13530,
+      "group_sha256": "0ed9d8744cdcae154d7a72a9782b1129a6ab2a6db1a81b5506a315d9b584ea5a"
+    },
+    {
+      "id": "mmlu-test-0006328",
+      "source_index": 6328,
+      "group_sha256": "71a1a9b5fe496112b06e68d0620228c382cbc5169a7f713086763a48e7e65244"
+    },
+    {
+      "id": "mmlu-test-0007290",
+      "source_index": 7290,
+      "group_sha256": "97355ea21f62ba746cc65277feab2cf8ba4f2bd61a7c98061e3d942108d16709"
+    },
+    {
+      "id": "mmlu-test-0004869",
+      "source_index": 4869,
+      "group_sha256": "4f2fdd49dba565a9dd41e707d13e983dd3d4bc6466bb429919e6f8120fbf3bda"
+    },
+    {
+      "id": "mmlu-test-0002451",
+      "source_index": 2451,
+      "group_sha256": "55a354dd2ee1749df35332dd287c119a3be35429a7acc25eb02098c531b5244f"
+    },
+    {
+      "id": "mmlu-test-0013850",
+      "source_index": 13850,
+      "group_sha256": "0059e0688e0a6d25e43c74ba1d7fb9db54e0c8081500d5feb63e6e0faafe5887"
+    },
+    {
+      "id": "mmlu-test-0013122",
+      "source_index": 13122,
+      "group_sha256": "3e9d9a9bcb1bb552df42e45a52b8503a5e0466b6503318395a09f96a3484865e"
+    },
+    {
+      "id": "mmlu-test-0001080",
+      "source_index": 1080,
+      "group_sha256": "2a0ed49a3ed4064d0e7a117f5d8ca0c1b2521e93907285f5fd2b269961c4e2ee"
+    },
+    {
+      "id": "mmlu-test-0000403",
+      "source_index": 403,
+      "group_sha256": "18bb9e713244ec908649dcccd4396769993c8127363445da53f8425067916f64"
+    },
+    {
+      "id": "mmlu-test-0005985",
+      "source_index": 5985,
+      "group_sha256": "ce0eda5d06eb17613a628a8c8b058b0b704641f676fc6cf31c8b1aa36411b1ec"
+    },
+    {
+      "id": "mmlu-test-0000861",
+      "source_index": 861,
+      "group_sha256": "d497448533ef4b4f1ce4d4749e16c4c3a31f4d72d78b801923c31a1637d3aea4"
+    },
+    {
+      "id": "mmlu-test-0001809",
+      "source_index": 1809,
+      "group_sha256": "aca27495708b53298aefb7be86f1d7daf91944139d1849e1258fdeef975ea1d1"
+    },
+    {
+      "id": "mmlu-test-0007273",
+      "source_index": 7273,
+      "group_sha256": "563789970c058e66434b6dd066ca9ece382072f68cfca87bde600a3ee4fe4b5c"
+    },
+    {
+      "id": "mmlu-test-0009593",
+      "source_index": 9593,
+      "group_sha256": "23b8458b82497ed0e31f74a16a79ec505d4953a9bf8e6f921c745c9b443711e3"
+    },
+    {
+      "id": "mmlu-test-0000920",
+      "source_index": 920,
+      "group_sha256": "182f119de8751ce88501a3d8231d94c5dfccc6e5b47d6fc21de0f1114ef37b62"
+    },
+    {
+      "id": "mmlu-test-0007978",
+      "source_index": 7978,
+      "group_sha256": "1b3e086c93cd59c86cea92d057e4cf3290330feaf97bcda958f1f60a1cd799f0"
+    },
+    {
+      "id": "mmlu-test-0002709",
+      "source_index": 2709,
+      "group_sha256": "d4574ae24b986f1e0402cb44e1608e33e7e9acf595617a194c82c348873cedb1"
+    },
+    {
+      "id": "mmlu-test-0013881",
+      "source_index": 13881,
+      "group_sha256": "c4b29b9ad5bc1c4c23230fcab65f388e9ab8e1e17adc7102a35dd1c15f357497"
+    },
+    {
+      "id": "mmlu-test-0010517",
+      "source_index": 10517,
+      "group_sha256": "56b925878d2af52088c8a992a6b1ed7cfe45fd4038511ad97f6b6d35556b01ec"
+    },
+    {
+      "id": "mmlu-test-0008590",
+      "source_index": 8590,
+      "group_sha256": "d6875c29ce738fdd8f31ffcc2e570d4c08cb14c2493a4650cc4b4f732ed9ffcb"
+    },
+    {
+      "id": "mmlu-test-0004512",
+      "source_index": 4512,
+      "group_sha256": "ca8de4cdafd29357f1c91a080f369e94bd6b52fe2335e15b60cc2ac0d3463e33"
+    },
+    {
+      "id": "mmlu-test-0001379",
+      "source_index": 1379,
+      "group_sha256": "8bd7a493edbc0367ea8845807f4c345e2e0da931783fc6764f640f406907e028"
+    },
+    {
+      "id": "mmlu-test-0003168",
+      "source_index": 3168,
+      "group_sha256": "2cc03b24ed0a3236db68020d09937db5d34c2c4ea0021639bff4494e879de1e2"
+    },
+    {
+      "id": "mmlu-test-0013697",
+      "source_index": 13697,
+      "group_sha256": "4bc7179df47db84aa93784ccf262062f02c3da49462a8c2561d0a7148f8d77a9"
+    },
+    {
+      "id": "mmlu-test-0000053",
+      "source_index": 53,
+      "group_sha256": "dd9250c0d7adab61aa239a900d71d6c01ab18973e30745f2fad2918fc6b9a082"
+    },
+    {
+      "id": "mmlu-test-0005071",
+      "source_index": 5071,
+      "group_sha256": "056f6ce697aefbceffc514dd7907cd91c3f87c52d22bbc5d7050df4a8b4ec2dd"
+    },
+    {
+      "id": "mmlu-test-0003377",
+      "source_index": 3377,
+      "group_sha256": "b6be27b57b8dce5deed4ce13d0044f379cb3e2aed9955eddabd605eb675a9bbd"
+    },
+    {
+      "id": "mmlu-test-0001208",
+      "source_index": 1208,
+      "group_sha256": "2426d48e1beef303604c3eb0c9343cd98426cdc293d5ab4cbe059bd58d13c11c"
+    },
+    {
+      "id": "mmlu-test-0001105",
+      "source_index": 1105,
+      "group_sha256": "038db4af401a363ed79a0f71d2bf4f519c0df40b1265d23d9156a636ac3d96f9"
+    },
+    {
+      "id": "mmlu-test-0010181",
+      "source_index": 10181,
+      "group_sha256": "376f5e2eabc3c453b5a2891f9a0b805ef2193f58486744d53d90a929630ceaec"
+    },
+    {
+      "id": "mmlu-test-0000708",
+      "source_index": 708,
+      "group_sha256": "5e76f269531e324a52365da3723f6f4f9d3de8a8c49825d6f87556ea008f2bd3"
+    },
+    {
+      "id": "mmlu-test-0010719",
+      "source_index": 10719,
+      "group_sha256": "cccd85dd10a1e4c8ebe72fa4293767a0eb4c28d424253c5af27e70736ee0b23d"
+    },
+    {
+      "id": "mmlu-test-0003800",
+      "source_index": 3800,
+      "group_sha256": "be0bcbfca741d60dfcf3c85e8dc662eded9322c17e13c1288ede548b6e4bfbed"
+    },
+    {
+      "id": "mmlu-test-0012681",
+      "source_index": 12681,
+      "group_sha256": "6679961396ec0278bdb9b42d54b1e3be030473f0575c7fbab585ecddc325acf8"
+    },
+    {
+      "id": "mmlu-test-0006873",
+      "source_index": 6873,
+      "group_sha256": "9a779a5155a66cd568e13380ff89fdab9aa3761a2363700eb5c6351738bddb7a"
+    },
+    {
+      "id": "mmlu-test-0002043",
+      "source_index": 2043,
+      "group_sha256": "d6e0aa57d13292d7c3a81bbc0c5dd1defe4abdedfa02c1221379b6a91484b415"
+    },
+    {
+      "id": "mmlu-test-0012401",
+      "source_index": 12401,
+      "group_sha256": "3b91fe5795f1ccb89d607a5e1d18c9230e3a35a6674d52d19d73c9baf7b86219"
+    },
+    {
+      "id": "mmlu-test-0003215",
+      "source_index": 3215,
+      "group_sha256": "2c8d4fd1a407b2cbe74be41bc976ec415bbfe86c3ffc4631a3bdf8cdfe51e39f"
+    },
+    {
+      "id": "mmlu-test-0002176",
+      "source_index": 2176,
+      "group_sha256": "b7e8a13feb1e04722b57d2659491d934595691ab3159f364e7a11a3b08ab4948"
+    },
+    {
+      "id": "mmlu-test-0004257",
+      "source_index": 4257,
+      "group_sha256": "a9da41af9c3d45fa92fe268cdd8460de69595e414894723fb980a4905fa39d09"
+    },
+    {
+      "id": "mmlu-test-0006658",
+      "source_index": 6658,
+      "group_sha256": "45f230fc64a6f55481805513eb535c1f11a52aa86ffa4098a00ff2b7ffbb82d1"
+    },
+    {
+      "id": "mmlu-test-0000359",
+      "source_index": 359,
+      "group_sha256": "eb8f8e29c7d1e129da2c9d44fae18dcf3f57ce345cd54f9fb9f0977697c97d00"
+    },
+    {
+      "id": "mmlu-test-0003587",
+      "source_index": 3587,
+      "group_sha256": "e2bfe11f9a8bbd532a97896e6b07bca179a42c1f188715a4be7f58c6f45bfed8"
+    },
+    {
+      "id": "mmlu-test-0008410",
+      "source_index": 8410,
+      "group_sha256": "f1d5c50e30d602b7ff710193f534586420a47d2000b8ad2135d70637f2d19aad"
+    },
+    {
+      "id": "mmlu-test-0000206",
+      "source_index": 206,
+      "group_sha256": "91418737f6091e24f6ba4baf2eb1a9c9790aaa78025d098f7981b89af07837ad"
+    },
+    {
+      "id": "mmlu-test-0013224",
+      "source_index": 13224,
+      "group_sha256": "2d6bdb735899748019097823291ef02d3ca76fc538cf4e50b1f7f9e6425baa5d"
+    },
+    {
+      "id": "mmlu-test-0001560",
+      "source_index": 1560,
+      "group_sha256": "99077819de17e1730e4b6d842f7080d8e1fea95f75abb43489137b9a1e925011"
+    },
+    {
+      "id": "mmlu-test-0005442",
+      "source_index": 5442,
+      "group_sha256": "807bb510ca0c7f5ebed2bd3595ecf6dadc5e1a60583ba39f394808adca4bcbd5"
+    },
+    {
+      "id": "mmlu-test-0005754",
+      "source_index": 5754,
+      "group_sha256": "b12c51e877e4db130b4a8991a54896d90cabc79af3c74cc21690b025479dcf01"
+    },
+    {
+      "id": "mmlu-test-0003943",
+      "source_index": 3943,
+      "group_sha256": "59cfa5cdb9ad5d017e777bb93dbdf4a1997c9c68e74cc0f73d3cf2aec1d63e93"
+    },
+    {
+      "id": "mmlu-test-0001593",
+      "source_index": 1593,
+      "group_sha256": "f08af497d34adab687fe409127f32c188d23f84180f0a1f007810025b19a1507"
+    },
+    {
+      "id": "mmlu-test-0006799",
+      "source_index": 6799,
+      "group_sha256": "94d8f3f70cc780266b4c2886acebd8561c34b55d9e6f228e3a534bf84fed4067"
+    },
+    {
+      "id": "mmlu-test-0007036",
+      "source_index": 7036,
+      "group_sha256": "45d7f2b457863a81b56b932f6e88c27398854828d44ab37cdd98700d9056df10"
+    },
+    {
+      "id": "mmlu-test-0009958",
+      "source_index": 9958,
+      "group_sha256": "d3e3bac88132534c3e07ec513d8e79a4998159e30d1420f82dd17f87a8ddf753"
+    },
+    {
+      "id": "mmlu-test-0002625",
+      "source_index": 2625,
+      "group_sha256": "faebfe2eda0c119d4ac4beaa78e4f8a13064edf28103dd9236674c1aa0766039"
+    },
+    {
+      "id": "mmlu-test-0006149",
+      "source_index": 6149,
+      "group_sha256": "710880fcdce13b456844c48d18ef56e83530abd540f05ae26839d7ee70af0b43"
+    },
+    {
+      "id": "mmlu-test-0006477",
+      "source_index": 6477,
+      "group_sha256": "d042e542a9becfe8fe7f5f3f41a4e3cd0f3c19ecdde237308e57cba15f9a1b9e"
+    },
+    {
+      "id": "mmlu-test-0013525",
+      "source_index": 13525,
+      "group_sha256": "cc6ac6b8c3ff578c0aad41d0cc14284b935eff4246d7e4c728c736764163f618"
+    },
+    {
+      "id": "mmlu-test-0006313",
+      "source_index": 6313,
+      "group_sha256": "8dd588117653d93eda8a784fa8183e5c365c4df2eef9a48d6b9a5282c4b974fb"
+    },
+    {
+      "id": "mmlu-test-0007314",
+      "source_index": 7314,
+      "group_sha256": "eca95a065cf1f9ece5418a2ee3c03c3e0c3e5ffa0e8da5639321d1897dfe4f50"
+    },
+    {
+      "id": "mmlu-test-0004827",
+      "source_index": 4827,
+      "group_sha256": "892487b6cc6fcd1c1cd161c912014fa9c84b13b26e5b2101e9641a2be39eb647"
+    },
+    {
+      "id": "mmlu-test-0002530",
+      "source_index": 2530,
+      "group_sha256": "24a4d561e21df01dac282ef4771c6dea3dc53c9eea088a96e3a3723d91453ef8"
+    },
+    {
+      "id": "mmlu-test-0013732",
+      "source_index": 13732,
+      "group_sha256": "f0e92432af2c621923b6a749ba2cfe504e1c1003b228f4e74864d6dfa20e6ca3"
+    },
+    {
+      "id": "mmlu-test-0013074",
+      "source_index": 13074,
+      "group_sha256": "a394555b7aa91756d5ab1d38f805a32ea97cbf0984dcc137567feb69fe6e9610"
+    },
+    {
+      "id": "mmlu-test-0001071",
+      "source_index": 1071,
+      "group_sha256": "f3ef98c29fc7f0dac93daba9c041168e4f1efc4ba7e13faf6fcc6821fb272233"
+    },
+    {
+      "id": "mmlu-test-0000449",
+      "source_index": 449,
+      "group_sha256": "92cf3448c26cebab120751e1ce48235bbc783a7cc58b5f86ab11c06d3109a543"
+    },
+    {
+      "id": "mmlu-test-0006057",
+      "source_index": 6057,
+      "group_sha256": "5a8ee7136df8a7596a393ada1809be88cd90a91fe0f38d384f669acfedc79174"
+    },
+    {
+      "id": "mmlu-test-0000826",
+      "source_index": 826,
+      "group_sha256": "e21bf3a72447e14367317d5439b84caf904046975dc22e2018b5f7cd7d37ba15"
+    },
+    {
+      "id": "mmlu-test-0001901",
+      "source_index": 1901,
+      "group_sha256": "6a6c292cde86648bab5b70f349c580fb9d5adadfb7de80a47dd613c64ab6f0d5"
+    },
+    {
+      "id": "mmlu-test-0007107",
+      "source_index": 7107,
+      "group_sha256": "6bcaa8bf746c93b2b34f8f06ae3fcd78656ba5cf2195043fad18b06366ba730f"
+    },
+    {
+      "id": "mmlu-test-0009597",
+      "source_index": 9597,
+      "group_sha256": "68c876e28e2bf68520253d41479fde2b8a6df6eda1d0443dae47d363280f9454"
+    },
+    {
+      "id": "mmlu-test-0000913",
+      "source_index": 913,
+      "group_sha256": "fe3963bdd7ef2764f576a73223d139669aac8949d19f4057630eee4632f53120"
+    },
+    {
+      "id": "mmlu-test-0007495",
+      "source_index": 7495,
+      "group_sha256": "061d86d7403099013e19d90ef294355b4d2b169878675b3d4cef1ed309741f60"
+    },
+    {
+      "id": "mmlu-test-0002735",
+      "source_index": 2735,
+      "group_sha256": "a80d02262e50a09ea72b303effa17a9deface840d0a9691d6eab5810775ed9e8"
+    },
+    {
+      "id": "mmlu-test-0014002",
+      "source_index": 14002,
+      "group_sha256": "2d2a2a1215e2cc741c2e58e51fcbacda2939bd8184fcdd94404fbb7708bea835"
+    },
+    {
+      "id": "mmlu-test-0010546",
+      "source_index": 10546,
+      "group_sha256": "a6e7ff2e3e52a837e8fd52c18c54316b330b5aa43075f87d0c55f104c94dcada"
+    },
+    {
+      "id": "mmlu-test-0009240",
+      "source_index": 9240,
+      "group_sha256": "82684774fb496f428d678662f64154b2c81c50ba9d6f1c387fdb4b44e4d7cb50"
+    },
+    {
+      "id": "mmlu-test-0004602",
+      "source_index": 4602,
+      "group_sha256": "1814113b780a3430fc6c2b79b29b742a286e06999c193d8c4d73ea596f1af214"
+    },
+    {
+      "id": "mmlu-test-0001467",
+      "source_index": 1467,
+      "group_sha256": "54ba6347649dfb91c8162e2a8fd360fcd95dbc7843f2665a7279550a6b8d948b"
+    },
+    {
+      "id": "mmlu-test-0003178",
+      "source_index": 3178,
+      "group_sha256": "5032b100b60c76c9a613a15001952ea28583f65d8f63dfad766241c2896c103c"
+    },
+    {
+      "id": "mmlu-test-0013639",
+      "source_index": 13639,
+      "group_sha256": "c4714decc08740f10845dbe2a8901f81cc673929409c3c7f5436572f1d9df6af"
+    },
+    {
+      "id": "mmlu-test-0000037",
+      "source_index": 37,
+      "group_sha256": "1e650dfb0c74a48cb0e4e89df57b9b5dae1fb5cd23ba34e2be9dfd5384284c3d"
+    },
+    {
+      "id": "mmlu-test-0005203",
+      "source_index": 5203,
+      "group_sha256": "70d748cd13434c06edd3522c342ebdddaa482ea1ab4759ca39389f85a53642ad"
+    },
+    {
+      "id": "mmlu-test-0003361",
+      "source_index": 3361,
+      "group_sha256": "f03e0459ebb1d7fc3cdf49e0d33c34c62c3cc69533fa374f55f4d1c21103336c"
+    },
+    {
+      "id": "mmlu-test-0001242",
+      "source_index": 1242,
+      "group_sha256": "974e9b5470cadefc17939ba05da923aa5cd1e4b8e68a086f6136ecb1e9e87f1c"
+    },
+    {
+      "id": "mmlu-test-0001178",
+      "source_index": 1178,
+      "group_sha256": "13d8b521c389bc1f7c34f8d723367793cc157bb753f69251645b80e369aacb12"
+    },
+    {
+      "id": "mmlu-test-0010311",
+      "source_index": 10311,
+      "group_sha256": "c1a1d0cdc537b3d0d45003f7caa114f11c6dc0a1c6bd35d469595c4706e34e25"
+    },
+    {
+      "id": "mmlu-test-0000573",
+      "source_index": 573,
+      "group_sha256": "92dc3a0771631b0a0caeb04e037050ac1e2ba2f8a0a96c548de83a70b4e537e0"
+    },
+    {
+      "id": "mmlu-test-0011677",
+      "source_index": 11677,
+      "group_sha256": "4ef399ea9475f103448afe3bbf6ec3e92e98893a353ea8a0ff2752d08bb456ef"
+    },
+    {
+      "id": "mmlu-test-0003828",
+      "source_index": 3828,
+      "group_sha256": "f235f405e02be38bc8bb5cc51822eaaee828f72cca7949721b52343c5f4652a2"
+    },
+    {
+      "id": "mmlu-test-0012844",
+      "source_index": 12844,
+      "group_sha256": "91c0e89de82338b41da20da84aa8b8d5efe01aaf2e2b99d833d61472854d6e96"
+    },
+    {
+      "id": "mmlu-test-0006896",
+      "source_index": 6896,
+      "group_sha256": "544169f2fae6c0a2ff1d5d4a3c0f6635cd3ed22e997cb2a12a0f20347b6e5319"
+    },
+    {
+      "id": "mmlu-test-0002017",
+      "source_index": 2017,
+      "group_sha256": "9593364605181bbef92c1de62778ab9c96b04195d5a585529d0ddd61ce68f0d6"
+    },
+    {
+      "id": "mmlu-test-0012176",
+      "source_index": 12176,
+      "group_sha256": "31660ca5abd32448f7d2d4fc51e0eeb4db82dc4c02362e68d4bfe26e9b27dd41"
+    },
+    {
+      "id": "mmlu-test-0003188",
+      "source_index": 3188,
+      "group_sha256": "676ecd02a3d08305dcbc608604482f4bb16186fc8aa694c043dd39b37ce9b603"
+    },
+    {
+      "id": "mmlu-test-0002082",
+      "source_index": 2082,
+      "group_sha256": "1ef3b5000886dfc4e5dc6c1c8e4b544b90e153f9aded3086b1049db75287ec51"
+    },
+    {
+      "id": "mmlu-test-0004285",
+      "source_index": 4285,
+      "group_sha256": "b47e4902fe953a3edc6940a12a7a90b7267f165e6d46f9bb2f59b8f5d4709896"
+    },
+    {
+      "id": "mmlu-test-0006575",
+      "source_index": 6575,
+      "group_sha256": "73abb86c809e960a6b399fc889b5e80702f838516383855dd6f9e9f8affd7e8d"
+    },
+    {
+      "id": "mmlu-test-0000298",
+      "source_index": 298,
+      "group_sha256": "f2fcba1644cce92ea2422ef57894dff2cb59ca33eaf2781cd6ed86dbb1357a3f"
+    },
+    {
+      "id": "mmlu-test-0003540",
+      "source_index": 3540,
+      "group_sha256": "330bc873563d7b1885818fc175938c9b4ac53f5429814eef1d2e541919f9564d"
+    },
+    {
+      "id": "mmlu-test-0008376",
+      "source_index": 8376,
+      "group_sha256": "52304cb93b80a3544fd80c31cc8a230f04155e89c5e0f4ad3b22e22e023225ec"
+    },
+    {
+      "id": "mmlu-test-0000119",
+      "source_index": 119,
+      "group_sha256": "30290341f0977ed4cd18a1ea397cfa9a458ad793ef9064ccef4a95d611ec1ab8"
+    },
+    {
+      "id": "mmlu-test-0013326",
+      "source_index": 13326,
+      "group_sha256": "ab461f843b7d851d5bfdcfe5ecc883cff401483f387e80f8d7a4c9dbf4785068"
+    },
+    {
+      "id": "mmlu-test-0001507",
+      "source_index": 1507,
+      "group_sha256": "70a593e489c7181d21c3bf57e79aa34f65f21914a3c3009d871743221de66c12"
+    },
+    {
+      "id": "mmlu-test-0005546",
+      "source_index": 5546,
+      "group_sha256": "1180cd9c55dd5523ea71457dcbed57139170e33b471317301f439b07709b3ddf"
+    },
+    {
+      "id": "mmlu-test-0005828",
+      "source_index": 5828,
+      "group_sha256": "eb576d7b7d3d31fb77ffe76cdad0ef311ac10c9a755451db6c543e587fd9bf33"
+    },
+    {
+      "id": "mmlu-test-0004042",
+      "source_index": 4042,
+      "group_sha256": "1683bbb6538e3f11573ad6d22192245ba5e94e4cbc639730f86ecc1b5294e3d8"
+    },
+    {
+      "id": "mmlu-test-0001592",
+      "source_index": 1592,
+      "group_sha256": "b67a831f857ce66143608e214c6ef6e407a869add040008cac6ec3cae20dc410"
+    },
+    {
+      "id": "mmlu-test-0006696",
+      "source_index": 6696,
+      "group_sha256": "29b7795b4323e1437e3223e2d8bbd69bad1240e1cf7f255b0085e19acd43d98e"
+    },
+    {
+      "id": "mmlu-test-0006963",
+      "source_index": 6963,
+      "group_sha256": "ce8b8c81b9cfc4a57bbed713f67ee1a111ba3e885313fc24e0201adb4885827e"
+    },
+    {
+      "id": "mmlu-test-0009805",
+      "source_index": 9805,
+      "group_sha256": "d53a38a4ffe194a525a0758ca7d29973f9b91b1c88d66104a2f3b08ad94a0e98"
+    },
+    {
+      "id": "mmlu-test-0002573",
+      "source_index": 2573,
+      "group_sha256": "e0cd824d370ee0a15232bf22adea86a6687db8bc9d62746972da61501cd7e3c4"
+    },
+    {
+      "id": "mmlu-test-0006245",
+      "source_index": 6245,
+      "group_sha256": "232d792150da6346024c6becbeb1ed6e41d7b8225d3afc5408dc51c7d2883b3f"
+    },
+    {
+      "id": "mmlu-test-0006544",
+      "source_index": 6544,
+      "group_sha256": "f4aba24d26ea390c78d4f08fddc1cc958b8c19604d5d91bca33867f79469116a"
+    },
+    {
+      "id": "mmlu-test-0013501",
+      "source_index": 13501,
+      "group_sha256": "6eba6b5a14cce1892200a56dc06b4960169c653d090ffd6479ccddfc3ddd99ec"
+    },
+    {
+      "id": "mmlu-test-0006345",
+      "source_index": 6345,
+      "group_sha256": "47899de9631d6a9b14336324460f9fa213f9dbc6ce090b94d6fab60d8990a18e"
+    },
+    {
+      "id": "mmlu-test-0007312",
+      "source_index": 7312,
+      "group_sha256": "e3d2fab0916abf9ec80b32a0923ede7672fc24e73a05407ef267207167fb9c27"
+    },
+    {
+      "id": "mmlu-test-0004851",
+      "source_index": 4851,
+      "group_sha256": "065efe21dcf368da7c736a1211ff733f72222198b746f336ca46c502afbf06a3"
+    },
+    {
+      "id": "mmlu-test-0002553",
+      "source_index": 2553,
+      "group_sha256": "f8614bf79e00c8cbd3a160aa9a18e50c12d9d968484f6599487064d51fa11e87"
+    },
+    {
+      "id": "mmlu-test-0013730",
+      "source_index": 13730,
+      "group_sha256": "3beef1f68c861cfbb4f36b734b54ae283f15da9e8230a4942becdccf620f2740"
+    },
+    {
+      "id": "mmlu-test-0013101",
+      "source_index": 13101,
+      "group_sha256": "babffc7280928cad917f75ee71c40148d8aa1233795cf7430fbb6396b1ca34ce"
+    },
+    {
+      "id": "mmlu-test-0001049",
+      "source_index": 1049,
+      "group_sha256": "4b6add364bb1613b65d3c71933b0063b5e95d501c980cef1ee7ac9d268e2f11a"
+    },
+    {
+      "id": "mmlu-test-0000431",
+      "source_index": 431,
+      "group_sha256": "a1403b0805bcd8f16ba6613d75e26d21d74a40dd8fd19c3385da4927aa3d0128"
+    },
+    {
+      "id": "mmlu-test-0006049",
+      "source_index": 6049,
+      "group_sha256": "bda8a7844a3645357eafb5d90086dcaeec25bedf7ae577c353640335eb869863"
+    },
+    {
+      "id": "mmlu-test-0000835",
+      "source_index": 835,
+      "group_sha256": "1ee87dd35ce216a4991a3a9a15a788312ce5724b957b2dc3a31d50aa53548297"
+    },
+    {
+      "id": "mmlu-test-0001914",
+      "source_index": 1914,
+      "group_sha256": "8e81a9739b0d5df9aadb6dec528db6e3448c6283f10effede898b32f4c6dcfb7"
+    },
+    {
+      "id": "mmlu-test-0007222",
+      "source_index": 7222,
+      "group_sha256": "02110ea66f8091f957ed78e0990d2631dd0ebfde3746bff111773158773d48bd"
+    },
+    {
+      "id": "mmlu-test-0009482",
+      "source_index": 9482,
+      "group_sha256": "357c833f0eb1996e40e3803aaa215541eb7060534cc7cd11dd4a55bf42e47d55"
+    }
+  ],
+  "entries_sha256": "468ecdc6031d8e46281be2e26a017cf6587a39b49d97cedfd436e964b699b318"
+}

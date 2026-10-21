@@ -147,6 +147,7 @@ class InferenceEngine:
         wall_total_ms: float,
         batch_size: int = 1,
     ) -> GenerationResponse:
+        execution.answer_truncated = bool(final and final.metadata.get("finish_reason") == "length")
         replayed = bool(
             (initial is not None and initial.metadata.get("cache_hit"))
             or (final is not None and final.metadata.get("cache_hit"))

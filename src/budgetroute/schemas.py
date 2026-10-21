@@ -111,6 +111,7 @@ class RouterTrace(BaseModel):
 
 
 class ExecutionTrace(BaseModel):
+    answer_truncated: bool = False
     initial_backend: BackendName | None = None
     final_backend: BackendName | None = None
     retrieval_used: bool = False
@@ -238,6 +239,7 @@ class BenchmarkRecord(BaseModel):
 
 
 class PredictionRecord(BaseModel):
+    answer_truncated: bool = False
     example_id: str
     group_id: str | None = None
     source: str | None = None
