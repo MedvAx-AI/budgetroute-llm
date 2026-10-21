@@ -147,3 +147,70 @@ def test_openai_compatible_empty_batch_is_stable() -> None:
     backend = OpenAICompatibleBackend(BackendName.SMALL, config)
     backend.initialize()
     assert backend.generate_batch([]) == []
+
+
+def test_returned_remote_model_mismatch_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
+    class WrongModel(_Response):
+        def read(self) -> bytes:
+            data = json.loads(super().read())
+            data["model"] = "different-model"
+            return json.dumps(data).encode()
+
+    monkeypatch.setattr(
+        "budgetroute.backends.openai_compatible.urlopen", lambda request, timeout: WrongModel()
+    )
+    backend = OpenAICompatibleBackend(
+        BackendName.SMALL,
+        BackendConfig(
+            type="openai_compatible",
+            model_id="local-model",
+            base_url="http://localhost:8001/v1",
+        ),
+    )
+    backend.initialize()
+    with pytest.raises(BackendError, match="model"):
+        backend.generate(GenerationRequest(prompt="Q"))
+
+
+def test_unavailable_returned_identity_stays_unavailable(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        "budgetroute.backends.openai_compatible.urlopen", lambda request, timeout: _Response()
+    )
+    backend = OpenAICompatibleBackend(
+        BackendName.SMALL,
+        BackendConfig(
+            type="openai_compatible",
+            model_id="local-model",
+            base_url="http://localhost:8001/v1",
+            runtime_identity="pinned-server-a",
+        ),
+    )
+    backend.initialize()
+    output = backend.generate(GenerationRequest(prompt="Q"))
+    assert output.metadata["returned_model"] is None
+    assert output.metadata["runtime_identity"] == "pinned-server-a"
+
+
+@pytest.mark.parametrize("body", [b"[]", b"null"])
+def test_remote_identity_check_rejects_nonobject_response(
+    monkeypatch: pytest.MonkeyPatch,
+    body: bytes,
+) -> None:
+    class NonObject(_Response):
+        def read(self) -> bytes:
+            return body
+
+    monkeypatch.setattr(
+        "budgetroute.backends.openai_compatible.urlopen", lambda request, timeout: NonObject()
+    )
+    backend = OpenAICompatibleBackend(
+        BackendName.SMALL,
+        BackendConfig(
+            type="openai_compatible",
+            model_id="model",
+            base_url="http://localhost:8001/v1",
+        ),
+    )
+    backend.initialize()
+    with pytest.raises(BackendError, match="object"):
+        backend.generate(GenerationRequest(prompt="Q"))

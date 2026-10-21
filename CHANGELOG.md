@@ -6,6 +6,8 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 
 ### Fixed
 
+- Generation-cache schema v2 separates endpoint/runtime/logprob/template/loader/context identity and rejects old-schema entries. Cached HTTP backends require a deployment identity; returned model mismatches and non-object JSON responses fail explicitly, while absent identity remains unavailable.
+
 - Router probability/target records and calibration are separate from final-answer confidence. Missing probability evidence yields unavailable calibration rather than complemented large-answer confidence or binary route scores. Prediction records preserve explicit fake/real identity when known.
 
 - New router and backend-confidence artifacts explicitly disable cheap acceptance when calibration is infeasible or certification failed/is insufficient. Numeric overrides cannot bypass this state; single and batch cascades always escalate. Legacy numeric artifacts remain readable and uncertified.

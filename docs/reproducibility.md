@@ -1,5 +1,7 @@
 # Reproducibility
 
+Generation caches now use schema v2, incorporating a hashed endpoint namespace, operator-declared runtime/deployment identity, logprob settings, loader, context limit, and explicit generation/template settings. Credentials and request IDs are not identity inputs. Old v1 entries are never silently reused: recollect rather than copy old files into a new cache layout. HTTP caches require a nonempty `runtime_identity`; operators must identify an immutable server build and deployed weights, not reuse an alias across redeployments. This declaration is provenance, not cryptographic attestation. A returned model mismatch is rejected; absent returned model/system identity stays unavailable. Historical result cards remain unmodified evidence for their original source/cache contract.
+
 Each run directory is named with a UTC timestamp and workload slug, with a numeric suffix on collision. It contains:
 
 ```text

@@ -1,5 +1,7 @@
 # Configuration
 
+Backend identity fields include `runtime_identity` (required for cached HTTP execution), `model_loader` (`causal_lm` by default, or `image_text_to_text`), and optional `max_input_tokens`. `generation.enable_thinking` is an explicit optional mode flag; it belongs to cache identity and modern execution profiles, not an inferred checkpoint default. The local HTTP example identities are illustrative and must be replaced with exact deployment identities before claiming reproducible results. Uncached legacy HTTP configurations remain accepted. Modern loader/mode execution support is validated separately from configuration parsing.
+
 Runtime behavior is defined by strict Pydantic models loaded from YAML. `extends` accepts one path or an ordered list; mappings are deep-merged left to right and the current file wins. Missing files, cycles, unknown fields, invalid types, and unsafe combinations fail with actionable errors.
 
 ## Main sections

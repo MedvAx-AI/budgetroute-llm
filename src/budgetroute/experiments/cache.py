@@ -6,7 +6,7 @@ import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field, ValidationError
 
@@ -15,7 +15,7 @@ from budgetroute.exceptions import ArtifactError
 from budgetroute.experiments.artifacts import ArtifactWriter
 from budgetroute.schemas import BackendGeneration, BackendName, GenerationRequest
 
-CACHE_SCHEMA_VERSION = 1
+CACHE_SCHEMA_VERSION = 2
 
 
 def _canonical_hash(value: Any) -> str:
@@ -37,6 +37,13 @@ def backend_fingerprint(name: BackendName, config: BackendConfig) -> dict[str, A
         "precision": config.precision,
         "quantization": config.quantization,
         "compile": config.compile,
+        "endpoint_namespace": _canonical_hash(config.base_url.rstrip("/"))
+        if config.base_url
+        else None,
+        "runtime_identity": config.runtime_identity,
+        "request_logprobs": config.request_logprobs,
+        "model_loader": config.model_loader,
+        "max_input_tokens": config.max_input_tokens,
         "trust_remote_code": config.trust_remote_code,
         "quality": config.quality if config.type == "fake" else None,
         "artificial_latency_ms": config.artificial_latency_ms if config.type == "fake" else None,
@@ -45,7 +52,7 @@ def backend_fingerprint(name: BackendName, config: BackendConfig) -> dict[str, A
 
 
 class GenerationCacheEntry(BaseModel):
-    schema_version: int = CACHE_SCHEMA_VERSION
+    schema_version: Literal[2] = 2
     key: str = Field(min_length=64, max_length=64)
     backend_fingerprint: dict[str, Any]
     request_fingerprint: dict[str, Any]

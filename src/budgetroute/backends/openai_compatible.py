@@ -119,6 +119,11 @@ class OpenAICompatibleBackend:
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise BackendError("OpenAI-compatible server returned invalid JSON") from exc
         elapsed_ms = (time.perf_counter_ns() - started) / 1_000_000
+        if not isinstance(response_data, dict):
+            raise BackendError("OpenAI-compatible response must be a JSON object")
+        returned_model = response_data.get("model")
+        if returned_model is not None and returned_model != self.config.model_id:
+            raise BackendError("OpenAI-compatible response model does not match configured model")
         try:
             choice = response_data["choices"][0]
             text = str(choice["message"]["content"]).strip()
@@ -141,6 +146,9 @@ class OpenAICompatibleBackend:
             metadata={
                 "fake": False,
                 "runtime": "openai_compatible",
+                "runtime_identity": self.config.runtime_identity,
+                "returned_model": returned_model,
+                "system_fingerprint": response_data.get("system_fingerprint"),
                 "finish_reason": choice.get("finish_reason"),
                 "response_id": response_data.get("id"),
                 "confidence_is_calibrated": False,
@@ -162,6 +170,7 @@ class OpenAICompatibleBackend:
             "type": "openai_compatible",
             "model_id": self.config.model_id,
             "base_url": self.config.base_url,
+            "runtime_identity": self.config.runtime_identity,
             "remote_endpoint_allowed": self.config.allow_remote_endpoint,
             "credential_source": self.config.api_key_env,
             "request_timeout_seconds": self.config.request_timeout_seconds,

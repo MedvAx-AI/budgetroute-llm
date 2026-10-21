@@ -22,6 +22,7 @@ class GenerationConfig(BaseModel):
     top_p: float = Field(default=1.0, gt=0.0, le=1.0)
     repetition_penalty: float = Field(default=1.0, ge=0.1, le=10.0)
     seed: int = 42
+    enable_thinking: bool | None = None
 
 
 class BackendConfig(BaseModel):
@@ -39,6 +40,9 @@ class BackendConfig(BaseModel):
     compile: bool = False
     trust_remote_code: bool = False
     base_url: str | None = None
+    runtime_identity: str | None = Field(default=None, min_length=1, max_length=512)
+    model_loader: Literal["causal_lm", "image_text_to_text"] = "causal_lm"
+    max_input_tokens: int | None = Field(default=None, ge=1, le=1_000_000)
     api_key_env: str | None = None
     request_timeout_seconds: float = Field(default=120.0, gt=0.0, le=3600.0)
     request_logprobs: bool = False
@@ -53,6 +57,8 @@ class BackendConfig(BaseModel):
 
     @model_validator(mode="after")
     def validate_backend(self) -> BackendConfig:
+        if self.runtime_identity is not None and not self.runtime_identity.strip():
+            raise ValueError("runtime_identity must contain non-whitespace text")
         if self.type in {"transformers", "openai_compatible"} and not self.model_id:
             raise ValueError(f"{self.type} backend requires model_id")
         if self.type == "openai_compatible":
@@ -313,6 +319,10 @@ class AppConfig(BaseModel):
 
     @model_validator(mode="after")
     def validate_composition(self) -> AppConfig:
+        if self.benchmark.cache.mode != "off":
+            for backend in (self.small_backend, self.large_backend):
+                if backend.type == "openai_compatible" and not backend.runtime_identity:
+                    raise ValueError("cache-enabled HTTP backend requires runtime_identity")
         retrieval_policies = {"retrieval_first", "learned_retrieval"}
         if self.routing.policy in retrieval_policies and not self.retrieval.enabled:
             raise ValueError(f"{self.routing.policy} routing requires retrieval.enabled=true")
