@@ -83,3 +83,7 @@ Leaving `routing.retrieval_benefit_threshold` unset uses the calibration-selecte
 Run both `validate-config` and `security-check` against the exact deployment config and environment before serving.
 
 PostgreSQL DSNs are read only from `operations.postgres_dsn_env` and never appear in sanitized config. Production defaults require `sslmode=require`, `verify-ca`, or `verify-full`; prefer `verify-full`. Pool limits are per process, so total possible connections grow with replica count. Set `postgres_auto_migrate: false` for production, run `budgetroute migrate-store` with a DDL-capable credential, and give serving replicas a narrower runtime credential. See the [PostgreSQL operations runbook](postgres-operations.md).
+# Semantic feature identity
+
+Pilot semantic training pins `sentence-transformers/all-MiniLM-L6-v2` at `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`, CPU, 256 input tokens. `train-router --help` exposes explicit split, prompt dataset and encoder settings; semantic `evaluate-router` also requires `--dataset`. Never load router joblib files from untrusted sources: they are executable Python artifacts.
+

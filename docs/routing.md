@@ -57,3 +57,9 @@ Abstention is a first-class route, not an exception. It trades coverage for sele
 ## Human review
 
 Human review is distinct from abstention and records a reason in the execution trace. When review is enabled, the API creates a privacy-minimal durable case in the operational store. Scoped reviewers can tenant-list, claim, and resolve cases using optimistic versions; a resolved correctness outcome can become a delayed label and every mutation is audited. Prompts and answers are intentionally absent, and the project does not notify a person or provide ticketing/SLA management—deployments needing those functions must integrate an external workflow.
+# Prompt-only semantic pilot gates
+
+Training supports `--feature-mode semantic --dataset ... --split-manifest ...` using the pinned MiniLM CPU encoder, 256-token input limit, attention-mask mean pooling and L2 normalization. The artifact stores preprocessing identity, embedding revision, dimension and truncation count. Serving reconstructs this same prompt-only path; labels and generated answers are never features. Numeric legacy artifacts remain supported without initializing an encoder.
+
+Pilot partitions are externally frozen and must match all IDs and the data hash. Missing joins, partition/group overlap, mutable encoder revisions and incompatible preprocessing/dimensions fail closed. The gate is warm but question vectors are not memoized in timed routing; embedding time is included in route latency. Service shutdown releases encoder resources.
+

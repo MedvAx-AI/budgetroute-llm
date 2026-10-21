@@ -15,7 +15,14 @@ from budgetroute.evaluation.calibration_metrics import (
     brier_score,
     expected_calibration_error,
 )
+from budgetroute.evaluation.dataset import dataset_hash, load_dataset
 from budgetroute.exceptions import RouterTrainingError
+from budgetroute.experiments.pilot_data import PilotSplits
+from budgetroute.features.semantic import (
+    PREPROCESSING_IDENTITY,
+    SemanticFeatures,
+    SemanticFeatureSpec,
+)
 from budgetroute.routing.calibration import (
     ProbabilityCalibrator,
     ThresholdSelection,
@@ -255,6 +262,11 @@ def train_router(
     seed: int = 42,
     target_selective_accuracy: float = 0.8,
     label_strategy: LabelStrategy = "small_success",
+    *,
+    split_manifest: Path | None = None,
+    feature_mode: Literal["numeric", "semantic"] = "numeric",
+    dataset_path: Path | None = None,
+    semantic_spec: SemanticFeatureSpec | None = None,
 ) -> dict[str, Any]:
     try:
         import joblib
@@ -273,7 +285,46 @@ def train_router(
         [[item.get(name, 0.0) for name in feature_order] for item in rows.features], dtype=float
     )
     target = np.asarray(rows.labels, dtype=int)
-    train_indices, calibration_indices, test_indices, warning = _group_partitions(rows.groups, seed)
+    truncation_count = 0
+    if feature_mode not in {"numeric", "semantic"}:
+        raise RouterTrainingError("unsupported feature mode")
+    if feature_mode == "semantic":
+        if dataset_path is None:
+            raise RouterTrainingError("semantic features require a prompt dataset")
+        prompts = {record.id: record.prompt for record in load_dataset(dataset_path)}
+        if not set(rows.ids) <= prompts.keys():
+            raise RouterTrainingError("missing prompt joins")
+        encoder = SemanticFeatures(semantic_spec or SemanticFeatureSpec())
+        try:
+            matrix = encoder.transform([prompts[key] for key in rows.ids])
+            truncation_count = encoder.truncation_count
+        finally:
+            encoder.close()
+        feature_order = [f"embedding_{i}" for i in range(matrix.shape[1])]
+    if split_manifest is None:
+        train_indices, calibration_indices, test_indices, warning = _group_partitions(
+            rows.groups, seed
+        )
+    else:
+        manifest = PilotSplits.model_validate_json(split_manifest.read_text(encoding="utf-8"))
+        if dataset_path is None or dataset_hash(dataset_path) != manifest.dataset_sha256:
+            raise RouterTrainingError("pilot prompt dataset hash mismatch")
+        partitions = [manifest.train_ids, manifest.calibration_ids, manifest.test_ids]
+        if len(set(rows.ids)) != len(rows.ids) or set(rows.ids) != {
+            key for part in partitions for key in part
+        }:
+            raise RouterTrainingError("pilot IDs missing, unknown or duplicated")
+        lookup = {key: i for i, key in enumerate(rows.ids)}
+        train_indices, calibration_indices, test_indices = [
+            np.asarray([lookup[key] for key in part]) for part in partitions
+        ]
+        groups = [
+            {rows.groups[int(i)] for i in indices}
+            for indices in (train_indices, calibration_indices, test_indices)
+        ]
+        if groups[0] & groups[1] or groups[0] & groups[2] or groups[1] & groups[2]:
+            raise RouterTrainingError("pilot group leakage")
+        warning = None
     train_labels = target[train_indices]
     if len(set(train_labels.tolist())) == 1:
         model: Any = DummyClassifier(strategy="constant", constant=int(train_labels[0]))
@@ -337,6 +388,16 @@ def train_router(
         raise RouterTrainingError("group leakage was detected across router partitions")
     metadata = {
         "schema_version": 4,
+        "feature_mode": feature_mode,
+        "feature_dimension": int(matrix.shape[1]),
+        "semantic_spec": (semantic_spec or SemanticFeatureSpec()).model_dump()
+        if feature_mode == "semantic"
+        else None,
+        "preprocessing_identity": PREPROCESSING_IDENTITY
+        if feature_mode == "semantic"
+        else "numeric_snapshot_v1",
+        "embedding_truncation_count": truncation_count,
+        "split_role": "pilot" if split_manifest else "development",
         "label_strategy": label_strategy,
         "label_definition": _label_definition(label_strategy, quality_threshold),
         "quality_threshold": quality_threshold,
@@ -372,6 +433,15 @@ def train_router(
             "threshold_selection": asdict(selection),
             "certification_status": "not_requested",
             "feature_order": feature_order,
+            **{
+                key: metadata[key]
+                for key in (
+                    "feature_mode",
+                    "feature_dimension",
+                    "semantic_spec",
+                    "preprocessing_identity",
+                )
+            },
             "label_definition": metadata["label_definition"],
             "label_strategy": label_strategy,
             "training_metadata": metadata,
@@ -390,6 +460,7 @@ def evaluate_router(
     threshold: float = 0.8,
     *,
     test_only: bool = True,
+    dataset_path: Path | None = None,
 ) -> dict[str, Any]:
     try:
         import joblib
@@ -402,6 +473,19 @@ def evaluate_router(
     rows = build_training_rows(artifact_dir, quality_threshold, label_strategy)
     order = [str(item) for item in artifact["feature_order"]]
     matrix = np.asarray([[item.get(name, 0.0) for name in order] for item in rows.features])
+    if artifact.get("feature_mode") == "semantic":
+        if dataset_path is None or artifact.get("preprocessing_identity") != PREPROCESSING_IDENTITY:
+            raise RouterTrainingError("semantic evaluation requires matching prompt preprocessing")
+        prompts = {row.id: row.prompt for row in load_dataset(dataset_path)}
+        if not set(rows.ids) <= prompts.keys():
+            raise RouterTrainingError("missing semantic evaluation prompt joins")
+        encoder = SemanticFeatures(SemanticFeatureSpec.model_validate(artifact["semantic_spec"]))
+        try:
+            matrix = encoder.transform([prompts[key] for key in rows.ids])
+        finally:
+            encoder.close()
+        if matrix.shape[1] != artifact["feature_dimension"]:
+            raise RouterTrainingError("semantic evaluation dimension mismatch")
     selected = np.arange(len(rows.ids))
     if test_only and training_metadata.get("test_ids"):
         test_ids = set(str(item) for item in training_metadata["test_ids"])

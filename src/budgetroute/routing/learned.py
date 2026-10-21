@@ -9,6 +9,11 @@ from typing import Any
 import numpy as np
 
 from budgetroute.exceptions import RouterTrainingError
+from budgetroute.features.semantic import (
+    PREPROCESSING_IDENTITY,
+    SemanticFeatures,
+    SemanticFeatureSpec,
+)
 from budgetroute.routing.base import feature_snapshot
 from budgetroute.routing.calibration import ProbabilityCalibrator, resolve_threshold_selection
 from budgetroute.schemas import (
@@ -27,6 +32,7 @@ class LearnedPolicy:
         self.artifact_path = artifact_path
         self.success_threshold = success_threshold
         self._artifact: dict[str, Any] | None = None
+        self._semantic: SemanticFeatures | None = None
 
     def _load(self) -> dict[str, Any]:
         if self._artifact is not None:
@@ -50,6 +56,16 @@ class LearnedPolicy:
         numeric = features.numeric_snapshot()
         feature_order = [str(item) for item in artifact["feature_order"]]
         vector = np.asarray([[numeric.get(name, 0.0) for name in feature_order]], dtype=float)
+        if artifact.get("feature_mode", "numeric") == "semantic":
+            if artifact.get("preprocessing_identity") != PREPROCESSING_IDENTITY:
+                raise RouterTrainingError("semantic preprocessing identity mismatch")
+            if self._semantic is None:
+                self._semantic = SemanticFeatures(
+                    SemanticFeatureSpec.model_validate(artifact["semantic_spec"])
+                )
+            vector = self._semantic.transform([request.prompt])
+            if vector.shape[1] != artifact["feature_dimension"]:
+                raise RouterTrainingError("semantic feature dimension mismatch")
         model = artifact["model"]
         if hasattr(model, "predict_proba"):
             probabilities = model.predict_proba(vector)[0]
@@ -88,3 +104,8 @@ class LearnedPolicy:
                 calibrated=calibrator.method != "identity",
             ),
         )
+
+    def close(self) -> None:
+        if self._semantic is not None:
+            self._semantic.close()
+            self._semantic = None

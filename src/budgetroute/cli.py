@@ -365,8 +365,19 @@ def train_router(
     label_strategy: Literal["small_success", "paired_quality"] = typer.Option(
         "small_success", "--label-strategy"
     ),
+    split_manifest: Path | None = typer.Option(
+        None, "--split-manifest", exists=True, dir_okay=False
+    ),
+    feature_mode: Literal["numeric", "semantic"] = typer.Option("numeric", "--feature-mode"),
+    dataset: Path | None = typer.Option(None, "--dataset", exists=True, dir_okay=False),
+    embedding_model: str = typer.Option("sentence-transformers/all-MiniLM-L6-v2"),
+    embedding_revision: str = typer.Option("1110a243fdf4706b3f48f1d95db1a4f5529b4d41"),
+    embedding_device: Literal["cpu", "cuda"] = typer.Option("cpu"),
+    embedding_max_input_tokens: int = typer.Option(256, min=1, max=4096),
 ) -> None:
     """Train and persist a learned router from benchmark-derived labels."""
+    from budgetroute.features.semantic import SemanticFeatureSpec
+
     result = train_router_artifact(
         artifacts,
         output,
@@ -374,6 +385,15 @@ def train_router(
         seed,
         target_selective_accuracy,
         label_strategy,
+        split_manifest=split_manifest,
+        feature_mode=feature_mode,
+        dataset_path=dataset,
+        semantic_spec=SemanticFeatureSpec(
+            model_id=embedding_model,
+            revision=embedding_revision,
+            device=embedding_device,
+            max_input_tokens=embedding_max_input_tokens,
+        ),
     )
     _print_json({"artifact": str(output), "training": result})
 
@@ -383,9 +403,12 @@ def evaluate_router(
     router: Path = typer.Option(..., exists=True, dir_okay=False),
     artifacts: Path = typer.Option(..., exists=True, file_okay=False),
     quality_threshold: float = typer.Option(0.8, min=0.0, max=1.0),
+    dataset: Path | None = typer.Option(None, "--dataset", exists=True, dir_okay=False),
 ) -> None:
     """Evaluate a learned router's labels, calibration, and route distribution."""
-    _print_json(evaluate_router_artifact(router, artifacts, quality_threshold))
+    _print_json(
+        evaluate_router_artifact(router, artifacts, quality_threshold, dataset_path=dataset)
+    )
 
 
 @app.command("calibrate-confidence")

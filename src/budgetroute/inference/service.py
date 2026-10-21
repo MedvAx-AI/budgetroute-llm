@@ -136,6 +136,9 @@ class InferenceService:
         }
 
     def close(self) -> None:
+        close_policy = getattr(self.engine.policy, "close", None)
+        if close_policy is not None:
+            close_policy()
         self.engine.small_backend.cleanup()
         self.engine.large_backend.cleanup()
         self._initialized = False
