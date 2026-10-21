@@ -1,5 +1,7 @@
 # Documentation
 
+- [Research reassessment (2026-10-21)](research-reassessment.md): relevance, primary literature, model candidates, confirmed methodology gaps, accepted direction, and actual versus missing remote-test evidence.
+- [Colab research pilot specification](superpowers/specs/2026-10-21-colab-routing-study-design.md): scope, hypothesis, measurement repairs, remote acceptance evidence, free-compute boundaries, and confirmation gates; written specification pending review.
 - [Architecture](architecture.md): data/control planes, batch/global admission, durable operations, adaptation, artifacts.
 - [Evaluation](evaluation.md): deterministic quality, routing, selective, and calibration metrics.
 - [Benchmarking](benchmarking.md): timing, warm-up, CUDA, percentiles, memory, and interpretation.

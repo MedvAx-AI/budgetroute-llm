@@ -4,6 +4,8 @@ BudgetRoute-LLM is a typed, quality-aware language-model routing system. It comb
 
 > **Status: v0.7 research and multi-host deployment-validation implementation with two published real GPU studies.** PostgreSQL integration tests prove control-plane transaction semantics, not target-fleet capacity or availability. The latest MMLU-500/held-out result remains a negative learned-routing result, and fake timings remain instrumentation-only.
 
+**Research reassessment (2026-10-21):** routing remains relevant, but model replacement alone would not establish a scientific contribution. The recommended free-Colab replication-and-extension direction has been accepted; its [written pilot specification awaits review](docs/superpowers/specs/2026-10-21-colab-routing-study-design.md). The [assessment](docs/research-reassessment.md) records current-model candidates, methodological defects, and remote-test gaps. Fresh remote CPU/PostgreSQL CI passed for the existing source, and in-app-browser Colab access is verified; no Colab GPU run or new quality/speedup result is claimed. Runtime behavior and historical benchmark profiles are unchanged.
+
 ## What it answers
 
 The central question is: can a routing policy reduce average inference cost or latency while maintaining a stated quality target? The project makes that question measurable by preserving route decisions, model outcomes, confidence, retrieval, latency, usage, uncertainty, configuration, environment, and provenance.

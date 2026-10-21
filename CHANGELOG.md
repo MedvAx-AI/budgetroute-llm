@@ -4,6 +4,11 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 
 ## [Unreleased]
 
+### Added
+
+- Research reassessment covering current routing literature/model candidates, confirmed methodological defects, a proposed free-Colab replication-and-extension direction, and fresh October 21 remote CI evidence. The scientific redesign is pending approval; no runtime fixes, model migration, or Colab GPU result are claimed.
+- A written measurement-repair and free-Colab pilot specification for review, following acceptance of the research direction. In-app-browser Colab access is verified; GPU execution and implementation remain pending.
+
 ### Changed
 
 - GitHub checkout, Python setup, and artifact upload workflows now use current Node 24-based major releases, removing deprecated Node 20 action execution.

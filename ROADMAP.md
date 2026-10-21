@@ -46,6 +46,21 @@ Completed milestones are marked explicitly. Completion means the repository capa
 
 ## Next evidence milestones
 
+### Research-first direction (2026-10-21; written specification pending review)
+
+See the [relevance/methods audit and proposed study](docs/research-reassessment.md). Use free Colab only. Freeze additional infrastructure expansion while reviewing this direction; existing completed engineering milestones are not scientific-success claims.
+
+- [x] Reassess recent routing literature, modern small-model candidates, the historical negative result, and remote validation gaps.
+- [x] Refresh existing-source remote CPU/API/storage contracts and real PostgreSQL CI on October 21.
+- [x] Accept the narrow research direction and write the [pilot specification](docs/superpowers/specs/2026-10-21-colab-routing-study-design.md); verify signed-in Colab access through the in-app browser only.
+- [ ] Review the written specification, then the implementation plan and execution method before product changes.
+- [ ] Repair infeasible-threshold fallback, router/answer confidence metrics, cache identity, missing-cost semantics, and grouped/paired uncertainty before confirmatory claims.
+- [ ] Execute a development-only modern-model feasibility pilot on free Colab and determine whether an adequately powered study fits the available budget.
+- [ ] Freeze fresh splits, primary policy, scoring, stopping rules, and the complete non-inferiority/latency decision rule before examining final outcomes.
+- [ ] Execute and preserve real remote component and study evidence; publish positive, negative, infeasible, or inconclusive outcomes without post-hoc changes to success criteria.
+
+### Existing evidence and deployment backlog
+
 - [x] Publish an initial license-compliant comparison on named models, data, hardware, runtime revisions, and a clean source commit: Qwen2.5-0.5B/1.5B on stratified MMLU-100 using an RTX 3060 Laptop GPU.
 - [x] Expand paired baseline collection to 500 records and publish a trained/calibrated router on a persisted 100-record untouched split; the negative result rules out a quality-retention claim for the current feature set.
 - Add a new external/later-seeded holdout, paired-delta uncertainty, randomized repeated timing trials, and batch/concurrency matrices before making quality-retention or capacity claims.
