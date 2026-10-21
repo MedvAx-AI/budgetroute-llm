@@ -88,7 +88,7 @@ class OpenAICompatibleBackend:
         if not self._initialized:
             raise BackendError(f"OpenAI-compatible {self.name.value} backend is not initialized")
         generation = self.config.generation
-        payload = {
+        payload: dict[str, Any] = {
             "model": self.config.model_id,
             "messages": [{"role": "user", "content": request.prompt}],
             "max_tokens": request.max_new_tokens or generation.max_new_tokens,
@@ -98,6 +98,8 @@ class OpenAICompatibleBackend:
         }
         if self.config.request_logprobs:
             payload["logprobs"] = True
+        if generation.enable_thinking is not None:
+            payload["chat_template_kwargs"] = {"enable_thinking": generation.enable_thinking}
         http_request = Request(
             self.endpoint,
             data=json.dumps(payload).encode("utf-8"),

@@ -52,7 +52,7 @@ class TransformersBackend:
         self._require_dependencies()
         import torch
         import transformers
-        from transformers import AutoModelForCausalLM, AutoTokenizer
+        from transformers import AutoTokenizer
 
         self._torch = torch
         if self.config.device == "auto":
@@ -94,6 +94,16 @@ class TransformersBackend:
         if model_id is None:
             raise BackendError("model_id is required for a Transformers backend")
         tokenizer_id = self.config.tokenizer_id or model_id
+        loader_name = (
+            "AutoModelForImageTextToText"
+            if self.config.model_loader == "image_text_to_text"
+            else "AutoModelForCausalLM"
+        )
+        loader = getattr(transformers, loader_name, None)
+        if loader is None:
+            raise BackendError(
+                f"requested loader {loader_name} has no support in this Transformers version; upgrade the reviewed runtime or use the fallback profile"
+            )
         try:
             self._tokenizer = AutoTokenizer.from_pretrained(
                 tokenizer_id,
@@ -101,7 +111,7 @@ class TransformersBackend:
                 trust_remote_code=self.config.trust_remote_code,
                 local_files_only=self.config.local_files_only,
             )
-            self._model = AutoModelForCausalLM.from_pretrained(
+            self._model = loader.from_pretrained(
                 model_id,
                 revision=self.config.revision,
                 local_files_only=self.config.local_files_only,
@@ -144,14 +154,37 @@ class TransformersBackend:
         if self._tokenizer is None:
             raise BackendError("backend is not initialized")
         if hasattr(self._tokenizer, "apply_chat_template") and self._tokenizer.chat_template:
+            kwargs = (
+                {"enable_thinking": self.config.generation.enable_thinking}
+                if self.config.generation.enable_thinking is not None
+                else {}
+            )
             return str(
                 self._tokenizer.apply_chat_template(
                     [{"role": "user", "content": prompt}],
                     tokenize=False,
                     add_generation_prompt=True,
+                    **kwargs,
                 )
             )
         return prompt
+
+    def _check_input_limit(self, lengths: list[int]) -> None:
+        limit = self.config.max_input_tokens
+        if limit is not None and any(length > limit for length in lengths):
+            raise BackendError(
+                f"rendered input exceeds configured input token limit {limit}; shorten the prompt or start a separately identified configuration"
+            )
+
+    def _output_boundary(self, ids: list[int], budget: int) -> tuple[int, str]:
+        eos = getattr(getattr(self._model, "generation_config", None), "eos_token_id", None)
+        if eos is None:
+            eos = getattr(self._tokenizer, "eos_token_id", None)
+        stops = set(eos if isinstance(eos, list) else [eos])
+        for index, token in enumerate(ids):
+            if token in stops:
+                return index + 1, "stop"
+        return len(ids), "length" if len(ids) >= budget else "stop"
 
     def generate(self, request: GenerationRequest) -> BackendGeneration:
         if self._model is None or self._tokenizer is None or self._torch is None:
@@ -161,6 +194,7 @@ class TransformersBackend:
         encoded = self._tokenizer(prompt, return_tensors="pt", padding=True)
         encoded = {key: value.to(self._device) for key, value in encoded.items()}
         input_length = int(encoded["input_ids"].shape[-1])
+        self._check_input_limit([input_length])
         generation = self.config.generation
         max_new_tokens = request.max_new_tokens or generation.max_new_tokens
         synchronize = self._device == "cuda"
@@ -210,8 +244,10 @@ class TransformersBackend:
         ):
             self._optimization["compile_first_execution_ms"] = elapsed_ms
         generated_ids = output.sequences[0, input_length:]
-        text = str(self._tokenizer.decode(generated_ids, skip_special_tokens=True)).strip()
-        output_tokens = int(generated_ids.shape[-1])
+        output_tokens, finish_reason = self._output_boundary(generated_ids.tolist(), max_new_tokens)
+        text = str(
+            self._tokenizer.decode(generated_ids[:output_tokens], skip_special_tokens=True)
+        ).strip()
         confidence: float | None = None
         signals: ConfidenceSignals | None = None
         if output.scores:
@@ -221,7 +257,7 @@ class TransformersBackend:
                 getattr(output, "beam_indices", None),
                 normalize_logits=True,
             )[0]
-            selected = transition_scores[: len(output.scores)].detach().float().cpu()
+            selected = transition_scores[:output_tokens].detach().float().cpu()
             if selected.numel():
                 sequence_log_probability = float(selected.sum().item())
                 mean_log_probability = float(selected.mean().item())
@@ -229,7 +265,7 @@ class TransformersBackend:
                 confidence = float(min(1.0, max(0.0, math.exp(mean_log_probability))))
                 entropies: list[float] = []
                 normalized_entropies: list[float] = []
-                for score in output.scores:
+                for score in output.scores[:output_tokens]:
                     logits = score[0].detach().float()
                     log_probabilities = torch.log_softmax(logits, dim=-1)
                     probabilities = torch.exp(log_probabilities)
@@ -259,6 +295,9 @@ class TransformersBackend:
             generation_ms=elapsed_ms,
             metadata={
                 "fake": False,
+                "finish_reason": finish_reason,
+                "model_loader": self.config.model_loader,
+                "enable_thinking": self.config.generation.enable_thinking,
                 "device": self._device,
                 "tokens_per_second": output_tokens / (elapsed_ms / 1000) if elapsed_ms else None,
                 "peak_cuda_mb": (
@@ -300,6 +339,7 @@ class TransformersBackend:
         encoded = {key: value.to(self._device) for key, value in encoded.items()}
         padded_input_length = int(encoded["input_ids"].shape[-1])
         input_lengths = [int(value) for value in encoded["attention_mask"].sum(dim=1).tolist()]
+        self._check_input_limit(input_lengths)
         generation = self.config.generation
         synchronize = self._device == "cuda"
         torch.manual_seed(generation.seed)
@@ -358,10 +398,7 @@ class TransformersBackend:
         total_output_tokens = 0
         for row, _request in enumerate(requests):
             row_ids = generated_ids[row]
-            pad_token_id = self._tokenizer.pad_token_id
-            output_tokens = int((row_ids != pad_token_id).sum().item())
-            if output_tokens == 0 and row_ids.numel():
-                output_tokens = int(row_ids.numel())
+            output_tokens, finish_reason = self._output_boundary(row_ids.tolist(), max_new_tokens)
             total_output_tokens += output_tokens
             text = str(
                 self._tokenizer.decode(row_ids[:output_tokens], skip_special_tokens=True)
@@ -406,6 +443,9 @@ class TransformersBackend:
                     generation_ms=elapsed_ms,
                     metadata={
                         "fake": False,
+                        "finish_reason": finish_reason,
+                        "model_loader": self.config.model_loader,
+                        "enable_thinking": self.config.generation.enable_thinking,
                         "device": self._device,
                         "batch_size": len(requests),
                         "padded_input_tokens": padded_input_length,
@@ -428,6 +468,8 @@ class TransformersBackend:
             "name": self.name.value,
             "type": "transformers",
             "model_id": self.config.model_id,
+            "model_loader": self.config.model_loader,
+            "max_input_tokens": self.config.max_input_tokens,
             "revision_requested": self.config.revision,
             "revision_resolved": getattr(
                 getattr(self._model, "config", None), "_commit_hash", self.config.revision

@@ -1,0 +1,32 @@
+# Prespecified fallback; never combine its measurements with the primary pair.
+mode: gpu
+small_backend:
+  type: transformers
+  model_id: Qwen/Qwen3-0.6B
+  revision: c1899de289a04d12100db370d81485cdf75e47ca
+  tokenizer_revision: c1899de289a04d12100db370d81485cdf75e47ca
+  model_loader: causal_lm
+  model_license: apache-2.0
+  model_card: https://huggingface.co/Qwen/Qwen3-0.6B
+  device: cuda
+  precision: fp16
+  trust_remote_code: false
+  compile: false
+  quantization: none
+  max_input_tokens: 2048
+  generation: {max_new_tokens: 64, temperature: 0, top_p: 1, repetition_penalty: 1, seed: 20261021, enable_thinking: false}
+large_backend:
+  type: transformers
+  model_id: Qwen/Qwen3-4B-Instruct-2507
+  revision: cdbee75f17c01a7cc42f958dc650907174af0554
+  tokenizer_revision: cdbee75f17c01a7cc42f958dc650907174af0554
+  model_loader: causal_lm
+  model_license: apache-2.0
+  model_card: https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507
+  device: cuda
+  precision: fp16
+  trust_remote_code: false
+  compile: false
+  quantization: none
+  max_input_tokens: 2048
+  generation: {max_new_tokens: 64, temperature: 0, top_p: 1, repetition_penalty: 1, seed: 20261021, enable_thinking: false}
