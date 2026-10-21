@@ -104,4 +104,5 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 # Research measurement updates
 
 - Align paired quality denominators, failure handling and observation-weighted cluster uncertainty; block unverified live latency ratios.
+- Freeze historical exclusions and 120/40/40 development roles; add strict MCQ/truncation scoring, prompt-only semantic gates, pinned primary/fallback modern profiles, and a resumable free-Colab notebook with fail-closed real-evidence export.
 

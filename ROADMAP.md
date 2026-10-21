@@ -76,5 +76,5 @@ See the [relevance/methods audit and proposed study](docs/research-reassessment.
 - Validate HNSW recall/latency and autoscaling behavior on the target corpus and fleet before setting production thresholds.
 # Active research implementation
 
-Completed measurement foundations: fail-closed thresholds, typed probability targets, cache/runtime identity, per-call cost provenance, and failure-aware paired descriptive evaluation. Independent pilot data, semantic gates, modern adapters and actual Colab execution remain the next gates.
+Completed software foundations: fail-closed thresholds, typed probability targets, cache/runtime identity, per-call cost provenance, failure-aware paired evaluation, independent pilot data, shared semantic gates, modern adapters and resumable Colab orchestration. Actual remote component/pilot execution and exported evidence remain the next gates; confirmation remains separately approval-gated.
 

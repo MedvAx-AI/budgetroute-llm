@@ -20,3 +20,4 @@
 - [Limitations](limitations.md): implemented mitigations versus infrastructure, evidence, and model-safety boundaries.
 - [Portfolio notes](portfolio-notes.md): descriptions, resume placeholders, demo, interviews.
 - [Decisions](decisions/index.md): concise architecture decision records.
+- [Free-Colab development pilot notebook](../notebooks/routing_pilot_colab.ipynb): exact-source setup, real component gates, checkpointed paired collection, fitting/selection, held-out diagnostics, live blocked timing and curated export. Unexecuted source is not GPU evidence.

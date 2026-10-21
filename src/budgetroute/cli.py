@@ -216,6 +216,20 @@ def inspect_data(
     )
 
 
+@app.command("routing-pilot")
+def routing_pilot_command(
+    config: Path = typer.Option(..., "--config", exists=True, dir_okay=False),
+    workspace: Path = typer.Option(..., "--workspace"),
+    stage: Literal["collect", "fit", "diagnostic", "timing", "summarize", "export"] = typer.Option(
+        ..., "--stage"
+    ),
+) -> None:
+    """Run a gated development-only stage inside a real free-Colab GPU runtime."""
+    from budgetroute.experiments.pilot import run_pilot_stage
+
+    typer.echo(str(run_pilot_stage(config, workspace, stage=stage)))
+
+
 @app.command("prepare-routing-pilot")
 def prepare_routing_pilot_command(
     spec: Path = typer.Option(..., "--spec", exists=True, dir_okay=False),

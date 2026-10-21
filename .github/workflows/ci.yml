@@ -29,7 +29,9 @@ jobs:
       - name: Type check
         run: python -m mypy src
       - name: Tests and coverage
-        run: python -m pytest --cov=budgetroute --cov-report=term-missing --cov-report=xml --cov-fail-under=75
+        run: python -m pytest --cov=budgetroute --cov-branch --cov-report=term-missing --cov-report=xml --cov-fail-under=75
+      - name: Thin Colab notebook contract (offline, no GPU claim)
+        run: python -m pytest tests/integration/test_colab_contract.py
       - name: Build distributions
         run: python -m build
       - name: Upload coverage

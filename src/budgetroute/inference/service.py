@@ -19,6 +19,7 @@ from budgetroute.retrieval.base import EmbeddingProvider
 from budgetroute.retrieval.embeddings import FakeEmbedder, TransformersEmbedder
 from budgetroute.retrieval.index import ExactCosineIndex, FaissCosineIndex, FaissHNSWIndex
 from budgetroute.retrieval.service import RetrievalService
+from budgetroute.routing.base import RoutingPolicy
 from budgetroute.routing.registry import build_policy
 from budgetroute.routing.training import load_backend_confidence_calibrator
 from budgetroute.schemas import BackendName, GenerationRequest, GenerationResponse
@@ -144,7 +145,7 @@ class InferenceService:
         self._initialized = False
 
 
-def build_service(config: AppConfig) -> InferenceService:
+def build_service(config: AppConfig, *, policy: RoutingPolicy | None = None) -> InferenceService:
     small = _build_backend(BackendName.SMALL, config.small_backend)
     large = _build_backend(BackendName.LARGE, config.large_backend)
     cache_mode = config.benchmark.cache.mode
@@ -171,7 +172,7 @@ def build_service(config: AppConfig) -> InferenceService:
     def load_provider() -> dict[BackendName, BackendLoadSnapshot]:
         return {name: tracker.snapshot() for name, tracker in load_trackers.items()}
 
-    policy = build_policy(
+    active_policy = policy or build_policy(
         config.routing,
         load_provider=load_provider,
         small_backend=config.small_backend,
@@ -186,7 +187,7 @@ def build_service(config: AppConfig) -> InferenceService:
     engine = InferenceEngine(
         small,
         large,
-        policy,
+        active_policy,
         config.routing,
         retriever,
         confidence_calibrator=confidence_calibrator,

@@ -36,3 +36,11 @@ The supplied SQLite and PostgreSQL profiles exercise real transactional control-
 ## Claims policy
 
 Do not claim universal “production readiness,” solved prompt injection, model safety, semantic correctness, cost savings, HNSW scale, throughput, or latency from repository code or fake artifacts. Claims must name the exact dataset, sample size/groups, model and revision, prompt template, runtime, hardware, load shape, metric definition, uncertainty, and artifact location.
+# Development pilot boundaries
+
+The new notebook/orchestrator is software, not a successful GPU experiment or positive routing result. Free GPU availability and architecture fit are external feasibility gates. Primary Qwen3.5 failures must be retained; the prespecified Qwen3 fallback uses a separate identity/workspace. No quantization, token-budget or loader changes may silently rescue a measured run.
+
+The 40 diagnostic questions cannot support a two-point quality claim. MMLU may overlap models' pretraining and does not establish production generalization. Co-resident always-large timing is not an optimized single-model deployment. A matched-random comparator controls cheap-route count, not every runtime interaction. Unknown rates or token usage keep total estimated cost unknown; configured rates are not invoices.
+
+Colab storage is ephemeral. Compatible retained sessions can resume collection, but changed hardware/package/source/data identities require a fresh run. Timed partial blocks restart; cached timing never counts as live. HTTP runtime compatibility, managed-database failover/restore and internet-scale deployment evidence remain separate from this free-Colab scientific pilot.
+

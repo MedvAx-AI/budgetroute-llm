@@ -120,3 +120,13 @@ Use `compatibility-matrix` for exact runtime revisions, then `load-test` against
 
 The pilot partitions are 120 fitting, 40 threshold selection and 40 diagnostic questions, never a confirmatory test. The direct-mcq-v2 evaluator accepts only a valid single option letter (optionally parenthesized); incomplete/truncated output scores zero. Version-one datasets retain their existing evaluator. Source materialization and GPU execution are separate steps; preparing data is not experimental evidence.
 
+## Free-Colab experiment log
+
+Open `notebooks/routing_pilot_colab.ipynb` at the exact reviewed feature SHA, select a free GPU, and execute top-to-bottom. It installs that source, freezes installed versions, prepares data and runs real component gates before exposing six development stages: collect, fit, diagnostic, timing, summarize and export. The CLI equivalents are `routing-pilot --config ... --workspace ... --stage ...`. No confirmation stage exists.
+
+Collection persists v2 cache entries and unique paired rows after every answer; it resumes missing entries only. Diagnostics use only the 40 persisted diagnostic IDs. Live timing uses three seeded policy-order blocks, a warmup per condition, no generation cache, and one initialized two-generator service per block. Partial timing blocks restart entirely. Both generators remain resident even in always-large conditions, so the result is conditional on that deployment, not an optimized large-only service comparison.
+
+The primary semantic gate and numeric ablation use paired non-harm labels and a .98 empirical selective target on the 40 selection questions; this is threshold selection, not a two-point guarantee. The confidence cascade is secondary and fits confidence calibration on fitting IDs only. Matched-random routing has exactly the semantic gate's cheap count; timing assignments use a separately fixed seed.
+
+Download the curated evidence ZIP and the executed notebook before Colab removes the VM. The exporter checks required evidence and hashes; it excludes caches, weights, environment variables, unrelated files and credentials. The authentication probe uses a temporary loopback-only credential and restores the prior environment. Runtime probes must contain actual non-fake generation, semantic, FAISS HNSW, scheduling, API and cleanup evidence; passed labels alone are insufficient.
+

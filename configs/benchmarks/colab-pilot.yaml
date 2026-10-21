@@ -1,0 +1,22 @@
+extends:
+  - ../base.yaml
+  - ../models/colab-qwen35.yaml
+name: colab-routing-development-pilot
+seed: 20261021
+retrieval:
+  enabled: false
+routing:
+  policy: always_large
+benchmark:
+  fake: false
+  require_pinned_revisions: true
+  dataset_path: data/materialized/colab-pilot/pilot.jsonl
+  policies: [always_small, always_large]
+  quality_threshold: 1
+  warmup_runs: 1
+  measured_runs: 1
+  concurrency: 1
+  batch_size: 1
+  cache:
+    mode: off
+    directory: outputs/colab-pilot/cache
