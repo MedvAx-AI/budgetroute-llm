@@ -6,7 +6,7 @@ import time
 from dataclasses import dataclass
 
 from budgetroute.backends.base import GenerationBackend
-from budgetroute.config import RoutingConfig
+from budgetroute.config import BackendConfig, RoutingConfig
 from budgetroute.exceptions import RetrievalError
 from budgetroute.features.request_features import RequestFeatureExtractor
 from budgetroute.profiling.memory import current_memory
@@ -16,6 +16,7 @@ from budgetroute.routing.base import RoutingPolicy
 from budgetroute.routing.calibration import ProbabilityCalibrator, ThresholdSelection
 from budgetroute.routing.cascade import escalation_reason
 from budgetroute.schemas import (
+    BackendCallUsage,
     BackendGeneration,
     BackendName,
     ExecutionTrace,
@@ -49,9 +50,11 @@ class InferenceEngine:
         confidence_calibrator: ProbabilityCalibrator | None = None,
         cascade_confidence_threshold: float | None = None,
         cascade_threshold_selection: ThresholdSelection | None = None,
+        backend_configs: dict[BackendName, BackendConfig] | None = None,
     ) -> None:
         self.small_backend = small_backend
         self.large_backend = large_backend
+        self.backend_configs = backend_configs or {}
         self.policy = policy
         self.routing_config = routing_config
         self.retriever = retriever
@@ -160,6 +163,9 @@ class InferenceEngine:
             and self.large_backend.metadata().get("fake")
         )
         decision = route_result.decision
+        calls = [self._call_usage(initial)] if initial is not None else []
+        if final is not None and final is not initial:
+            calls.append(self._call_usage(final))
         return GenerationResponse(
             request_id=request.request_id,
             answer=answer,
@@ -200,6 +206,21 @@ class InferenceEngine:
             replayed=replayed,
             fake=fake,
             estimated_cost_units=decision.estimated_cost_units,
+            backend_calls=calls,
+        )
+
+    def _call_usage(self, generation: BackendGeneration) -> BackendCallUsage:
+        config = self.backend_configs.get(generation.backend)
+        return BackendCallUsage(
+            backend=generation.backend,
+            input_tokens=generation.input_tokens
+            if generation.usage_is_measured
+            else generation.metadata.get("reported_input_tokens"),
+            output_tokens=generation.output_tokens
+            if generation.usage_is_measured
+            else generation.metadata.get("reported_output_tokens"),
+            input_rate=config.measured_input_rate if config else None,
+            output_rate=config.measured_output_rate if config else None,
         )
 
     def generate(self, request: GenerationRequest) -> GenerationResponse:

@@ -47,6 +47,8 @@ Configured deterministic percentile bootstrap resampling operates over independe
 
 ## Systems metrics
 
+Responses/predictions record each actual backend call independently from policy cost forecasts, including both cascade calls and only one call when the small answer is accepted. `backend_calls: null` means legacy/unknown; `[]` means no backend was called. HTTP regex token counts remain compatibility estimates when usage is absent/partial; known reported components are retained and missing components stay null in call records. `measured_input_rate` and `measured_output_rate` are optional declared cost-unit rates per 1,000 recorded tokens, **not measured prices or invoices**. All contributions must be known for an aggregate cost; otherwise the total is null with an explicit known subtotal/completeness. Default forecast rates of zero do not imply measured inference was free.
+
 - p50 and p95 total request latency; p99 only with at least 100 samples.
 - scheduler queue, routing, retrieval, generation, escalation, total, and TTFT where supported.
 - actual batch size, configured concurrent batch workers, queue depth/rejections/deadlines for service runs, and backend inflight utilization.

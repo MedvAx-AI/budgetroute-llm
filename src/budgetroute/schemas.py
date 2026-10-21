@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 from enum import StrEnum
+from math import isfinite
 from typing import Any, Literal
 from uuid import uuid4
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class RouteName(StrEnum):
@@ -161,6 +162,34 @@ class ConfidenceSignals(BaseModel):
     normalized_mean_token_entropy: float | None = Field(default=None, ge=0.0, le=1.0)
 
 
+class BackendCallUsage(BaseModel):
+    backend: BackendName
+    input_tokens: int | None = Field(default=None, ge=0)
+    output_tokens: int | None = Field(default=None, ge=0)
+    input_rate: float | None = Field(default=None, ge=0.0, allow_inf_nan=False)
+    output_rate: float | None = Field(default=None, ge=0.0, allow_inf_nan=False)
+    estimated_cost_units: float | None = Field(default=None, ge=0.0, allow_inf_nan=False)
+
+    @model_validator(mode="after")
+    def derive_cost(self) -> BackendCallUsage:
+        if (
+            self.input_tokens is None
+            or self.output_tokens is None
+            or self.input_rate is None
+            or self.output_rate is None
+        ):
+            self.estimated_cost_units = None
+        else:
+            cost = (
+                self.input_tokens / 1000 * self.input_rate
+                + self.output_tokens / 1000 * self.output_rate
+            )
+            if not isfinite(cost):
+                raise ValueError("derived inference cost must be finite")
+            self.estimated_cost_units = cost
+        return self
+
+
 class GenerationResponse(BaseModel):
     request_id: str
     answer: str
@@ -178,6 +207,7 @@ class GenerationResponse(BaseModel):
     replayed: bool = False
     fake: bool = False
     estimated_cost_units: float | None = Field(default=None, ge=0.0)
+    backend_calls: list[BackendCallUsage] | None = None
 
 
 class BackendGeneration(BaseModel):
@@ -190,6 +220,7 @@ class BackendGeneration(BaseModel):
     generation_ms: float = Field(ge=0.0)
     time_to_first_token_ms: float | None = Field(default=None, ge=0.0)
     metadata: dict[str, Any] = Field(default_factory=dict)
+    usage_is_measured: bool = False
 
 
 class BenchmarkRecord(BaseModel):
@@ -244,6 +275,7 @@ class PredictionRecord(BaseModel):
     error: str | None = None
     router_probability: RouterProbability | None = None
     fake: bool | None = None
+    backend_calls: list[BackendCallUsage] | None = None
 
 
 class FeedbackRecord(BaseModel):

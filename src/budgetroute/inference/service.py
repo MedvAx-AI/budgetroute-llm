@@ -189,6 +189,10 @@ def build_service(config: AppConfig) -> InferenceService:
         confidence_calibrator=confidence_calibrator,
         cascade_confidence_threshold=cascade_threshold.threshold if cascade_threshold else None,
         cascade_threshold_selection=cascade_threshold,
+        backend_configs={
+            BackendName.SMALL: config.small_backend,
+            BackendName.LARGE: config.large_backend,
+        },
     )
     return InferenceService(
         config,

@@ -151,6 +151,7 @@ def evaluate_records(
                     replayed=response.replayed,
                     router_probability=response.router.router_probability,
                     fake=response.fake,
+                    backend_calls=response.backend_calls,
                 )
             )
             routes.append(

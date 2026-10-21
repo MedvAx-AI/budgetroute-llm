@@ -50,6 +50,8 @@ class BackendConfig(BaseModel):
     max_concurrency: int = Field(default=1, ge=1, le=1024)
     input_cost_units_per_1k_tokens: float = Field(default=0.0, ge=0.0)
     output_cost_units_per_1k_tokens: float = Field(default=0.0, ge=0.0)
+    measured_input_rate: float | None = Field(default=None, ge=0.0, allow_inf_nan=False)
+    measured_output_rate: float | None = Field(default=None, ge=0.0, allow_inf_nan=False)
     artificial_latency_ms: float = Field(default=0.0, ge=0.0)
     fail_on_substrings: list[str] = Field(default_factory=list)
     quality: float = Field(default=0.8, ge=0.0, le=1.0)

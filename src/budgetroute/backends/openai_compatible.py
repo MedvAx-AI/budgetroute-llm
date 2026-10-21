@@ -131,15 +131,27 @@ class OpenAICompatibleBackend:
             raise BackendError(
                 "OpenAI-compatible response is missing choices[0].message.content"
             ) from exc
-        usage = response_data.get("usage") or {}
-        input_tokens = int(usage.get("prompt_tokens", self.token_count(request.prompt)))
-        output_tokens = int(usage.get("completion_tokens", self.token_count(text)))
+        usage = response_data.get("usage")
+        usage = usage if isinstance(usage, dict) else {}
+        reported_input = usage.get("prompt_tokens")
+        reported_output = usage.get("completion_tokens")
+        reported_input = (
+            reported_input if type(reported_input) is int and reported_input >= 0 else None
+        )
+        reported_output = (
+            reported_output if type(reported_output) is int and reported_output >= 0 else None
+        )
+        input_tokens = (
+            reported_input if reported_input is not None else self.token_count(request.prompt)
+        )
+        output_tokens = reported_output if reported_output is not None else self.token_count(text)
         confidence, signals = self._confidence(choice)
         return BackendGeneration(
             text=text,
             backend=self.name,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
+            usage_is_measured=reported_input is not None and reported_output is not None,
             confidence=confidence,
             confidence_signals=signals,
             generation_ms=elapsed_ms,
@@ -151,6 +163,8 @@ class OpenAICompatibleBackend:
                 "system_fingerprint": response_data.get("system_fingerprint"),
                 "finish_reason": choice.get("finish_reason"),
                 "response_id": response_data.get("id"),
+                "reported_input_tokens": reported_input,
+                "reported_output_tokens": reported_output,
                 "confidence_is_calibrated": False,
             },
         )

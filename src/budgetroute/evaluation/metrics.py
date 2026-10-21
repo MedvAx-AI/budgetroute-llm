@@ -13,7 +13,27 @@ from budgetroute.evaluation.calibration_metrics import (
 from budgetroute.evaluation.routing_metrics import selective_metrics
 from budgetroute.evaluation.uncertainty import grouped_bootstrap_mean
 from budgetroute.profiling.latency import summarize_latencies
-from budgetroute.schemas import PredictionRecord
+from budgetroute.schemas import BackendCallUsage, PredictionRecord
+
+
+def summarize_backend_calls(calls: list[BackendCallUsage] | None) -> dict[str, Any]:
+    if calls is None:
+        return {
+            "estimated_cost_units": None,
+            "known_cost_units": 0.0,
+            "unknown_call_count": None,
+            "complete": False,
+        }
+    known = sum(
+        call.estimated_cost_units for call in calls if call.estimated_cost_units is not None
+    )
+    missing = sum(call.estimated_cost_units is None for call in calls)
+    return {
+        "estimated_cost_units": known if not missing else None,
+        "known_cost_units": known,
+        "unknown_call_count": missing,
+        "complete": not missing,
+    }
 
 
 def aggregate_metrics(
@@ -56,6 +76,13 @@ def aggregate_metrics(
         if item.backend_confidence is not None
     ]
     selective = selective_metrics(qualities, [item.abstained for item in successful])
+    call_usage = summarize_backend_calls(
+        [call for item in predictions for call in (item.backend_calls or [])]
+    )
+    unknown_records = sum(item.backend_calls is None for item in predictions)
+    call_usage["unknown_record_count"] = unknown_records
+    if unknown_records:
+        call_usage.update(estimated_cost_units=None, unknown_call_count=None, complete=False)
     return {
         "request_count": len(predictions),
         "successful_requests": len(successful),
@@ -148,7 +175,9 @@ def aggregate_metrics(
         "escalations": sum(item.escalated for item in successful),
         "abstentions": sum(item.abstained for item in successful),
         "human_review_requests": sum(item.human_review_required for item in successful),
-        "estimated_cost_units": sum(item.estimated_cost_units or 0.0 for item in successful),
+        "estimated_cost_units": call_usage["estimated_cost_units"],
+        "backend_cost_accounting": call_usage,
+        "cost_kind": "configured_rates_times_recorded_usage_not_a_bill",
         "replayed_requests": sum(item.replayed for item in successful),
         "confidence_methods": dict(
             sorted(

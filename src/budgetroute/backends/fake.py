@@ -104,6 +104,7 @@ class FakeBackend:
             output_tokens=self.token_count(answer),
             confidence=confidence,
             generation_ms=elapsed_ms,
+            usage_is_measured=True,
             time_to_first_token_ms=elapsed_ms,
             metadata={"fake": True, "configured_quality": self.config.quality},
         )

@@ -138,3 +138,44 @@ def test_route_decisions_without_probabilities_have_no_calibration() -> None:
     assert metrics["routing_accuracy"] == 0.0
     assert metrics["brier_score"] is None
     assert metrics["reliability"] == []
+
+
+def test_legacy_missing_cost_is_not_zero(
+    prediction_factory: Callable[..., PredictionRecord],
+) -> None:
+    from budgetroute.evaluation.metrics import aggregate_metrics
+
+    assert aggregate_metrics([prediction_factory()])["estimated_cost_units"] is None
+
+
+def test_legacy_unknown_record_preserves_other_known_cost(
+    prediction_factory: Callable[..., PredictionRecord],
+) -> None:
+    from budgetroute.evaluation.metrics import aggregate_metrics
+
+    known = prediction_factory(
+        backend_calls=[
+            {
+                "backend": "small",
+                "input_tokens": 100,
+                "output_tokens": 10,
+                "input_rate": 1,
+                "output_rate": 2,
+            }
+        ]
+    )
+    result = aggregate_metrics([known, prediction_factory(example_id="legacy")])
+    assert result["estimated_cost_units"] is None
+    assert result["backend_cost_accounting"]["known_cost_units"] == pytest.approx(0.12)
+    assert result["backend_cost_accounting"]["complete"] is False
+
+
+def test_cost_derivation_rejects_unrepresentable_total() -> None:
+    from pydantic import ValidationError
+
+    from budgetroute.schemas import BackendCallUsage
+
+    with pytest.raises(ValidationError, match="finite"):
+        BackendCallUsage(
+            backend="small", input_tokens=3000, output_tokens=1, input_rate=1e308, output_rate=0
+        )

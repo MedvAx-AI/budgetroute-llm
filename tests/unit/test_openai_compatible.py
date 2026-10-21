@@ -214,3 +214,40 @@ def test_remote_identity_check_rejects_nonobject_response(
     backend.initialize()
     with pytest.raises(BackendError, match="object"):
         backend.generate(GenerationRequest(prompt="Q"))
+
+
+@pytest.mark.parametrize(
+    "usage, measured, reported_input",
+    [
+        (None, False, None),
+        ({"prompt_tokens": 7}, False, 7),
+        ({"prompt_tokens": 7, "completion_tokens": 1}, True, 7),
+    ],
+)
+def test_remote_usage_distinguishes_missing_counts_from_estimates(
+    monkeypatch: pytest.MonkeyPatch,
+    usage: dict[str, int] | None,
+    measured: bool,
+    reported_input: int | None,
+) -> None:
+    class UsageResponse(_Response):
+        def read(self) -> bytes:
+            data = json.loads(super().read())
+            data["usage"] = usage
+            return json.dumps(data).encode()
+
+    monkeypatch.setattr(
+        "budgetroute.backends.openai_compatible.urlopen", lambda request, timeout: UsageResponse()
+    )
+    backend = OpenAICompatibleBackend(
+        BackendName.SMALL,
+        BackendConfig(
+            type="openai_compatible",
+            model_id="model",
+            base_url="http://localhost:8001/v1",
+        ),
+    )
+    backend.initialize()
+    output = backend.generate(GenerationRequest(prompt="Q"))
+    assert output.usage_is_measured is measured
+    assert output.metadata["reported_input_tokens"] == reported_input
