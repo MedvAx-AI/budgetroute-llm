@@ -6,6 +6,7 @@ small_backend:
   revision: 2fc06364715b967f1860aea9cf38778875588b17
   tokenizer_revision: 2fc06364715b967f1860aea9cf38778875588b17
   model_loader: image_text_to_text
+  load_direct_to_device: true
   model_license: apache-2.0
   model_card: https://huggingface.co/Qwen/Qwen3.5-0.8B
   device: cuda
@@ -21,6 +22,7 @@ large_backend:
   revision: 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
   tokenizer_revision: 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
   model_loader: image_text_to_text
+  load_direct_to_device: true
   model_license: apache-2.0
   model_card: https://huggingface.co/Qwen/Qwen3.5-4B
   device: cuda

@@ -43,6 +43,7 @@ def backend_fingerprint(name: BackendName, config: BackendConfig) -> dict[str, A
         "runtime_identity": config.runtime_identity,
         "request_logprobs": config.request_logprobs,
         "model_loader": config.model_loader,
+        "load_direct_to_device": config.load_direct_to_device,
         "max_input_tokens": config.max_input_tokens,
         "trust_remote_code": config.trust_remote_code,
         "quality": config.quality if config.type == "fake" else None,

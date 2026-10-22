@@ -68,6 +68,7 @@ def mock_runtime(monkeypatch: pytest.MonkeyPatch) -> dict[str, Any]:
 
     class Model:
         def to(self, device: str) -> Model:
+            observed.setdefault("model_moves", []).append(device)
             return self
 
         def eval(self) -> Model:
@@ -164,3 +165,24 @@ def test_eos_at_budget_is_not_truncation(mock_runtime: dict[str, Any]) -> None:
     backend.initialize()
     assert backend._output_boundary([7, 8, 0], 3) == (3, "stop")
     assert backend._output_boundary([7, 8, 9], 3) == (3, "length")
+
+
+def test_direct_device_loading_avoids_cpu_staging(mock_runtime: dict[str, Any]) -> None:
+    config = BackendConfig(
+        type="transformers", model_id="mock", device="cpu", load_direct_to_device=True
+    )
+    backend = TransformersBackend(BackendName.SMALL, config)
+    backend.initialize()
+    assert mock_runtime["load_kwargs"]["device_map"] == "cpu"
+    assert mock_runtime.get("model_moves", []) == []
+    assert backend.metadata()["load_direct_to_device"] is True
+
+
+def test_direct_device_loading_has_separate_cache_identity() -> None:
+    from budgetroute.experiments.cache import backend_fingerprint
+
+    staged = BackendConfig(type="transformers", model_id="mock")
+    direct = staged.model_copy(update={"load_direct_to_device": True})
+    assert backend_fingerprint(BackendName.SMALL, staged) != backend_fingerprint(
+        BackendName.SMALL, direct
+    )

@@ -1,6 +1,6 @@
 # Research reassessment — 2026-10-21
 
-Status: completed relevance/methods audit; specification and [Native implementation plan](superpowers/plans/2026-10-21-colab-routing-study.md) approved. The plan records implementation progress. The defects below describe the audited old source; threshold infeasibility is now repaired for new artifacts. Approval and code repairs are not remote execution, a final confirmatory protocol, or a new positive routing result. Budget: free Google Colab only; no paid compute or public service deployment.
+Status updated 2026-10-22: relevance/methods audit, specification and [Native implementation plan](superpowers/plans/2026-10-21-colab-routing-study.md) approved; Tasks 1–9 implemented. The defects below describe the audited old source and are now covered by measurement repairs. Remote CPU/database CI and the repaired T4 component gate passed at `5ab58a8`; collection then exhausted host RAM during model reload, before any paired outcomes. An explicit direct-to-CUDA loading repair requires a new identity and fresh remote validation. Failed attempts are retained. No completed pilot, confirmatory protocol, or new positive routing result exists yet. Budget: free Google Colab only; no paid compute or public service deployment.
 
 ## Bottom line
 
@@ -26,17 +26,17 @@ Primary sources checked on 2026-10-21:
 
 The ACL routing paper's relative-harm label counts a violation only when the cheap model is wrong and the strong model is correct. Both-wrong cases count as non-harmful substitutions, **not correct answers**. Report absolute accuracy, harmful substitutions, beneficial substitutions, and relative degradation separately. Do not describe relative risk control as general model safety.
 
-## Model refresh: candidates, not completed migration
+## Model refresh: implemented profiles, validation in progress
 
 - Historical control: retain pinned Qwen2.5-0.5B/1.5B profiles and their negative result.
 - Recommended modern pilot: [Qwen3.5-0.8B](https://huggingface.co/Qwen/Qwen3.5-0.8B) and [Qwen3.5-4B](https://huggingface.co/Qwen/Qwen3.5-4B). The [official repository](https://github.com/QwenLM/Qwen3.8) records the small-model release on March 2, 2026. These are Apache-2.0 models, but their hybrid/multimodal architecture requires a real loader/runtime probe; changing the model name in the current causal-LM loader is not a verified migration.
 - Lower integration-risk fallback: [Qwen3-0.6B](https://huggingface.co/Qwen/Qwen3-0.6B) and [Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507). Select a fallback only on development feasibility criteria, never by looking at the final test outcome.
 
-Record exact model/tokenizer revisions, loader class, rendered template, explicitly selected thinking mode, decoding, truncation, context, precision, and dependency versions. Thinking defaults differ between checkpoints: never infer the mode from the family name. Avoid comparing the old eight-token answer budget with a modern reasoning-enabled run. Start with short-context FP16 if supported; treat quantization as a separate condition, not an invisible memory workaround. T4 memory fit and performance are not yet verified.
+The implemented primary/fallback profiles pin exact model revisions, built-in loader class, non-thinking greedy FP16 decoding, 2,048 input and 64 output tokens. Thinking defaults differ between checkpoints: never infer the mode from the family name. The October 22 component attempt loaded both primary generators on a 15-GiB T4 and exercised real single/batch generation, but the full component gate and measured pilot remain unfinished. This is not a latency or quality comparison. Quantization remains a separate condition, not an invisible memory workaround.
 
 ## Methodological repairs needed before a confirmatory study
 
-These findings were checked against source at `5a5e359cfac0740af8652fce7d3092e62a1f4ca2`. They are not fixed by this documentation update.
+These historical findings were checked against source at `5a5e359cfac0740af8652fce7d3092e62a1f4ca2`. Tasks 1–9 now implement and test the corresponding repairs: fail-closed artifact states, cache v2 identity, separate router probabilities, per-call nullable costs, observation-weighted clustered uncertainty, and failure-aware paired/blocked evaluation. Software tests do not establish the routing hypothesis.
 
 1. **Infeasible thresholds fail open.** `routing/training.py` uses `0.5` when `choose_threshold` returns no feasible threshold, for both learned routing and confidence calibration. Replace this with an explicit infeasible/always-large or always-escalate outcome before claiming a quality guardrail.
 2. **Remote cache identity is incomplete.** `experiments/cache.py:backend_fingerprint` omits endpoint, requested logprobs, and immutable remote deployment/runtime identity. Distinct configurations can collide. Repair identity and preserve provenance before using remote-server replay. This does not demonstrate contamination of the historical local Transformers study.
@@ -79,17 +79,17 @@ Fresh existing-code validation was triggered on a dedicated branch pointing to u
 
 | Remote lane | Status and acceptance evidence |
 | --- | --- |
-| CPU/API/offline routing/storage contracts and real PostgreSQL | Fresh CI passed above; optional model dependencies and actual model servers are not exercised. |
-| Colab real GPU backend | Not run. Must verify pinned pair loading, single/padded-batch generation, output order, confidence/entropy, CUDA timing/memory, cleanup, and zero non-fake failures. |
-| Colab research pipeline | Not run. Must execute pinned materialization, disjoint fitting/calibration/certification/test, live/replay agreement, and the frozen live policy on recorded hardware. |
-| Real semantic retrieval | Not remotely validated. Must explicitly select pinned MiniLM plus actual FAISS/HNSW; `real-hotpotqa.yaml` currently inherits a fake embedder and is not sufficient. Keep this a separate capability lane, not part of the primary routing claim. |
-| Real HTTP-compatible backend and loopback API | Mocked transport tests are not real-runtime compatibility. Validate an exact runtime and bounded notebook-local service flow before claiming it tested; no public tunnel or capacity claim. |
+| CPU/API/offline routing/storage contracts and real PostgreSQL | Repaired source `5ab58a8` passed Python 3.11/3.12 (197 tests each, 78.38% branch coverage) and PostgreSQL 17 (2 tests); [exact run](https://github.com/MedvAx-AI/budgetroute-llm/actions/runs/39811563385). Each quality job skips the database module supplied separately in the real database job. |
+| Colab real GPU backend | Full component gate passed at `5ab58a8` after fixing the earlier API probe. Subsequent CPU-staged model reload exhausted host RAM; the explicit direct-device loading retry must pass the gate again at its new source/config identity. |
+| Colab research pipeline | Data materialized remotely: exactly 120 fitting / 40 selection / 40 diagnostic questions, excluding the old 500. Baseline collection, fitting, diagnostic/replay, live timing and verified final export remain pending. Pilot has no certification or final confirmation split. |
+| Real semantic retrieval | Pinned CPU MiniLM (2×384 vectors) and actual FAISS HNSW passed within the repaired component gate. This is not a corpus-scale retrieval study. |
+| Real HTTP-compatible backend and loopback API | Repaired authenticated IPv4 loopback generation/feedback/metrics and graceful shutdown passed on Colab at `5ab58a8`. No separate provider/runtime compatibility or public capacity claim. |
 
-CLI success is not enough: compatibility probes catch exceptions, and benchmarks can finish with errors. Acceptance must assert artifact success, zero errors, non-fake backend identity, correct batch/order fields, source/config/data hashes, and observed environment. Store executed notebook output and artifacts outside the ephemeral runtime. No notebook currently exists in this source tree.
+CLI success is not enough: compatibility probes catch exceptions, and benchmarks can finish with errors. Acceptance must assert artifact success, zero errors, non-fake backend identity, correct batch/order fields, source/config/data hashes, and observed environment. The committed [thin notebook](../notebooks/routing_pilot_colab.ipynb) delegates all stages to versioned code. Store executed notebook output and allowlisted artifacts outside the ephemeral runtime; the unexecuted source notebook is not evidence.
 
 The [official Colab FAQ](https://research.google.com/colaboratory/faq.html) makes GPU availability/type and session limits dynamic; free sessions may end early. Use interactive, notebook-driven execution and resumable checkpointed runs, without SSH, remote desktops, public service tunnels, or quota-bypass tricks. The [runtime-version FAQ](https://research.google.com/colaboratory/runtime-version-faq.html) documents selectable historical runtimes; record the version actually observed rather than assuming a particular default.
 
-The initial desktop-access attempt was stopped because the Windows browser safety layer could not determine Chrome's current URL with sufficient confidence. On continuation, the user's requested in-app-browser-only approach successfully opened Colab in an already signed-in session, without desktop automation. No GPU allocation, notebook creation, or experiment execution has occurred yet. Browser access is now verified; GPU availability and experimental completion are not. Do not describe a prepared notebook as a remotely tested component.
+The requested in-app-browser-only approach allocated a free Tesla T4 on October 22 without desktop automation. The observed environment was Python 3.13.15, torch 2.11.0+cu130, CUDA 13.0 and driver 580.82.07. Data and partial component execution are real; the full experiment is not complete. Failed-probe configuration/environment/component files were retained outside Colab before retrying. No paid upgrade, public tunnel, Drive mount or credential provisioning was used.
 
 ## Next decision
 

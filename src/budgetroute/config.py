@@ -42,6 +42,7 @@ class BackendConfig(BaseModel):
     base_url: str | None = None
     runtime_identity: str | None = Field(default=None, min_length=1, max_length=512)
     model_loader: Literal["causal_lm", "image_text_to_text"] = "causal_lm"
+    load_direct_to_device: bool = False
     max_input_tokens: int | None = Field(default=None, ge=1, le=1_000_000)
     api_key_env: str | None = None
     request_timeout_seconds: float = Field(default=120.0, gt=0.0, le=3600.0)

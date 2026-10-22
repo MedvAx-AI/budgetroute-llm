@@ -77,6 +77,9 @@ class TransformersBackend:
             "trust_remote_code": self.config.trust_remote_code,
             ("dtype" if int(transformers.__version__.split(".")[0]) >= 5 else "torch_dtype"): dtype,
         }
+        if self.config.load_direct_to_device:
+            # Explicit single-device placement, never automatic CPU/disk offload.
+            model_kwargs["device_map"] = self._device
         if self.config.quantization != "none":
             if importlib.util.find_spec("bitsandbytes") is None:
                 raise BackendError(
@@ -125,7 +128,7 @@ class TransformersBackend:
         if self._tokenizer.pad_token_id is None:
             self._tokenizer.pad_token = self._tokenizer.eos_token
         self._tokenizer.padding_side = "left"
-        if self.config.quantization == "none":
+        if self.config.quantization == "none" and not self.config.load_direct_to_device:
             self._model.to(self._device)
         self._model.eval()
         if self.config.compile:
@@ -469,6 +472,7 @@ class TransformersBackend:
             "type": "transformers",
             "model_id": self.config.model_id,
             "model_loader": self.config.model_loader,
+            "load_direct_to_device": self.config.load_direct_to_device,
             "max_input_tokens": self.config.max_input_tokens,
             "revision_requested": self.config.revision,
             "revision_resolved": getattr(

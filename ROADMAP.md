@@ -59,7 +59,9 @@ See the [relevance/methods audit and proposed study](docs/research-reassessment.
 - [x] Separate router-target probabilities from answer confidence and remove fabricated routing/answer calibration.
 - [x] Version generation-cache identity and record/validate remote model/runtime provenance before remote collection.
 - [x] Record per-backend calls and preserve unknown/partial usage and cost instead of reporting missing cost as zero.
-- [ ] Repair infeasible-threshold fallback, router/answer confidence metrics, cache identity, missing-cost semantics, and grouped/paired uncertainty before confirmatory claims.
+- [x] Repair infeasible-threshold fallback, router/answer confidence metrics, cache identity, missing-cost semantics, and grouped/paired uncertainty before confirmatory claims.
+- [x] Implement the independent 120/40/40 development splits, shared semantic features, modern pinned adapters and resumable thin Colab notebook.
+- [x] Allocate free T4 and preserve the first real component attempt (generation, semantic, retrieval and scheduling passed; API-probe failure retained). Full gate rerun remains required.
 - [ ] Execute a development-only modern-model feasibility pilot on free Colab and determine whether an adequately powered study fits the available budget.
 - [ ] Freeze fresh splits, primary policy, scoring, stopping rules, and the complete non-inferiority/latency decision rule before examining final outcomes.
 - [ ] Execute and preserve real remote component and study evidence; publish positive, negative, infeasible, or inconclusive outcomes without post-hoc changes to success criteria.
