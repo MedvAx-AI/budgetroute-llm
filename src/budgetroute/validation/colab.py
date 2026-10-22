@@ -289,6 +289,7 @@ def run_component_checks(config_path: Path, output_dir: Path) -> Path:
     source = source_identity()
     config = load_config(config_path, apply_environment=False)
     _assert_real_config(config)
+    resolved_config = config.model_dump(mode="json")
     config = config.model_copy(
         update={
             "benchmark": config.benchmark.model_copy(
@@ -306,6 +307,8 @@ def run_component_checks(config_path: Path, output_dir: Path) -> Path:
         "checks": {},
     }
     writer = ArtifactWriter(output_dir)
+    writer.write_json("environment.json", environment)
+    writer.write_yaml("resolved-config.yaml", resolved_config)
     writer.write_json("components.json", report)
     service = build_service(config)
     encoder = SemanticFeatures(SemanticFeatureSpec())

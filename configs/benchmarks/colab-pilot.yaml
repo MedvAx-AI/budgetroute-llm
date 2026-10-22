@@ -18,5 +18,5 @@ benchmark:
   concurrency: 1
   batch_size: 1
   cache:
-    mode: off
+    mode: "off"
     directory: outputs/colab-pilot/cache
