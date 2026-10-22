@@ -6,6 +6,8 @@ BudgetRoute-LLM is a typed, quality-aware language-model routing system. It comb
 
 **Research implementation (2026-10-21):** Tasks 1–9 of the approved [Native plan](docs/superpowers/plans/2026-10-21-colab-routing-study.md) implement measurement repairs, independent development splits, shared semantic features, pinned modern-model profiles and a gated [free-Colab notebook](notebooks/routing_pilot_colab.ipynb). The [specification](docs/superpowers/specs/2026-10-21-colab-routing-study-design.md) separates this 200-question feasibility pilot from a later separately approved confirmation. Remote verification/export remains pending: no new GPU result, quality guarantee or speedup is claimed. Historical profiles/reports are unchanged; see the [assessment](docs/research-reassessment.md) and [workflow](docs/real-evaluation-workflow.md).
 
+**Remote validation in progress (2026-10-22):** Exact-source CI at `9b81df3` passed both Python jobs (196 tests each) and the separate PostgreSQL contract (2 tests). Free Colab allocated a 15-GiB T4 and loaded both pinned Qwen3.5 models. The component probe stopped at its API feedback contract because the injected service retained disabled feedback; the probe configuration is being repaired and rerun. This partial feasibility evidence is not a completed pilot or a routing-performance result.
+
 ## What it answers
 
 The central question is: can a routing policy reduce average inference cost or latency while maintaining a stated quality target? The project makes that question measurable by preserving route decisions, model outcomes, confidence, retrieval, latency, usage, uncertainty, configuration, environment, and provenance.

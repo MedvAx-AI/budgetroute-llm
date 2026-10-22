@@ -200,6 +200,8 @@ def _assert_real_config(config: AppConfig) -> None:
 
 
 def _loopback_api(config: AppConfig, service: Any) -> dict[str, Any]:
+    from copy import copy
+
     import httpx
     import uvicorn
 
@@ -226,8 +228,12 @@ def _loopback_api(config: AppConfig, service: Any) -> dict[str, Any]:
     listener = socket.socket()
     listener.bind(("127.0.0.1", 0))
     port = listener.getsockname()[1]
+    # Endpoint feature flags are read from the injected service, not only from
+    # the app configuration. Share loaded generators without mutating the caller.
+    api_service = copy(service)
+    api_service.config = effective
     server = uvicorn.Server(
-        uvicorn.Config(create_app(effective, service=service), log_level="error", lifespan="on")
+        uvicorn.Config(create_app(effective, service=api_service), log_level="error", lifespan="on")
     )
     thread = threading.Thread(target=server.run, kwargs={"sockets": [listener]}, daemon=True)
     try:

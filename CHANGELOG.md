@@ -6,6 +6,8 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 
 ### Fixed
 
+- The Colab loopback API probe now gives its injected service the same temporary configuration as its app, without mutating the caller. A real T4 probe exposed the previously disabled feedback flag; an in-process ASGI regression reproduces it without claiming GPU or network evidence.
+
 - Per-call usage/cost accounting includes both cascade executions without double-counting accepted small answers. Missing/partial reported usage and undeclared rates yield unknown totals, with known subtotals preserved. Default policy forecast rates are not treated as measured cost.
 
 - Generation-cache schema v2 separates endpoint/runtime/logprob/template/loader/context identity and rejects old-schema entries. Cached HTTP backends require a deployment identity; returned model mismatches and non-object JSON responses fail explicitly, while absent identity remains unavailable.
