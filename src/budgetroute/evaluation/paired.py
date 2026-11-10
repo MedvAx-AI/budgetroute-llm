@@ -84,10 +84,12 @@ def paired_policy_summary(
         return result
     pairs = [(left[key], right[key]) for key in ids]
     for a, b in pairs:
+        # Failed calls did not run an evaluator; their labels can be placeholders.
+        evaluated = a.error is None and b.error is None
         if (
             a.reference != b.reference
             or (a.group_id or a.example_id) != (b.group_id or b.example_id)
-            or a.metric_name != b.metric_name
+            or (evaluated and a.metric_name != b.metric_name)
         ):
             raise ValueError("paired records must agree on reference, group and evaluator")
     differences = [

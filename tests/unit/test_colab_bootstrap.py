@@ -46,9 +46,28 @@ def test_setup_imports_newly_installed_source_in_current_kernel(
         subprocess, "check_output", lambda args, **kwargs: "a" * 40 if "rev-parse" in args else ""
     )
     monkeypatch.setattr(sys, "path", list(sys.path))
+    monkeypatch.delitem(sys.modules, "budgetroute", raising=False)
+    monkeypatch.delitem(sys.modules, "transformers", raising=False)
     exec(compile(tree, "notebook-setup", "exec"), {"input": lambda prompt: next(answers)})
     found = importlib.util.find_spec("_budgetroute_notebook_marker")
     assert found is not None and Path(found.origin or "") == marker
+
+
+def test_setup_rejects_kernel_that_already_imported_project(
+    project_root: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    notebook = json.loads((project_root / "notebooks/routing_pilot_colab.ipynb").read_text())
+    source = "".join(next(c for c in notebook["cells"] if c["id"] == "setup")["source"])
+    monkeypatch.setitem(sys.modules, "budgetroute", SimpleNamespace())
+
+    def must_not_run(*args, **kwargs):
+        pytest.fail("setup mutated the checkout or dependencies before requiring a restart")
+
+    monkeypatch.setattr(subprocess, "run", must_not_run)
+    monkeypatch.setattr(subprocess, "check_output", must_not_run)
+    answers = iter(["b" * 40, "primary"])
+    with pytest.raises(RuntimeError, match="Restart"):
+        exec(compile(source, "notebook-setup", "exec"), {"input": lambda prompt: next(answers)})
 
 
 def test_component_failure_keeps_environment_and_config(
@@ -86,3 +105,26 @@ def test_component_failure_keeps_environment_and_config(
     assert json.loads((tmp_path / "components.json").read_text())["status"] == "failed"
     assert json.loads((tmp_path / "environment.json").read_text()) == environment
     assert (tmp_path / "resolved-config.yaml").is_file()
+
+
+def test_retrieval_probe_persists_and_searches_reloaded_index(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from budgetroute.config import RetrievalConfig
+    from budgetroute.retrieval.embeddings import FakeEmbedder
+    from budgetroute.retrieval.index import ExactCosineIndex
+    from budgetroute.validation import colab
+
+    # Exercise real file persistence offline. Only the Colab probe can prove FAISS/MiniLM.
+    corpus = tmp_path / "corpus"
+    corpus.mkdir()
+    (corpus / "a.txt").write_text("Paris is the capital of France.\n")
+    (corpus / "b.txt").write_text("Bananas are a yellow fruit.\n")
+    config = RetrievalConfig(corpus_path=corpus, index_path=tmp_path / "index.npz")
+    monkeypatch.setattr(colab, "FaissHNSWIndex", ExactCosineIndex)
+    probe = getattr(colab, "_probe_retrieval", None)
+    assert callable(probe), "the component gate needs a persistence round-trip probe"
+    report = probe(config, FakeEmbedder(128))
+    assert config.index_path.is_file()
+    assert report["hits"][0]["chunk_id"] == report["reloaded_hits"][0]["chunk_id"]
+    assert "Paris" in report["reloaded_hits"][0]["text"]

@@ -1,6 +1,6 @@
 # Research reassessment — 2026-10-21
 
-Status updated 2026-10-22: relevance/methods audit, specification and [Native implementation plan](superpowers/plans/2026-10-21-colab-routing-study.md) approved; Tasks 1–9 implemented. The defects below describe the audited old source and are now covered by measurement repairs. Remote CPU/database CI and the repaired T4 component gate passed at `5ab58a8`; collection then exhausted host RAM during model reload, before any paired outcomes. An explicit direct-to-CUDA loading repair requires a new identity and fresh remote validation. Failed attempts are retained. No completed pilot, confirmatory protocol, or new positive routing result exists yet. Budget: free Google Colab only; no paid compute or public service deployment.
+Status updated 2026-11-10: relevance/methods audit, specification and [Native implementation plan](superpowers/plans/2026-10-21-colab-routing-study.md) approved; Tasks 1–9 implemented. The defects below describe the audited old source and are covered by measurement repairs. Real T4 component evidence was retained at `5ab58a8`, but collection exhausted host RAM before any paired outcomes. Direct-to-CUDA loading passed software CI at `f684b7e`; the browser retry timed out before Colab setup. No completed pilot, confirmatory protocol, or new routing-performance result exists. Budget: free Google Colab only; no paid compute or public service deployment.
 
 ## Bottom line
 
@@ -79,10 +79,10 @@ Fresh existing-code validation was triggered on a dedicated branch pointing to u
 
 | Remote lane | Status and acceptance evidence |
 | --- | --- |
-| CPU/API/offline routing/storage contracts and real PostgreSQL | Repaired source `5ab58a8` passed Python 3.11/3.12 (197 tests each, 78.38% branch coverage) and PostgreSQL 17 (2 tests); [exact run](https://github.com/MedvAx-AI/budgetroute-llm/actions/runs/39811563385). Each quality job skips the database module supplied separately in the real database job. |
-| Colab real GPU backend | Full component gate passed at `5ab58a8` after fixing the earlier API probe. Subsequent CPU-staged model reload exhausted host RAM; the explicit direct-device loading retry must pass the gate again at its new source/config identity. |
+| CPU/API/offline routing/storage contracts and real PostgreSQL | Direct-loading source `f684b7e` passed Python 3.11/3.12 (199 tests each, 78.40% branch coverage) and PostgreSQL 17 (2 tests); [exact run](https://github.com/MedvAx-AI/budgetroute-llm/actions/runs/39812961284). Each quality job skips the database module supplied separately in the real database job. |
+| Colab real GPU backend | The October 22 gate at `5ab58a8` passed the checks implemented at that SHA. The subsequent CPU-staged model reload exhausted host RAM. The direct-device loading and strengthened component checks need a new run; on November 10, two in-app connection attempts returned to Connect, with proxy-frame configuration timeouts and no notebook setup. |
 | Colab research pipeline | Data materialized remotely: exactly 120 fitting / 40 selection / 40 diagnostic questions, excluding the old 500. Baseline collection, fitting, diagnostic/replay, live timing and verified final export remain pending. Pilot has no certification or final confirmation split. |
-| Real semantic retrieval | Pinned CPU MiniLM (2×384 vectors) and actual FAISS HNSW passed within the repaired component gate. This is not a corpus-scale retrieval study. |
+| Real semantic retrieval | Pinned CPU MiniLM (2×384 vectors) and actual FAISS HNSW in-memory search passed at `5ab58a8`. That probe did not save or reload its index; the new round-trip gate still needs real Colab execution. This is not a corpus-scale retrieval study. |
 | Real HTTP-compatible backend and loopback API | Repaired authenticated IPv4 loopback generation/feedback/metrics and graceful shutdown passed on Colab at `5ab58a8`. No separate provider/runtime compatibility or public capacity claim. |
 
 CLI success is not enough: compatibility probes catch exceptions, and benchmarks can finish with errors. Acceptance must assert artifact success, zero errors, non-fake backend identity, correct batch/order fields, source/config/data hashes, and observed environment. The committed [thin notebook](../notebooks/routing_pilot_colab.ipynb) delegates all stages to versioned code. Store executed notebook output and allowlisted artifacts outside the ephemeral runtime; the unexecuted source notebook is not evidence.
@@ -90,6 +90,8 @@ CLI success is not enough: compatibility probes catch exceptions, and benchmarks
 The [official Colab FAQ](https://research.google.com/colaboratory/faq.html) makes GPU availability/type and session limits dynamic; free sessions may end early. Use interactive, notebook-driven execution and resumable checkpointed runs, without SSH, remote desktops, public service tunnels, or quota-bypass tricks. The [runtime-version FAQ](https://research.google.com/colaboratory/runtime-version-faq.html) documents selectable historical runtimes; record the version actually observed rather than assuming a particular default.
 
 The requested in-app-browser-only approach allocated a free Tesla T4 on October 22 without desktop automation. The observed environment was Python 3.13.15, torch 2.11.0+cu130, CUDA 13.0 and driver 580.82.07. Data and partial component execution are real; the full experiment is not complete. Failed-probe configuration/environment/component files were retained outside Colab before retrying. No paid upgrade, public tunnel, Drive mount or credential provisioning was used.
+
+The retained incomplete archive has SHA-256 `c73ce64601e47e2e8ca57c529daf9248bdf774545b094d5d370a040bfa98402b`. Its component report names clean source `5ab58a8741634c0128be0f6d85297af5acfba2e6`; its collection status is `incomplete`, and it has no collection predictions. The frozen dataset bytes hash to `eaac6681ee7e8445c1723cf62d19788757b4aee92408b813eccd219cd92804fa`. The archive is not a completed evidence bundle.
 
 ## Next decision
 

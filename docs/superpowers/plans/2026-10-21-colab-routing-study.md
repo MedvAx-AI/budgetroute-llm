@@ -170,6 +170,8 @@ Dependency order: 1 → 2; 3 → 8; 2+4+5+6 → 7; all 1–8 → 9 → 10. Work 
 
 ## Risks, decisions, and progress
 
+- 2026-11-10: software CI passed the direct-loading fix at `f684b7e`. Two in-app Colab connection attempts timed out before setup. The October archive at `5ab58a8` contains real component checks and an incomplete collection with no predictions; its retrieval probe did not cover save/reload. The independent whole-branch review found four important issues; repairs add failure-safe pairing, route-checkpoint recovery, a fresh-kernel guard, and a retrieval save/reload/search gate. Task 10 stays open until the repaired source produces a verified real pilot export.
+
 - Known before execution: the old source is clean at `bfce2bf`; current behavior still contains the audited defects. Historical MMLU-500 files exist locally; plan-authoring inspection verified the full JSONL hash matches `5b25d20f38e91120bd3303ad32cc35d54ae9eb0326468532f41dcfaa2b31ede7`. Task 6 rechecks this before deriving exclusions.
 - Existing remote CI success belongs to source `5a5e359`, not future implementation commits. Signed-in in-app-browser Colab access is verified; GPU allocation and optional-runtime compatibility are not.
 - The modern architecture may not fit or be supported on the free GPU. The explicit fallback is a feasibility choice, never final-test model selection. No silent precision or budget changes.

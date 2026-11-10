@@ -21,7 +21,7 @@ def test_failed_answer_remains_in_paired_denominator(
     ]
     candidate = [row.model_copy(update={"policy": "learned"}) for row in baseline]
     candidate[-1] = candidate[-1].model_copy(
-        update={"error": "generation failed", "latency_ms": 0.0}
+        update={"error": "generation failed", "latency_ms": 0.0, "metric_name": "classification"}
     )
     summary = paired_policy_summary(candidate, baseline)
     assert summary["paired_count"] == 4
@@ -58,7 +58,9 @@ def test_duplicate_pair_ids_are_rejected(
         paired_policy_summary([row, row], [row])
 
 
-@pytest.mark.parametrize("changed", [{"reference": "C"}, {"group_id": "different"}])
+@pytest.mark.parametrize(
+    "changed", [{"reference": "C"}, {"group_id": "different"}, {"metric_name": "different"}]
+)
 def test_changed_reference_or_group_is_not_a_pair(
     prediction_factory: Callable[..., PredictionRecord], changed: dict[str, str]
 ) -> None:

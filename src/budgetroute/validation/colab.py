@@ -23,6 +23,7 @@ from budgetroute.experiments.artifacts import ArtifactWriter
 from budgetroute.experiments.metadata import configuration_hash, git_metadata
 from budgetroute.features.semantic import SemanticFeatures, SemanticFeatureSpec
 from budgetroute.inference.service import build_service
+from budgetroute.retrieval.base import EmbeddingProvider
 from budgetroute.retrieval.embeddings import TransformersEmbedder
 from budgetroute.retrieval.index import FaissHNSWIndex
 from budgetroute.retrieval.service import RetrievalService
@@ -151,8 +152,10 @@ def validate_component_report(report: dict[str, Any]) -> None:
             retrieval["metadata"]["index_type"] != "faiss_hnsw"
             or retrieval["metadata"]["embedding_revision"] != SemanticFeatureSpec().revision
             or not retrieval["hits"]
+            or [(hit["chunk_id"], hit["text"]) for hit in retrieval["reloaded_hits"]]
+            != [(hit["chunk_id"], hit["text"]) for hit in retrieval["hits"]]
         ):
-            raise ValueError("real pinned FAISS retrieval missing")
+            raise ValueError("real pinned FAISS retrieval persistence evidence missing")
         grid = checks["scheduling"]["grid"]
         if {(r["concurrency"], r["batch_size"]) for r in grid} != {(1, 1), (2, 1), (1, 2)}:
             raise ValueError("scheduling grid incomplete")
@@ -288,6 +291,31 @@ def _loopback_api(config: AppConfig, service: Any) -> dict[str, Any]:
             raise ArtifactError("loopback API did not shut down cleanly")
 
 
+def _probe_retrieval(config: RetrievalConfig, encoder: EmbeddingProvider) -> dict[str, Any]:
+    query = "capital of France"
+    retrieval = RetrievalService(config, FaissHNSWIndex(encoder))
+    retrieval.initialize(rebuild=True, persist=True)
+    hits = retrieval.search(query, top_k=1)
+    if not hits or "Paris" not in hits[0].text:
+        raise ArtifactError("real FAISS HNSW retrieval failed")
+
+    restored = RetrievalService(config, FaissHNSWIndex(encoder))
+    restored.index.load(config.index_path)
+    reloaded_hits = restored.search(query, top_k=1)
+    if not reloaded_hits or (
+        reloaded_hits[0].chunk_id,
+        reloaded_hits[0].text,
+    ) != (hits[0].chunk_id, hits[0].text):
+        raise ArtifactError("real FAISS HNSW retrieval changed after reload")
+    return {
+        "status": "passed",
+        "fake": False,
+        "metadata": restored.metadata(),
+        "hits": [hit.model_dump(mode="json") for hit in hits],
+        "reloaded_hits": [hit.model_dump(mode="json") for hit in reloaded_hits],
+    }
+
+
 def run_component_checks(config_path: Path, output_dir: Path) -> Path:
     from budgetroute.experiments.pilot import _hash
 
@@ -382,17 +410,7 @@ def run_component_checks(config_path: Path, output_dir: Path) -> Path:
             embedding_revision=encoder.spec.revision,
             min_similarity=-1.0,
         )
-        retrieval = RetrievalService(retrieval_config, FaissHNSWIndex(retrieval_encoder))
-        retrieval.initialize(rebuild=True)
-        hits = retrieval.search("capital of France", top_k=1)
-        if not hits or "Paris" not in hits[0].text:
-            raise ArtifactError("real FAISS HNSW retrieval failed")
-        report["checks"]["retrieval"] = {
-            "status": "passed",
-            "fake": False,
-            "metadata": retrieval.metadata(),
-            "hits": [h.model_dump(mode="json") for h in hits],
-        }
+        report["checks"]["retrieval"] = _probe_retrieval(retrieval_config, retrieval_encoder)
         scheduling = []
         records = [
             BenchmarkRecord(

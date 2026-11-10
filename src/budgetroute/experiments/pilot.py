@@ -159,7 +159,12 @@ def _collect(config: AppConfig, workspace: Path, records: list[BenchmarkRecord])
                     backend_fingerprint(backend, backend_config),
                     request_for_record(record, fake=config.benchmark.fake),
                 )
-                if key in predictions and not predictions[key].get("error") and cached is not None:
+                if (
+                    key in predictions
+                    and key in routes
+                    and not predictions[key].get("error")
+                    and cached is not None
+                ):
                     continue
                 measured, decisions, _ = evaluate_records(
                     service, [record], fake=config.benchmark.fake

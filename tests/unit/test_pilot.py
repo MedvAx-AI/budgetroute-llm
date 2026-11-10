@@ -64,6 +64,34 @@ def test_collection_resumes_only_missing_cached_generations(
     assert calls == 0
 
 
+def test_collection_recovers_route_missing_after_prediction_checkpoint(
+    fake_config: AppConfig, tmp_path: Path
+) -> None:
+    from budgetroute.experiments.artifacts import ArtifactWriter
+    from budgetroute.experiments.pilot import _collect
+
+    write = ArtifactWriter.write_jsonl
+
+    def interrupted(self: ArtifactWriter, filename: str, rows):
+        if filename == "routes.jsonl":
+            raise KeyboardInterrupt("disconnected before route checkpoint")
+        return write(self, filename, rows)
+
+    records = questions(2)
+    with patch.object(ArtifactWriter, "write_jsonl", interrupted), pytest.raises(KeyboardInterrupt):
+        _collect(fake_config, tmp_path, records)
+
+    collection = _collect(fake_config, tmp_path, records)
+    predictions = [
+        json.loads(line) for line in (collection / "predictions.jsonl").read_text().splitlines()
+    ]
+    routes = [json.loads(line) for line in (collection / "routes.jsonl").read_text().splitlines()]
+    assert len(predictions) == len(routes) == 4
+    assert {(r["example_id"], r["policy"]) for r in routes} == {
+        (r["example_id"], r["policy"]) for r in predictions
+    }
+
+
 def test_matched_random_is_exact_count_and_persisted(tmp_path: Path) -> None:
     from budgetroute.experiments.pilot import _MatchedRandomPolicy
 
