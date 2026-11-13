@@ -70,3 +70,6 @@ Quality uses all scheduled records: failed generations score zero. Successful-on
 
 `paired_comparisons` aligns complete unique IDs against always-large and reports failures, discordance and descriptive grouped intervals. Missing counterparts make the comparison incomplete. A latency ratio additionally requires explicitly real, non-replay, successful records and matching hardware, generation, data and trial-block identities; generic benchmark reports do not infer these contexts. These intervals are not non-inferiority certification.
 
+# Interpreting zero cheap coverage
+
+In the [verified Colab pilot](../reports/benchmarks/colab-routing-pilot-2026-11-13.md), the semantic gate tied always-large on all 40 diagnostic questions by making no cheap substitutions. A zero paired accuracy delta in that case is not evidence that cheap substitutions are safe.

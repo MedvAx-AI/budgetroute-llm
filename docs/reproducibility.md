@@ -35,5 +35,7 @@ The development pilot freezes source SHA/clean state, resolved configuration, da
 
 The source notebook is intentionally unexecuted in Git. Its structure and adapters are checked offline; only an exported executed Colab notebook plus validated real artifacts can establish remote completion. Cached baseline quality is distinct from cache-disabled online latency. Repeated timings preserve original question groups, and descriptive intervals do not certify non-inferiority.
 
+The [November 13 machine-readable card](../reports/benchmarks/colab-routing-pilot-2026-11-13.json) records source, dataset, archive and executed-notebook hashes. When the in-app browser did not deliver the normal downloads, the archive was recovered byte-for-byte from visible notebook output and the executed notebook from Colab's cell clipboard. No measurements were rerun or modified to export them.
+
 Retain host-RAM crashes as incomplete attempts, including the last executed notebook and persisted component/identity/run artifacts. The October 22 `5ab58a8` attempt passed component checks but exhausted host RAM during the next model reload, before paired outcomes were collected. Direct-device loading is a new explicit configuration/source identity, not a continuation of that failed identity. Do not combine its artifacts with the retry. When ordinary browser downloads are unavailable, the notebook's native select-all/copy `application/ipynb` payload preserves actual cells, execution counts and outputs; record the export method when wrapping those cells in a standard notebook document.
 

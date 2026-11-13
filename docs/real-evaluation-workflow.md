@@ -134,3 +134,5 @@ The primary semantic gate and numeric ablation use paired non-harm labels and a 
 
 Download the curated evidence ZIP and the executed notebook before Colab removes the VM. The exporter checks required evidence and hashes; it excludes caches, weights, environment variables, unrelated files and credentials. The authentication probe uses a temporary loopback-only credential and restores the prior environment. Runtime probes must contain actual non-fake generation, semantic, FAISS HNSW, scheduling, API and cleanup evidence; passed labels alone are insufficient.
 
+See the [verified November 13 pilot](../reports/benchmarks/colab-routing-pilot-2026-11-13.md) for a completed execution, including the negative result and the distinction between independent questions and repeated timing requests.
+

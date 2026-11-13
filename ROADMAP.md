@@ -61,10 +61,10 @@ See the [relevance/methods audit and proposed study](docs/research-reassessment.
 - [x] Record per-backend calls and preserve unknown/partial usage and cost instead of reporting missing cost as zero.
 - [x] Repair infeasible-threshold fallback, router/answer confidence metrics, cache identity, missing-cost semantics, and grouped/paired uncertainty before confirmatory claims.
 - [x] Implement the independent 120/40/40 development splits, shared semantic features, modern pinned adapters and resumable thin Colab notebook.
-- [x] Allocate free T4 and preserve the first real component attempt (generation, semantic, retrieval and scheduling passed; API-probe failure retained). Full gate rerun remains required.
+- [x] Allocate free T4 and preserve the first real component attempt (generation, semantic, retrieval and scheduling passed; API-probe failure retained separately from later accepted runs).
 - [x] Independently review the implementation and repair paired failure reporting, interrupted route checkpoints, stale notebook imports, and missing retrieval persistence verification.
-- [ ] Reconnect a free Colab T4 through the in-app browser and verify the current source, including direct-to-CUDA loading and real FAISS save/reload/search. The November 10 retry did not reach setup.
-- [ ] Execute a development-only modern-model feasibility pilot on free Colab and determine whether an adequately powered study fits the available budget.
+- [x] Reconnect a free Colab T4 through the in-app browser and pass the real component gate at reviewed source `842d92f`, including direct-to-CUDA loading and FAISS save/reload/search.
+- [x] Execute and verify the [development-only modern-model pilot](reports/benchmarks/colab-routing-pilot-2026-11-13.md) on free Colab. The measured configuration missed the latency target; do not advance it to confirmation.
 - [ ] Freeze fresh splits, primary policy, scoring, stopping rules, and the complete non-inferiority/latency decision rule before examining final outcomes.
 - [ ] Execute and preserve real remote component and study evidence; publish positive, negative, infeasible, or inconclusive outcomes without post-hoc changes to success criteria.
 
@@ -80,5 +80,5 @@ See the [relevance/methods audit and proposed study](docs/research-reassessment.
 - Validate HNSW recall/latency and autoscaling behavior on the target corpus and fleet before setting production thresholds.
 # Active research implementation
 
-Completed software foundations: fail-closed thresholds, typed probability targets, cache/runtime identity, per-call cost provenance, failure-aware paired evaluation, independent pilot data, shared semantic gates, modern adapters and resumable Colab orchestration. Actual remote component/pilot execution and exported evidence remain the next gates; confirmation remains separately approval-gated.
+The remote component checks, development pilot and evidence verification are complete. Any new study should first screen for a model pair with a meaningful live latency gap and enough safe cheap substitutions, using separate development data. Confirmation remains separately approval-gated.
 

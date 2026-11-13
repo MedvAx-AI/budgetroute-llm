@@ -4,11 +4,15 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 
 ## [Unreleased]
 
+### Research evidence
+
+- Published a verified free-Colab Qwen3.5 development pilot. The semantic gate made zero cheap substitutions and was 13.1% slower than always-large; no confirmation was run. The report separates 200-question baselines, 40-question diagnostics and cache-disabled live timing.
+
 ### Fixed
 
 - Independent review fixes preserve paired failures and repair missing route checkpoints after interrupted collection. Notebook setup requires a fresh kernel before reinstallation, and Colab retrieval acceptance now requires a real save/reload/search round trip.
 
-- Colab profiles explicitly load generators directly onto the requested CUDA device, avoiding a full host-RAM staging copy. The setting is opt-in, recorded in metadata/cache identity, and does not enable offloading or change FP16/model/decoding settings. This repairs a real host-RAM crash between component checks and collection; fresh remote acceptance remains required.
+- Colab profiles explicitly load generators directly onto the requested CUDA device, avoiding a full host-RAM staging copy. The setting is opt-in, recorded in metadata/cache identity, and does not enable offloading or change FP16/model/decoding settings. The November 13 free-T4 pilot passed the reload that had exhausted host RAM in October.
 
 - The Colab loopback API probe now gives its injected service the same temporary configuration as its app, without mutating the caller. A real T4 probe exposed the previously disabled feedback flag; an in-process ASGI regression reproduces it without claiming GPU or network evidence.
 

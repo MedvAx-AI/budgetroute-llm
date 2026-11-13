@@ -1,5 +1,7 @@
 # Documentation
 
+- [Verified free-Colab routing pilot (2026-11-13)](../reports/benchmarks/colab-routing-pilot-2026-11-13.md): negative feasibility result, paired quality, live timing, and evidence provenance.
+
 - [Research reassessment (2026-10-21)](research-reassessment.md): relevance, primary literature, model candidates, confirmed methodology gaps, accepted direction, and actual versus missing remote-test evidence.
 - [Approved Colab research pilot specification](superpowers/specs/2026-10-21-colab-routing-study-design.md): scope, hypothesis, measurement repairs, remote acceptance evidence, free-compute boundaries, and confirmation gates.
 - [Approved Colab pilot implementation plan](superpowers/plans/2026-10-21-colab-routing-study.md): Native test-first execution, shared interfaces, remote execution/evidence requirements, and current progress.

@@ -39,3 +39,6 @@ The follow-up [paired-quality held-out MMLU study](../reports/benchmarks/qwen25-
 
 Quality denominators include every scheduled answer, including errors; latency distributions are successful-only diagnostics. Repeated trials are clustered by original question, not counted as independent new questions. Paired accuracy differences and confidence intervals are descriptive. Speedup ratios are unavailable without verified compatible live trial contexts, and never calculated from failures assigned zero latency.
 
+# Verified Colab example
+
+The [November 13 pilot](../reports/benchmarks/colab-routing-pilot-2026-11-13.md) reports cache-disabled timing for three blocks with both generators resident. The always-large comparator keeps the unused small model loaded. The 120 requests per policy represent 40 independent questions, not 120 independent samples.

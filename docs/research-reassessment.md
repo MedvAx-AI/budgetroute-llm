@@ -79,11 +79,11 @@ Fresh existing-code validation was triggered on a dedicated branch pointing to u
 
 | Remote lane | Status and acceptance evidence |
 | --- | --- |
-| CPU/API/offline routing/storage contracts and real PostgreSQL | Direct-loading source `f684b7e` passed Python 3.11/3.12 (199 tests each, 78.40% branch coverage) and PostgreSQL 17 (2 tests); [exact run](https://github.com/MedvAx-AI/budgetroute-llm/actions/runs/39812961284). Each quality job skips the database module supplied separately in the real database job. |
-| Colab real GPU backend | The October 22 gate at `5ab58a8` passed the checks implemented at that SHA. The subsequent CPU-staged model reload exhausted host RAM. The direct-device loading and strengthened component checks need a new run; on November 10, two in-app connection attempts returned to Connect, with proxy-frame configuration timeouts and no notebook setup. |
-| Colab research pipeline | Data materialized remotely: exactly 120 fitting / 40 selection / 40 diagnostic questions, excluding the old 500. Baseline collection, fitting, diagnostic/replay, live timing and verified final export remain pending. Pilot has no certification or final confirmation split. |
-| Real semantic retrieval | Pinned CPU MiniLM (2×384 vectors) and actual FAISS HNSW in-memory search passed at `5ab58a8`. That probe did not save or reload its index; the new round-trip gate still needs real Colab execution. This is not a corpus-scale retrieval study. |
-| Real HTTP-compatible backend and loopback API | Repaired authenticated IPv4 loopback generation/feedback/metrics and graceful shutdown passed on Colab at `5ab58a8`. No separate provider/runtime compatibility or public capacity claim. |
+| CPU/API/offline routing/storage contracts and real PostgreSQL | Independently reviewed source `842d92f` passed Python 3.11/3.12 (203 tests each, 78.50% branch coverage) and PostgreSQL 17 (2 tests); [exact run](https://github.com/MedvAx-AI/budgetroute-llm/actions/runs/42831640638). Each quality job skips the database module supplied separately in the real database job. |
+| Colab real GPU backend | The October 22 gate at `5ab58a8` passed; the subsequent CPU-staged reload exhausted host RAM. After two November 10 connection timeouts, a November 13 free T4 session at `842d92f` passed the strengthened real component gate with direct-to-device loading. This is component evidence, not a routing-speed measurement. |
+| Colab research pipeline | The [November 13 pilot](../reports/benchmarks/colab-routing-pilot-2026-11-13.md) completed: 400 baseline predictions, 240 diagnostic predictions, 720 live measurements, 80/80 replay signatures, and verified final export. It has no certification or final confirmation split. |
+| Real semantic retrieval | Pinned CPU MiniLM (2×384 vectors) and real FAISS HNSW search, persistence, reload and matching hits passed at `842d92f`. This is not a corpus-scale retrieval study. |
+| Real HTTP-compatible backend and loopback API | Authenticated IPv4 loopback generation/feedback/metrics and graceful shutdown passed in the real component gate at `842d92f`. No separate provider/runtime compatibility or public capacity claim. |
 
 CLI success is not enough: compatibility probes catch exceptions, and benchmarks can finish with errors. Acceptance must assert artifact success, zero errors, non-fake backend identity, correct batch/order fields, source/config/data hashes, and observed environment. The committed [thin notebook](../notebooks/routing_pilot_colab.ipynb) delegates all stages to versioned code. Store executed notebook output and allowlisted artifacts outside the ephemeral runtime; the unexecuted source notebook is not evidence.
 
@@ -93,6 +93,8 @@ The requested in-app-browser-only approach allocated a free Tesla T4 on October 
 
 The retained incomplete archive has SHA-256 `c73ce64601e47e2e8ca57c529daf9248bdf774545b094d5d370a040bfa98402b`. Its component report names clean source `5ab58a8741634c0128be0f6d85297af5acfba2e6`; its collection status is `incomplete`, and it has no collection predictions. The frozen dataset bytes hash to `eaac6681ee7e8445c1723cf62d19788757b4aee92408b813eccd219cd92804fa`. The archive is not a completed evidence bundle.
 
+The November 13 session used a free Tesla T4 (15,360 MiB), driver 580.82.07, CUDA 13.0, torch 2.14.1+cu130, and Python 3.13.16. The notebook's setup and component outputs identify clean source `842d92fe007c29c4c5ac5a0445efdb9910bb18ad` and the same frozen dataset hash. These are new run identities, not a continuation of the October benchmark measurements.
+
 ## Next decision
 
-The written pilot specification and Native implementation plan are approved. Follow the plan's live progress and evidence record. Browser access does not establish GPU execution, and design approval is not a scientific result.
+Do not confirm the measured Qwen3.5/T4 configuration: the semantic gate routed zero diagnostic questions cheaply and missed the latency target. If the study continues, screen for a better candidate pair on separate development data before designing a frozen, powered confirmation. The [pilot report](../reports/benchmarks/colab-routing-pilot-2026-11-13.md) gives the measured result and its limits.
