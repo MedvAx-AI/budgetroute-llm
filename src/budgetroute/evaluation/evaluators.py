@@ -99,6 +99,16 @@ def classification(answer: str, reference: str) -> EvaluationResult:
     )
 
 
+def strict_mcq(answer: str, reference: str, choice_count: int) -> EvaluationResult:
+    text = answer.strip().upper()
+    match = re.fullmatch(r"([A-Z])|\(([A-Z])\)", text)
+    label = (match.group(1) or match.group(2)) if match else ""
+    valid = 1 <= choice_count <= 26 and label in [chr(65 + i) for i in range(choice_count)]
+    return EvaluationResult(
+        float(valid and label == reference.strip().upper()), "strict_mcq_accuracy", label.lower()
+    )
+
+
 def abstention(answer: str, must_abstain: bool) -> EvaluationResult:
     normalized = normalize_text(answer)
     did_abstain = normalized.startswith("abstain") or "i cannot answer" in normalized
@@ -137,6 +147,8 @@ def _numeric_adapter(answer: str, record: BenchmarkRecord) -> EvaluationResult:
 
 
 def _classification_adapter(answer: str, record: BenchmarkRecord) -> EvaluationResult:
+    if record.metadata.get("prompt_version") == "direct-mcq-v2":
+        return strict_mcq(answer, record.reference_answer, int(record.metadata["choice_count"]))
     return classification(answer, record.reference_answer)
 
 

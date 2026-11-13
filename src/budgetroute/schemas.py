@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import Any
+from math import isfinite
+from typing import Any, Literal
 from uuid import uuid4
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class RouteName(StrEnum):
@@ -71,6 +72,13 @@ class RequestFeatures(BaseModel):
         return {key: float(value) for key, value in data.items()}
 
 
+class RouterProbability(BaseModel):
+    raw_probability: float = Field(ge=0.0, le=1.0)
+    probability: float = Field(ge=0.0, le=1.0)
+    target: Literal["small_success", "paired_quality"]
+    calibrated: bool
+
+
 class RouteDecision(BaseModel):
     route: RouteName
     confidence: float = Field(ge=0.0, le=1.0)
@@ -81,6 +89,7 @@ class RouteDecision(BaseModel):
     thresholds: dict[str, float] = Field(default_factory=dict)
     estimated_cost_units: float | None = Field(default=None, ge=0.0)
     estimated_latency_ms: float | None = Field(default=None, ge=0.0)
+    router_probability: RouterProbability | None = None
 
 
 class RetrievalHit(BaseModel):
@@ -98,9 +107,11 @@ class RouterTrace(BaseModel):
     reason: str
     features: dict[str, Any] = Field(default_factory=dict)
     thresholds: dict[str, float] = Field(default_factory=dict)
+    router_probability: RouterProbability | None = None
 
 
 class ExecutionTrace(BaseModel):
+    answer_truncated: bool = False
     initial_backend: BackendName | None = None
     final_backend: BackendName | None = None
     retrieval_used: bool = False
@@ -152,6 +163,34 @@ class ConfidenceSignals(BaseModel):
     normalized_mean_token_entropy: float | None = Field(default=None, ge=0.0, le=1.0)
 
 
+class BackendCallUsage(BaseModel):
+    backend: BackendName
+    input_tokens: int | None = Field(default=None, ge=0)
+    output_tokens: int | None = Field(default=None, ge=0)
+    input_rate: float | None = Field(default=None, ge=0.0, allow_inf_nan=False)
+    output_rate: float | None = Field(default=None, ge=0.0, allow_inf_nan=False)
+    estimated_cost_units: float | None = Field(default=None, ge=0.0, allow_inf_nan=False)
+
+    @model_validator(mode="after")
+    def derive_cost(self) -> BackendCallUsage:
+        if (
+            self.input_tokens is None
+            or self.output_tokens is None
+            or self.input_rate is None
+            or self.output_rate is None
+        ):
+            self.estimated_cost_units = None
+        else:
+            cost = (
+                self.input_tokens / 1000 * self.input_rate
+                + self.output_tokens / 1000 * self.output_rate
+            )
+            if not isfinite(cost):
+                raise ValueError("derived inference cost must be finite")
+            self.estimated_cost_units = cost
+        return self
+
+
 class GenerationResponse(BaseModel):
     request_id: str
     answer: str
@@ -169,6 +208,7 @@ class GenerationResponse(BaseModel):
     replayed: bool = False
     fake: bool = False
     estimated_cost_units: float | None = Field(default=None, ge=0.0)
+    backend_calls: list[BackendCallUsage] | None = None
 
 
 class BackendGeneration(BaseModel):
@@ -181,6 +221,7 @@ class BackendGeneration(BaseModel):
     generation_ms: float = Field(ge=0.0)
     time_to_first_token_ms: float | None = Field(default=None, ge=0.0)
     metadata: dict[str, Any] = Field(default_factory=dict)
+    usage_is_measured: bool = False
 
 
 class BenchmarkRecord(BaseModel):
@@ -198,6 +239,7 @@ class BenchmarkRecord(BaseModel):
 
 
 class PredictionRecord(BaseModel):
+    answer_truncated: bool = False
     example_id: str
     group_id: str | None = None
     source: str | None = None
@@ -233,6 +275,9 @@ class PredictionRecord(BaseModel):
     confidence_method: str | None = None
     replayed: bool = False
     error: str | None = None
+    router_probability: RouterProbability | None = None
+    fake: bool | None = None
+    backend_calls: list[BackendCallUsage] | None = None
 
 
 class FeedbackRecord(BaseModel):

@@ -114,3 +114,25 @@ After single-request live/replay agreement is established, create separate resol
 Cache replay can compare policy quality/cost composition but cannot measure dynamic batching, load-aware routes, model-server contention, queueing, or thermals. Those require live artifacts. The bundled local OpenAI-compatible profile is an integration example, not a compatibility or speed claim for every vLLM, llama.cpp, or Ollama release.
 
 Use `compatibility-matrix` for exact runtime revisions, then `load-test` against authorized deployed endpoints for wall throughput and tail latency. Preserve each artifact and re-test the tool's heuristic replica suggestion rather than treating it as an autoscaling decision.
+# Independent development pilot
+
+`prepare-routing-pilot --spec configs/datasets/mmlu-pilot.yaml --exclusions data/exclusions/mmlu-500-v1.json --output data/materialized/routing-pilot` freezes exactly 200 development questions before fitting. Historical exclusions were reconstructed from the SHA-256-verified MMLU-500 file and rehydrated pinned upstream rows; no historical prompt/answer text is published in the exclusion manifest. Canonical source indices and normalized question hashes prevent a new prefix or whitespace change from evading exclusion.
+
+The pilot partitions are 120 fitting, 40 threshold selection and 40 diagnostic questions, never a confirmatory test. The direct-mcq-v2 evaluator accepts only a valid single option letter (optionally parenthesized); incomplete/truncated output scores zero. Version-one datasets retain their existing evaluator. Source materialization and GPU execution are separate steps; preparing data is not experimental evidence.
+
+## Free-Colab experiment log
+
+Open `notebooks/routing_pilot_colab.ipynb` at the exact reviewed feature SHA, select a free GPU, and execute top-to-bottom. It installs that source, freezes installed versions, prepares data and runs real component gates before exposing six development stages: collect, fit, diagnostic, timing, summarize and export. The CLI equivalents are `routing-pilot --config ... --workspace ... --stage ...`. No confirmation stage exists.
+
+Bootstrap explicitly adds the verified checkout's `src` directory to the running kernel after editable installation. Once project or Transformers modules are imported, setup refuses to reinstall or switch commits until the kernel is restarted. Component checks save the full environment/configuration before model initialization, including when initialization fails. Retrieval uses a separate real MiniLM/FAISS HNSW probe that builds, saves, reloads into a fresh index, and verifies the same top hit.
+
+The loopback probe shares the loaded generators through a service copy with the probe's effective API flags. Both the app and its injected service must enable feedback; changing only app configuration leaves endpoint feature flags disabled. The caller's configuration remains unchanged. Preserve failed component/environment/configuration artifacts before retrying at a new source SHA; a probe bug does not justify switching model profiles.
+
+Collection persists v2 cache entries and unique paired rows after every answer. If a disconnect lands between prediction and route writes, resume reconstructs the missing route using the cached generation. Diagnostics use only the 40 persisted diagnostic IDs. Live timing uses three seeded policy-order blocks, a warmup per condition, no generation cache, and one initialized two-generator service per block. Partial timing blocks restart entirely. Both generators remain resident even in always-large conditions, so the result is conditional on that deployment, not an optimized large-only service comparison.
+
+The primary semantic gate and numeric ablation use paired non-harm labels and a .98 empirical selective target on the 40 selection questions; this is threshold selection, not a two-point guarantee. The confidence cascade is secondary and fits confidence calibration on fitting IDs only. Matched-random routing has exactly the semantic gate's cheap count; timing assignments use a separately fixed seed.
+
+Download the curated evidence ZIP and the executed notebook before Colab removes the VM. The exporter checks required evidence and hashes; it excludes caches, weights, environment variables, unrelated files and credentials. The authentication probe uses a temporary loopback-only credential and restores the prior environment. Runtime probes must contain actual non-fake generation, semantic, FAISS HNSW, scheduling, API and cleanup evidence; passed labels alone are insufficient.
+
+See the [verified November 13 pilot](../reports/benchmarks/colab-routing-pilot-2026-11-13.md) for a completed execution, including the negative result and the distinction between independent questions and repeated timing requests.
+

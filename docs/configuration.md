@@ -1,5 +1,7 @@
 # Configuration
 
+Backend identity fields include `runtime_identity` (required for cached HTTP execution), `model_loader` (`causal_lm` by default, or `image_text_to_text`), and optional `max_input_tokens`. `generation.enable_thinking` is an explicit optional mode flag; it belongs to cache identity and modern execution profiles, not an inferred checkpoint default. The local HTTP example identities are illustrative and must be replaced with exact deployment identities before claiming reproducible results. Uncached legacy HTTP configurations remain accepted. Modern loader/mode execution support is validated separately from configuration parsing.
+
 Runtime behavior is defined by strict Pydantic models loaded from YAML. `extends` accepts one path or an ordered list; mappings are deep-merged left to right and the current file wins. Missing files, cycles, unknown fields, invalid types, and unsafe combinations fail with actionable errors.
 
 ## Main sections
@@ -81,3 +83,11 @@ Leaving `routing.retrieval_benefit_threshold` unset uses the calibration-selecte
 Run both `validate-config` and `security-check` against the exact deployment config and environment before serving.
 
 PostgreSQL DSNs are read only from `operations.postgres_dsn_env` and never appear in sanitized config. Production defaults require `sslmode=require`, `verify-ca`, or `verify-full`; prefer `verify-full`. Pool limits are per process, so total possible connections grow with replica count. Set `postgres_auto_migrate: false` for production, run `budgetroute migrate-store` with a DDL-capable credential, and give serving replicas a narrower runtime credential. See the [PostgreSQL operations runbook](postgres-operations.md).
+# Semantic feature identity
+
+Pilot semantic training pins `sentence-transformers/all-MiniLM-L6-v2` at `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`, CPU, 256 input tokens. `train-router --help` exposes explicit split, prompt dataset and encoder settings; semantic `evaluate-router` also requires `--dataset`. Never load router joblib files from untrusted sources: they are executable Python artifacts.
+
+Modern pilot profiles: `configs/models/colab-qwen35.yaml` pins Qwen3.5-0.8B/4B, selecting the built-in image-text-to-text loader for text-only requests; `colab-qwen3-fallback.yaml` separately pins Qwen3-0.6B/4B-Instruct-2507. Official Qwen Hub metadata resolved the full model/tokenizer revisions and Apache-2.0 licenses on 2026-10-21 ([primary small](https://huggingface.co/Qwen/Qwen3.5-0.8B), [primary large](https://huggingface.co/Qwen/Qwen3.5-4B), [fallback small](https://huggingface.co/Qwen/Qwen3-0.6B), [fallback large](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507)). Both profiles use FP16, no quantization/compilation, explicit non-thinking greedy generation, 2,048 input tokens and 64 output tokens. Over-limit input fails before generation rather than silently truncating. These are feasibility candidates, not validated speedups; unsupported loaders fail explicitly without remote code execution.
+
+`load_direct_to_device` defaults to false for backward compatibility. The Colab profiles explicitly set it true: `from_pretrained(device_map='cuda')` loads onto the requested single device rather than materializing the complete checkpoint in host RAM and moving it afterward. This is not automatic CPU/disk offload and does not change precision, model class or decoding. Use the `all`/`gpu` installation with Accelerate. The setting is recorded in backend metadata and cache identity. See the [official device-placement documentation](https://huggingface.co/docs/transformers/v5.20.2/hardware). A retained real Colab host-RAM crash motivated this loading-path change; its new configuration must pass fresh component gates before collection.
+

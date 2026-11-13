@@ -8,7 +8,7 @@ import pytest
 from pydantic import ValidationError
 
 from budgetroute.backends.openai_compatible import OpenAICompatibleBackend
-from budgetroute.config import AppConfig, BackendConfig, validate_runtime_config
+from budgetroute.config import AppConfig, BackendConfig, GenerationConfig, validate_runtime_config
 from budgetroute.exceptions import BackendError, ConfigurationError
 from budgetroute.schemas import BackendName, GenerationRequest
 
@@ -52,6 +52,7 @@ def test_openai_compatible_backend_parses_portable_response(
         type="openai_compatible",
         model_id="local-model",
         base_url="http://127.0.0.1:8001/v1",
+        generation=GenerationConfig(enable_thinking=False),
     )
     backend = OpenAICompatibleBackend(BackendName.SMALL, config)
     backend.initialize()
@@ -61,6 +62,7 @@ def test_openai_compatible_backend_parses_portable_response(
     assert output.input_tokens == 7
     assert captured["url"] == "http://127.0.0.1:8001/v1/chat/completions"
     assert captured["payload"]["model"] == "local-model"
+    assert captured["payload"]["chat_template_kwargs"]["enable_thinking"] is False
 
 
 def test_openai_compatible_configuration_rejects_embedded_credentials() -> None:
@@ -147,3 +149,107 @@ def test_openai_compatible_empty_batch_is_stable() -> None:
     backend = OpenAICompatibleBackend(BackendName.SMALL, config)
     backend.initialize()
     assert backend.generate_batch([]) == []
+
+
+def test_returned_remote_model_mismatch_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
+    class WrongModel(_Response):
+        def read(self) -> bytes:
+            data = json.loads(super().read())
+            data["model"] = "different-model"
+            return json.dumps(data).encode()
+
+    monkeypatch.setattr(
+        "budgetroute.backends.openai_compatible.urlopen", lambda request, timeout: WrongModel()
+    )
+    backend = OpenAICompatibleBackend(
+        BackendName.SMALL,
+        BackendConfig(
+            type="openai_compatible",
+            model_id="local-model",
+            base_url="http://localhost:8001/v1",
+        ),
+    )
+    backend.initialize()
+    with pytest.raises(BackendError, match="model"):
+        backend.generate(GenerationRequest(prompt="Q"))
+
+
+def test_unavailable_returned_identity_stays_unavailable(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        "budgetroute.backends.openai_compatible.urlopen", lambda request, timeout: _Response()
+    )
+    backend = OpenAICompatibleBackend(
+        BackendName.SMALL,
+        BackendConfig(
+            type="openai_compatible",
+            model_id="local-model",
+            base_url="http://localhost:8001/v1",
+            runtime_identity="pinned-server-a",
+        ),
+    )
+    backend.initialize()
+    output = backend.generate(GenerationRequest(prompt="Q"))
+    assert output.metadata["returned_model"] is None
+    assert output.metadata["runtime_identity"] == "pinned-server-a"
+
+
+@pytest.mark.parametrize("body", [b"[]", b"null"])
+def test_remote_identity_check_rejects_nonobject_response(
+    monkeypatch: pytest.MonkeyPatch,
+    body: bytes,
+) -> None:
+    class NonObject(_Response):
+        def read(self) -> bytes:
+            return body
+
+    monkeypatch.setattr(
+        "budgetroute.backends.openai_compatible.urlopen", lambda request, timeout: NonObject()
+    )
+    backend = OpenAICompatibleBackend(
+        BackendName.SMALL,
+        BackendConfig(
+            type="openai_compatible",
+            model_id="model",
+            base_url="http://localhost:8001/v1",
+        ),
+    )
+    backend.initialize()
+    with pytest.raises(BackendError, match="object"):
+        backend.generate(GenerationRequest(prompt="Q"))
+
+
+@pytest.mark.parametrize(
+    "usage, measured, reported_input",
+    [
+        (None, False, None),
+        ({"prompt_tokens": 7}, False, 7),
+        ({"prompt_tokens": 7, "completion_tokens": 1}, True, 7),
+    ],
+)
+def test_remote_usage_distinguishes_missing_counts_from_estimates(
+    monkeypatch: pytest.MonkeyPatch,
+    usage: dict[str, int] | None,
+    measured: bool,
+    reported_input: int | None,
+) -> None:
+    class UsageResponse(_Response):
+        def read(self) -> bytes:
+            data = json.loads(super().read())
+            data["usage"] = usage
+            return json.dumps(data).encode()
+
+    monkeypatch.setattr(
+        "budgetroute.backends.openai_compatible.urlopen", lambda request, timeout: UsageResponse()
+    )
+    backend = OpenAICompatibleBackend(
+        BackendName.SMALL,
+        BackendConfig(
+            type="openai_compatible",
+            model_id="model",
+            base_url="http://localhost:8001/v1",
+        ),
+    )
+    backend.initialize()
+    output = backend.generate(GenerationRequest(prompt="Q"))
+    assert output.usage_is_measured is measured
+    assert output.metadata["reported_input_tokens"] == reported_input

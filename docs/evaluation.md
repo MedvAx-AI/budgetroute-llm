@@ -31,6 +31,8 @@ Learned routing declares its label strategy. `small_success` uses `small_model_q
 
 ## Calibration
 
+Router probabilities now carry explicit raw/probability values, target (`small_success` or `paired_quality`), and calibration state separately from final-answer confidence. Router Brier/ECE use paired baseline labels for that declared target; large-answer confidence is never complemented into a gate probability. Final-answer calibration uses only available backend probabilities and records their count; missing confidence produces null metrics, not a fallback to router confidence. Route-decision diagnostics without probability evidence have no calibration score. Legacy records remain readable with unavailable gate probabilities and unknown fake/real identity.
+
 - **Brier score:** mean squared difference between confidence and binary correctness; lower is better.
 - **Expected calibration error:** weighted absolute gap between mean confidence and empirical accuracy across equal-width bins.
 - **Reliability data:** bin boundaries, count, mean confidence, and empirical accuracy, including empty bins.
@@ -44,6 +46,8 @@ Constant predictions, one-class targets, empty inputs, and zero denominators ret
 Configured deterministic percentile bootstrap resampling operates over independent `group_id` units when available and records confidence intervals for supported aggregate metrics. The benchmark also emits a warning when its independent sample count is below `minimum_samples_for_claims`. Intervals describe the observed sampling process; they do not repair biased or unrepresentative data.
 
 ## Systems metrics
+
+Responses/predictions record each actual backend call independently from policy cost forecasts, including both cascade calls and only one call when the small answer is accepted. `backend_calls: null` means legacy/unknown; `[]` means no backend was called. HTTP regex token counts remain compatibility estimates when usage is absent/partial; known reported components are retained and missing components stay null in call records. `measured_input_rate` and `measured_output_rate` are optional declared cost-unit rates per 1,000 recorded tokens, **not measured prices or invoices**. All contributions must be known for an aggregate cost; otherwise the total is null with an explicit known subtotal/completeness. Default forecast rates of zero do not imply measured inference was free.
 
 - p50 and p95 total request latency; p99 only with at least 100 samples.
 - scheduler queue, routing, retrieval, generation, escalation, total, and TTFT where supported.
@@ -60,3 +64,12 @@ Cache replay cannot reproduce queueing or contention and is labeled accordingly.
 The in-process monitor combines mean and q10/q50/q90 numeric shifts in baseline-standard-deviation units with category-distribution total variation. It freezes an automatic baseline at `minimum_samples`, or loads a supplied baseline. `drift_detected` compares the combined score with a configured threshold. This is an operational warning, not a statistical guarantee or automatic retraining trigger.
 
 The operational store retains a prediction's tenant/request ID, route, confidence, numeric features, and timestamp, then joins idempotent correctness feedback. Notes are not persisted. Operator-invoked adaptation orders labels by time, trains on the earlier segment, tests the candidate on a held-out tail against the active calibrator, applies Brier/ECE gates, records Page-Hinkley error change points, and supports explicit rollback. Promotion is not proof against future shift.
+# Failure-aware paired evaluation
+
+Quality uses all scheduled records: failed generations score zero. Successful-only quality remains explicitly named for diagnosis. Repeated measurements retain their original question group. Cluster resamples recompute the observation-weighted mean, matching the reported point estimate even for unequal groups.
+
+`paired_comparisons` aligns complete unique IDs against always-large and reports failures, discordance and descriptive grouped intervals. Missing counterparts make the comparison incomplete. A latency ratio additionally requires explicitly real, non-replay, successful records and matching hardware, generation, data and trial-block identities; generic benchmark reports do not infer these contexts. These intervals are not non-inferiority certification.
+
+# Interpreting zero cheap coverage
+
+In the [verified Colab pilot](../reports/benchmarks/colab-routing-pilot-2026-11-13.md), the semantic gate tied always-large on all 40 diagnostic questions by making no cheap substitutions. A zero paired accuracy delta in that case is not evidence that cheap substitutions are safe.

@@ -9,9 +9,20 @@ from typing import Any
 import numpy as np
 
 from budgetroute.exceptions import RouterTrainingError
+from budgetroute.features.semantic import (
+    PREPROCESSING_IDENTITY,
+    SemanticFeatures,
+    SemanticFeatureSpec,
+)
 from budgetroute.routing.base import feature_snapshot
-from budgetroute.routing.calibration import ProbabilityCalibrator
-from budgetroute.schemas import GenerationRequest, RequestFeatures, RouteDecision, RouteName
+from budgetroute.routing.calibration import ProbabilityCalibrator, resolve_threshold_selection
+from budgetroute.schemas import (
+    GenerationRequest,
+    RequestFeatures,
+    RouteDecision,
+    RouteName,
+    RouterProbability,
+)
 
 
 class LearnedPolicy:
@@ -21,6 +32,7 @@ class LearnedPolicy:
         self.artifact_path = artifact_path
         self.success_threshold = success_threshold
         self._artifact: dict[str, Any] | None = None
+        self._semantic: SemanticFeatures | None = None
 
     def _load(self) -> dict[str, Any]:
         if self._artifact is not None:
@@ -44,6 +56,16 @@ class LearnedPolicy:
         numeric = features.numeric_snapshot()
         feature_order = [str(item) for item in artifact["feature_order"]]
         vector = np.asarray([[numeric.get(name, 0.0) for name in feature_order]], dtype=float)
+        if artifact.get("feature_mode", "numeric") == "semantic":
+            if artifact.get("preprocessing_identity") != PREPROCESSING_IDENTITY:
+                raise RouterTrainingError("semantic preprocessing identity mismatch")
+            if self._semantic is None:
+                self._semantic = SemanticFeatures(
+                    SemanticFeatureSpec.model_validate(artifact["semantic_spec"])
+                )
+            vector = self._semantic.transform([request.prompt])
+            if vector.shape[1] != artifact["feature_dimension"]:
+                raise RouterTrainingError("semantic feature dimension mismatch")
         model = artifact["model"]
         if hasattr(model, "predict_proba"):
             probabilities = model.predict_proba(vector)[0]
@@ -55,21 +77,35 @@ class LearnedPolicy:
             raw_success_probability = float(model.predict(vector)[0])
         calibrator = artifact.get("calibrator", ProbabilityCalibrator())
         success_probability = calibrator.transform_one(raw_success_probability)
-        serving_threshold = (
-            self.success_threshold
-            if self.success_threshold is not None
-            else float(artifact.get("serving_threshold", 0.5))
-        )
-        route = RouteName.SMALL if success_probability >= serving_threshold else RouteName.LARGE
+        selection = resolve_threshold_selection(artifact, self.success_threshold)
+        route = RouteName.SMALL if selection.accepts(success_probability) else RouteName.LARGE
         return RouteDecision(
             route=route,
             confidence=max(success_probability, 1.0 - success_probability),
             difficulty_score=1.0 - success_probability,
             reason=(
-                f"Predicted small-model success {success_probability:.3f} is "
+                f"Routing infeasible: {selection.reason}"
+                if selection.status == "infeasible"
+                else f"Predicted small-model success {success_probability:.3f} is "
                 f"{'above' if route == RouteName.SMALL else 'below'} the serving threshold"
             ),
             policy=self.name,
             features=feature_snapshot(features),
-            thresholds={"small_success": serving_threshold},
+            thresholds={"small_success": selection.threshold}
+            if selection.threshold is not None
+            else {},
+            router_probability=RouterProbability(
+                raw_probability=raw_success_probability,
+                probability=success_probability,
+                target=artifact.get(
+                    "label_strategy",
+                    artifact.get("training_metadata", {}).get("label_strategy", "small_success"),
+                ),
+                calibrated=calibrator.method != "identity",
+            ),
         )
+
+    def close(self) -> None:
+        if self._semantic is not None:
+            self._semantic.close()
+            self._semantic = None

@@ -1,0 +1,27 @@
+{
+  "role": "development_pilot_not_confirmation",
+  "status": "completed_negative_feasibility",
+  "source_sha": "842d92fe007c29c4c5ac5a0445efdb9910bb18ad",
+  "dataset_sha256": "eaac6681ee7e8445c1723cf62d19788757b4aee92408b813eccd219cd92804fa",
+  "configuration_sha256": "0628c33cd1b8196d6e88a08401d14b6b73e4c4af7a6fa4f0262a49b1b152fa99",
+  "split_sha256": "67a9da3e2b41afae0a4e4c3199fbd80cd1beafe5423cf418969eaafc7d4da2e9",
+  "summarized_utc": "2026-11-13T11:23:42.521887+00:00",
+  "evidence_zip_sha256": "1dfdc1d0f949ada10885abeaa1bbc0940b34b52ff72fcb05e63b58c5a10282da",
+  "executed_notebook_sha256": "5b1db2bc30396b48e98c3daa7098d6dc86422e49fd335b9e1cb84038f4596c86",
+  "environment": {"platform": "free Colab", "gpu": "Tesla T4", "gpu_memory_mib": 15360, "driver": "580.82.07", "cuda": "13.0", "torch": "2.14.1+cu130", "python": "3.13.16"},
+  "models": {
+    "small": {"id": "Qwen/Qwen3.5-0.8B", "revision": "2fc06364715b967f1860aea9cf38778875588b17"},
+    "large": {"id": "Qwen/Qwen3.5-4B", "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"}
+  },
+  "population": {"fitting": 120, "selection": 40, "diagnostic": 40, "timing_blocks": 3, "baseline_records": 400, "diagnostic_records": 240, "live_records": 720},
+  "baseline_correct_out_of_200": {"always_small": 85, "always_large": 148},
+  "diagnostic_correct_out_of_40": {"always_large": 32, "always_small": 21, "numeric_gate": 32, "semantic_gate": 32, "matched_random": 32, "cascade": 32},
+  "diagnostic_final_small_out_of_40": {"always_large": 0, "always_small": 40, "numeric_gate": 0, "semantic_gate": 0, "matched_random": 0, "cascade": 0},
+  "mean_live_latency_ms_rounded": {"always_large": 359.647, "always_small": 347.311, "numeric_gate": 373.652, "semantic_gate": 406.696, "matched_random": 359.064, "cascade": 710.441},
+  "semantic_gate_vs_always_large": {"accuracy_delta": 0.0, "latency_ratio": 1.1308196647274422, "descriptive_grouped_95_percent_latency_ratio_interval": [1.0935796168367813, 1.1718346801551573]},
+  "live_peak_cuda_mib_rounded": 10588.51,
+  "live_peak_process_rss_mib_rounded": 2732.61,
+  "replay": {"matched": 80, "compared": 80},
+  "monetary_cost": null,
+  "recommendation": "Do not confirm this configuration; screen a new development-only model pair before revisiting the gate."
+}

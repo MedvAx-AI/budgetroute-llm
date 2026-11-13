@@ -12,6 +12,7 @@ htmlcov/
 .hypothesis/
 
 # Environments and local configuration
+.worktrees/
 .venv/
 venv/
 env/

@@ -88,7 +88,7 @@ class OpenAICompatibleBackend:
         if not self._initialized:
             raise BackendError(f"OpenAI-compatible {self.name.value} backend is not initialized")
         generation = self.config.generation
-        payload = {
+        payload: dict[str, Any] = {
             "model": self.config.model_id,
             "messages": [{"role": "user", "content": request.prompt}],
             "max_tokens": request.max_new_tokens or generation.max_new_tokens,
@@ -98,6 +98,8 @@ class OpenAICompatibleBackend:
         }
         if self.config.request_logprobs:
             payload["logprobs"] = True
+        if generation.enable_thinking is not None:
+            payload["chat_template_kwargs"] = {"enable_thinking": generation.enable_thinking}
         http_request = Request(
             self.endpoint,
             data=json.dumps(payload).encode("utf-8"),
@@ -119,6 +121,11 @@ class OpenAICompatibleBackend:
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise BackendError("OpenAI-compatible server returned invalid JSON") from exc
         elapsed_ms = (time.perf_counter_ns() - started) / 1_000_000
+        if not isinstance(response_data, dict):
+            raise BackendError("OpenAI-compatible response must be a JSON object")
+        returned_model = response_data.get("model")
+        if returned_model is not None and returned_model != self.config.model_id:
+            raise BackendError("OpenAI-compatible response model does not match configured model")
         try:
             choice = response_data["choices"][0]
             text = str(choice["message"]["content"]).strip()
@@ -126,23 +133,40 @@ class OpenAICompatibleBackend:
             raise BackendError(
                 "OpenAI-compatible response is missing choices[0].message.content"
             ) from exc
-        usage = response_data.get("usage") or {}
-        input_tokens = int(usage.get("prompt_tokens", self.token_count(request.prompt)))
-        output_tokens = int(usage.get("completion_tokens", self.token_count(text)))
+        usage = response_data.get("usage")
+        usage = usage if isinstance(usage, dict) else {}
+        reported_input = usage.get("prompt_tokens")
+        reported_output = usage.get("completion_tokens")
+        reported_input = (
+            reported_input if type(reported_input) is int and reported_input >= 0 else None
+        )
+        reported_output = (
+            reported_output if type(reported_output) is int and reported_output >= 0 else None
+        )
+        input_tokens = (
+            reported_input if reported_input is not None else self.token_count(request.prompt)
+        )
+        output_tokens = reported_output if reported_output is not None else self.token_count(text)
         confidence, signals = self._confidence(choice)
         return BackendGeneration(
             text=text,
             backend=self.name,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
+            usage_is_measured=reported_input is not None and reported_output is not None,
             confidence=confidence,
             confidence_signals=signals,
             generation_ms=elapsed_ms,
             metadata={
                 "fake": False,
                 "runtime": "openai_compatible",
+                "runtime_identity": self.config.runtime_identity,
+                "returned_model": returned_model,
+                "system_fingerprint": response_data.get("system_fingerprint"),
                 "finish_reason": choice.get("finish_reason"),
                 "response_id": response_data.get("id"),
+                "reported_input_tokens": reported_input,
+                "reported_output_tokens": reported_output,
                 "confidence_is_calibrated": False,
             },
         )
@@ -162,6 +186,7 @@ class OpenAICompatibleBackend:
             "type": "openai_compatible",
             "model_id": self.config.model_id,
             "base_url": self.config.base_url,
+            "runtime_identity": self.config.runtime_identity,
             "remote_endpoint_allowed": self.config.allow_remote_endpoint,
             "credential_source": self.config.api_key_env,
             "request_timeout_seconds": self.config.request_timeout_seconds,

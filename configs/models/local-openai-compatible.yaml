@@ -2,6 +2,8 @@ small_backend:
   type: openai_compatible
   model_id: Qwen/Qwen2.5-0.5B-Instruct
   base_url: http://127.0.0.1:8001/v1
+  # Replace before caching: identify exact server build + deployed model revision.
+  runtime_identity: example-unverified-small-runtime
   allow_remote_endpoint: false
   request_timeout_seconds: 120
   request_logprobs: true
@@ -17,6 +19,7 @@ large_backend:
   type: openai_compatible
   model_id: Qwen/Qwen2.5-1.5B-Instruct
   base_url: http://127.0.0.1:8002/v1
+  runtime_identity: example-unverified-large-runtime
   allow_remote_endpoint: false
   request_timeout_seconds: 120
   request_logprobs: true

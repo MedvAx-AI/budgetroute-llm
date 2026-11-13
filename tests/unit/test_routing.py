@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+import joblib
+import pytest
+from sklearn.dummy import DummyClassifier
+
 from budgetroute.config import RoutingConfig
 from budgetroute.features.request_features import RequestFeatureExtractor
 from budgetroute.routing.calibration import fit_probability_calibrator
 from budgetroute.routing.heuristic import HeuristicPolicy
+from budgetroute.routing.learned import LearnedPolicy
 from budgetroute.routing.policies import RandomPolicy
 from budgetroute.schemas import GenerationRequest, RouteName
 
@@ -42,3 +49,52 @@ def test_temperature_calibrator_is_bounded_and_deterministic() -> None:
     transformed = first.transform(probabilities)
     assert all(0.0 <= value <= 1.0 for value in transformed)
     assert transformed == sorted(transformed)
+
+
+@pytest.mark.parametrize("certification", ["not_requested", "failed", "insufficient"])
+def test_infeasible_threshold_ignores_override(tmp_path: Path, certification: str) -> None:
+    model = DummyClassifier(strategy="constant", constant=1).fit([[1.0], [2.0]], [1, 1])
+    artifact = {
+        "schema_version": 4,
+        "model": model,
+        "feature_order": ["word_count"],
+        "serving_threshold": None,
+        "threshold_selection": {
+            "status": "infeasible",
+            "threshold": None,
+            "reason": "No calibration subset met the target",
+        },
+        "certification_status": certification,
+    }
+    path = tmp_path / "router.joblib"
+    joblib.dump(artifact, path)
+    request = GenerationRequest(prompt="Choose A")
+    decision = LearnedPolicy(path, success_threshold=0.0).decide(
+        request, RequestFeatureExtractor().extract(request)
+    )
+    assert decision.route == RouteName.LARGE
+    assert "infeasible" in decision.reason.lower()
+
+
+@pytest.mark.parametrize("certification", ["failed", "insufficient"])
+def test_failed_certificate_disables_feasible_threshold(tmp_path: Path, certification: str) -> None:
+    model = DummyClassifier(strategy="constant", constant=1).fit([[1.0]], [1])
+    path = tmp_path / "router.joblib"
+    joblib.dump(
+        {
+            "schema_version": 4,
+            "model": model,
+            "feature_order": ["word_count"],
+            "serving_threshold": 0.0,
+            "threshold_selection": {"status": "feasible", "threshold": 0.0, "reason": None},
+            "certification_status": certification,
+        },
+        path,
+    )
+    request = GenerationRequest(prompt="Choose A")
+    assert (
+        LearnedPolicy(path, success_threshold=0.0)
+        .decide(request, RequestFeatureExtractor().extract(request))
+        .route
+        == RouteName.LARGE
+    )

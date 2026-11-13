@@ -1,0 +1,4 @@
+extends:
+  - colab-pilot.yaml
+  - ../models/colab-qwen3-fallback.yaml
+name: colab-routing-development-pilot-fallback

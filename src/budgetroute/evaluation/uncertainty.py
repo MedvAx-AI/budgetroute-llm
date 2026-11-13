@@ -28,19 +28,22 @@ def grouped_bootstrap_mean(
     grouped: dict[str, list[float]] = defaultdict(list)
     for value, group in zip(values, groups, strict=True):
         grouped[group].append(value)
-    group_means = [sum(items) / len(items) for _, items in sorted(grouped.items())]
-    if len(group_means) < 2:
+    clusters = [items for _, items in sorted(grouped.items())]
+    if len(clusters) < 2:
         return None
     generator = random.Random(seed)
-    estimates = sorted(
-        sum(generator.choice(group_means) for _ in group_means) / len(group_means)
-        for _ in range(samples)
-    )
+    estimates = []
+    for _ in range(samples):
+        drawn = [generator.choice(clusters) for _ in clusters]
+        estimates.append(sum(sum(items) for items in drawn) / sum(len(items) for items in drawn))
+    estimates.sort()
     return {
         "method": "grouped_percentile_bootstrap",
         "confidence_level": 0.95,
         "samples": samples,
-        "group_count": len(group_means),
+        "group_count": len(clusters),
+        "estimate": sum(values) / len(values),
+        "estimand": "observation_weighted",
         "lower": _quantile(estimates, 0.025),
         "upper": _quantile(estimates, 0.975),
     }

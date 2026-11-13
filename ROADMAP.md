@@ -46,6 +46,30 @@ Completed milestones are marked explicitly. Completion means the repository capa
 
 ## Next evidence milestones
 
+### Research-first direction (2026-10-21; approved, Native implementation in progress)
+
+See the [relevance/methods audit and proposed study](docs/research-reassessment.md). Use free Colab only. Freeze additional infrastructure expansion while reviewing this direction; existing completed engineering milestones are not scientific-success claims.
+
+- [x] Reassess recent routing literature, modern small-model candidates, the historical negative result, and remote validation gaps.
+- [x] Refresh existing-source remote CPU/API/storage contracts and real PostgreSQL CI on October 21.
+- [x] Accept the narrow research direction and write the [pilot specification](docs/superpowers/specs/2026-10-21-colab-routing-study-design.md); verify signed-in Colab access through the in-app browser only.
+- [x] Approve the written specification and write the [implementation plan](docs/superpowers/plans/2026-10-21-colab-routing-study.md).
+- [x] Approve the implementation plan and choose Native execution with one independent final review.
+- [x] Repair infeasible-threshold fallback in newly trained artifacts and single/batch serving; preserve uncertified legacy readability.
+- [x] Separate router-target probabilities from answer confidence and remove fabricated routing/answer calibration.
+- [x] Version generation-cache identity and record/validate remote model/runtime provenance before remote collection.
+- [x] Record per-backend calls and preserve unknown/partial usage and cost instead of reporting missing cost as zero.
+- [x] Repair infeasible-threshold fallback, router/answer confidence metrics, cache identity, missing-cost semantics, and grouped/paired uncertainty before confirmatory claims.
+- [x] Implement the independent 120/40/40 development splits, shared semantic features, modern pinned adapters and resumable thin Colab notebook.
+- [x] Allocate free T4 and preserve the first real component attempt (generation, semantic, retrieval and scheduling passed; API-probe failure retained separately from later accepted runs).
+- [x] Independently review the implementation and repair paired failure reporting, interrupted route checkpoints, stale notebook imports, and missing retrieval persistence verification.
+- [x] Reconnect a free Colab T4 through the in-app browser and pass the real component gate at reviewed source `842d92f`, including direct-to-CUDA loading and FAISS save/reload/search.
+- [x] Execute and verify the [development-only modern-model pilot](reports/benchmarks/colab-routing-pilot-2026-11-13.md) on free Colab. The measured configuration missed the latency target; do not advance it to confirmation.
+- [ ] Freeze fresh splits, primary policy, scoring, stopping rules, and the complete non-inferiority/latency decision rule before examining final outcomes.
+- [ ] Execute and preserve real remote component and study evidence; publish positive, negative, infeasible, or inconclusive outcomes without post-hoc changes to success criteria.
+
+### Existing evidence and deployment backlog
+
 - [x] Publish an initial license-compliant comparison on named models, data, hardware, runtime revisions, and a clean source commit: Qwen2.5-0.5B/1.5B on stratified MMLU-100 using an RTX 3060 Laptop GPU.
 - [x] Expand paired baseline collection to 500 records and publish a trained/calibrated router on a persisted 100-record untouched split; the negative result rules out a quality-retention claim for the current feature set.
 - Add a new external/later-seeded holdout, paired-delta uncertainty, randomized repeated timing trials, and batch/concurrency matrices before making quality-retention or capacity claims.
@@ -54,3 +78,7 @@ Completed milestones are marked explicitly. Completion means the repository capa
 - Integrate an external identity provider, secret manager, WAF/service mesh, centralized telemetry, and ticketing system for sensitive production use.
 - Add domain-specific semantic/human evaluation and red-team evidence; no generic filter can prove factuality, usefulness, or prompt-injection safety.
 - Validate HNSW recall/latency and autoscaling behavior on the target corpus and fleet before setting production thresholds.
+# Active research implementation
+
+The remote component checks, development pilot and evidence verification are complete. Any new study should first screen for a model pair with a meaningful live latency gap and enough safe cheap substitutions, using separate development data. Confirmation remains separately approval-gated.
+

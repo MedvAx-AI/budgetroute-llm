@@ -35,3 +35,10 @@ Fake artificial delay verifies instrumentation only. It is not a proxy for real 
 The first curated real result is [Qwen2.5 routing on stratified MMLU-100](../reports/benchmarks/qwen25-mmlu-100-rtx3060.md). Its sibling JSON file preserves exact metrics. Raw predictions, model generations, downloaded data, and caches remain ignored; the card records the clean source commit, hashes, revisions, environment, replay audit, uncertainty, and claim boundary needed to interpret the result.
 
 The follow-up [paired-quality held-out MMLU study](../reports/benchmarks/qwen25-mmlu-500-learned-rtx3060.md) expands baseline collection to 500 paired outcomes, freezes disjoint 300/100/100 train/calibration/test partitions, and reports the learned router's negative result rather than claiming an unsupported optimization. Its sibling JSON preserves exact split, calibration, outcome, live-system, and replay-audit evidence.
+# Comparison populations
+
+Quality denominators include every scheduled answer, including errors; latency distributions are successful-only diagnostics. Repeated trials are clustered by original question, not counted as independent new questions. Paired accuracy differences and confidence intervals are descriptive. Speedup ratios are unavailable without verified compatible live trial contexts, and never calculated from failures assigned zero latency.
+
+# Verified Colab example
+
+The [November 13 pilot](../reports/benchmarks/colab-routing-pilot-2026-11-13.md) reports cache-disabled timing for three blocks with both generators resident. The always-large comparator keeps the unused small model loaded. The 120 requests per policy represent 40 independent questions, not 120 independent samples.

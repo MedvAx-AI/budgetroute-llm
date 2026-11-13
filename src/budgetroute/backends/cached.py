@@ -22,6 +22,8 @@ class CachedGenerationBackend:
         cache: GenerationCache,
         mode: CacheMode,
     ) -> None:
+        if config.type == "openai_compatible" and not config.runtime_identity:
+            raise ArtifactError("cached HTTP backend requires an immutable runtime_identity")
         self.name = name
         self.config = config
         self.delegate = delegate

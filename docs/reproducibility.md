@@ -1,5 +1,7 @@
 # Reproducibility
 
+Generation caches now use schema v2, incorporating a hashed endpoint namespace, operator-declared runtime/deployment identity, logprob settings, loader, context limit, and explicit generation/template settings. Credentials and request IDs are not identity inputs. Old v1 entries are never silently reused: recollect rather than copy old files into a new cache layout. HTTP caches require a nonempty `runtime_identity`; operators must identify an immutable server build and deployed weights, not reuse an alias across redeployments. This declaration is provenance, not cryptographic attestation. A returned model mismatch is rejected; absent returned model/system identity stays unavailable. Historical result cards remain unmodified evidence for their original source/cache contract.
+
 Each run directory is named with a UTC timestamp and workload slug, with a numeric suffix on collision. It contains:
 
 ```text
@@ -27,3 +29,13 @@ Compatibility runs create an immutable `compatibility.json` containing the exact
 Operational SQLite/PostgreSQL state is not a benchmark artifact. PostgreSQL migration names/checksums prove schema identity, not benchmark provenance or capacity. Calibration candidates carry a source hash, chronological split counts, calibrator and threshold, candidate/active holdout metrics, promotion gates, change points, and immutable version ID. The registry manifest records promotion/rollback history and atomically materializes `active-calibrator.json`. Retrieval-router artifacts similarly retain paired label definition, group partitions, source hash, feature order, calibration, threshold, and versions.
 
 For a reproducible real comparison, use committed revision-pinned model, tokenizer, embedding, dataset, and runtime profiles; retain environment lock information; use consistent hardware and scheduler state; run `verify-replay`; state independent group/sample counts and uncertainty; and publish immutable experiment artifacts separately from the source repository.
+# Pilot identity and restart boundaries
+
+The development pilot freezes source SHA/clean state, resolved configuration, dataset/split/exclusion hashes, generation fingerprints, hardware identity and the complete installed-version inventory before measured stages. `BUDGETROUTE_REVIEWED_SHA` must explicitly match the clean checkout. Changing any identity requires a new workspace. This strict rule permits resumption within a compatible retained VM, not automatic mixing across replacement Colab GPUs or changed packages. Hashes provide integrity and traceability, not third-party execution attestation.
+
+The source notebook is intentionally unexecuted in Git. Its structure and adapters are checked offline; only an exported executed Colab notebook plus validated real artifacts can establish remote completion. Cached baseline quality is distinct from cache-disabled online latency. Repeated timings preserve original question groups, and descriptive intervals do not certify non-inferiority.
+
+The [November 13 machine-readable card](../reports/benchmarks/colab-routing-pilot-2026-11-13.json) records source, dataset, archive and executed-notebook hashes. When the in-app browser did not deliver the normal downloads, the archive was recovered byte-for-byte from visible notebook output and the executed notebook from Colab's cell clipboard. No measurements were rerun or modified to export them.
+
+Retain host-RAM crashes as incomplete attempts, including the last executed notebook and persisted component/identity/run artifacts. The October 22 `5ab58a8` attempt passed component checks but exhausted host RAM during the next model reload, before paired outcomes were collected. Direct-device loading is a new explicit configuration/source identity, not a continuation of that failed identity. Do not combine its artifacts with the retry. When ordinary browser downloads are unavailable, the notebook's native select-all/copy `application/ipynb` payload preserves actual cells, execution counts and outputs; record the export method when wrapping those cells in a standard notebook document.
+

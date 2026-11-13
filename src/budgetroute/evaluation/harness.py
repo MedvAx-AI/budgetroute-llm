@@ -120,7 +120,8 @@ def evaluate_records(
                     raw_answer=response.answer,
                     normalized_answer=evaluation.normalized_answer,
                     reference=record.reference_answer,
-                    quality_score=evaluation.score,
+                    quality_score=0.0 if response.execution.answer_truncated else evaluation.score,
+                    answer_truncated=response.execution.answer_truncated,
                     metric_name=evaluation.metric_name,
                     latency_ms=response.timing.total_ms,
                     generation_ms=response.timing.generation_ms,
@@ -149,6 +150,9 @@ def evaluate_records(
                         else None
                     ),
                     replayed=response.replayed,
+                    router_probability=response.router.router_probability,
+                    fake=response.fake,
+                    backend_calls=response.backend_calls,
                 )
             )
             routes.append(
@@ -158,6 +162,9 @@ def evaluate_records(
                     "policy": response.router.policy,
                     "route": response.route.value,
                     "confidence": response.router.confidence,
+                    "router_probability": response.router.router_probability.model_dump(mode="json")
+                    if response.router.router_probability
+                    else None,
                     "features": response.router.features,
                     "estimated_cost_units": response.estimated_cost_units,
                     "escalated": response.execution.escalated,

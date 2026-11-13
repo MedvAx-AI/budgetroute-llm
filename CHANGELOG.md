@@ -4,6 +4,32 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 
 ## [Unreleased]
 
+### Research evidence
+
+- Published a verified free-Colab Qwen3.5 development pilot. The semantic gate made zero cheap substitutions and was 13.1% slower than always-large; no confirmation was run. The report separates 200-question baselines, 40-question diagnostics and cache-disabled live timing.
+
+### Fixed
+
+- Independent review fixes preserve paired failures and repair missing route checkpoints after interrupted collection. Notebook setup requires a fresh kernel before reinstallation, and Colab retrieval acceptance now requires a real save/reload/search round trip.
+
+- Colab profiles explicitly load generators directly onto the requested CUDA device, avoiding a full host-RAM staging copy. The setting is opt-in, recorded in metadata/cache identity, and does not enable offloading or change FP16/model/decoding settings. The November 13 free-T4 pilot passed the reload that had exhausted host RAM in October.
+
+- The Colab loopback API probe now gives its injected service the same temporary configuration as its app, without mutating the caller. A real T4 probe exposed the previously disabled feedback flag; an in-process ASGI regression reproduces it without claiming GPU or network evidence.
+
+- Per-call usage/cost accounting includes both cascade executions without double-counting accepted small answers. Missing/partial reported usage and undeclared rates yield unknown totals, with known subtotals preserved. Default policy forecast rates are not treated as measured cost.
+
+- Generation-cache schema v2 separates endpoint/runtime/logprob/template/loader/context identity and rejects old-schema entries. Cached HTTP backends require a deployment identity; returned model mismatches and non-object JSON responses fail explicitly, while absent identity remains unavailable.
+
+- Router probability/target records and calibration are separate from final-answer confidence. Missing probability evidence yields unavailable calibration rather than complemented large-answer confidence or binary route scores. Prediction records preserve explicit fake/real identity when known.
+
+- New router and backend-confidence artifacts explicitly disable cheap acceptance when calibration is infeasible or certification failed/is insufficient. Numeric overrides cannot bypass this state; single and batch cascades always escalate. Legacy numeric artifacts remain readable and uncertified.
+
+### Added
+
+- Research reassessment and approved measurement-repair/free-Colab specification and Native implementation plan. Tasks 1–9 implement fail-closed gates, probability/cost/cache/uncertainty repairs, independent development splits, shared semantic routing, pinned modern adapters and resumable pilot orchestration.
+- Exact-source remote CI at `5ab58a8`: Python 3.11/3.12 each 197 tests and 78.38% branch coverage; separate PostgreSQL 17 contract passed both tests.
+- Real free-Colab T4 checks at `5ab58a8` verified generation/confidence/batching, pinned MiniLM/FAISS HNSW in-memory search, scheduling, authenticated loopback API and cleanup. Collection crashed before any paired outcomes. Exact-source CI passed the direct-loading repair at `f684b7e`; the November 10 retry could not connect before setup. No completed pilot or confirmation is claimed.
+
 ### Changed
 
 - GitHub checkout, Python setup, and artifact upload workflows now use current Node 24-based major releases, removing deprecated Node 20 action execution.
@@ -85,3 +111,9 @@ All notable changes follow Keep a Changelog conventions. The project uses semant
 ### Added
 
 - Initial quality-aware routing, retrieval, inference, evaluation, reporting, CLI, API, and offline fake-mode implementation.
+# Research measurement updates
+
+- Align paired quality denominators, failure handling and observation-weighted cluster uncertainty; block unverified live latency ratios.
+- Freeze historical exclusions and 120/40/40 development roles; add strict MCQ/truncation scoring, prompt-only semantic gates, pinned primary/fallback modern profiles, and a resumable free-Colab notebook with fail-closed real-evidence export.
+- Repair current-kernel editable-source import in Colab, quote the cache-disabled YAML literal, and retain environment/configuration evidence on component initialization failure.
+

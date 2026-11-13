@@ -14,6 +14,8 @@ Heuristics are portable but dataset-sensitive. Feature thresholds must be valida
 
 ## Learned
 
+New schema-v4 router and confidence-calibration artifacts represent an infeasible threshold explicitly with `threshold_selection.status: infeasible` and a JSON-null threshold. Learned routing then selects only large; the cascade always escalates. A numerical serving override cannot reopen an infeasible selection or a failed/insufficient certificate. A feasible empirical threshold is **not** a statistical certificate: new pilot artifacts record `certification_status: not_requested`. Legacy artifacts remain readable using their historical numeric thresholds, explicitly uncertified.
+
 The learned policy supports two explicit training targets using the same numeric feature snapshot at training and serving. `small_success` predicts whether the small backend meets a quality threshold. `paired_quality` joins successful `always_small` and `always_large` outcomes for each example and predicts whether small-model quality is at least large-model quality. The paired target directly models when selecting the inexpensive backend avoids an observed quality loss; it does not assume that the larger model is always correct.
 
 The artifact stores the preprocessing/model pipeline, ordered features, label strategy and definition, source hash, three group-aware partitions, scalar calibrator, calibration-selected serving threshold, seed, raw/calibrated test metrics, held-out routing outcome metrics when paired outcomes exist, warnings, and package versions. Outcome metrics include selected quality, route share, deltas against both fixed baselines, and regret against a per-example oracle.
@@ -55,3 +57,9 @@ Abstention is a first-class route, not an exception. It trades coverage for sele
 ## Human review
 
 Human review is distinct from abstention and records a reason in the execution trace. When review is enabled, the API creates a privacy-minimal durable case in the operational store. Scoped reviewers can tenant-list, claim, and resolve cases using optimistic versions; a resolved correctness outcome can become a delayed label and every mutation is audited. Prompts and answers are intentionally absent, and the project does not notify a person or provide ticketing/SLA management—deployments needing those functions must integrate an external workflow.
+# Prompt-only semantic pilot gates
+
+Training supports `--feature-mode semantic --dataset ... --split-manifest ...` using the pinned MiniLM CPU encoder, 256-token input limit, attention-mask mean pooling and L2 normalization. The artifact stores preprocessing identity, embedding revision, dimension and truncation count. Serving reconstructs this same prompt-only path; labels and generated answers are never features. Numeric legacy artifacts remain supported without initializing an encoder.
+
+Pilot partitions are externally frozen and must match all IDs and the data hash. Missing joins, partition/group overlap, mutable encoder revisions and incompatible preprocessing/dimensions fail closed. The gate is warm but question vectors are not memoized in timed routing; embedding time is included in route latency. Service shutdown releases encoder resources.
+

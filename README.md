@@ -2,7 +2,11 @@
 
 BudgetRoute-LLM is a typed, quality-aware language-model routing system. It combines small and large model backends, retrieval, confidence cascades, abstention, and durable human review with reproducible evaluation and a tenant-aware service boundary.
 
-> **Status: v0.7 research and multi-host deployment-validation implementation with two published real GPU studies.** PostgreSQL integration tests prove control-plane transaction semantics, not target-fleet capacity or availability. The latest MMLU-500/held-out result remains a negative learned-routing result, and fake timings remain instrumentation-only.
+> **Status: v0.7 research and deployment-validation implementation with a completed free-Colab development pilot.** PostgreSQL contract tests do not establish target-fleet capacity or availability. Both the historical held-out benchmark and the new pilot report negative results for their tested routing configurations. Fake timings remain instrumentation-only.
+
+**Research result (2026-11-13):** The [free-Colab development pilot](reports/benchmarks/colab-routing-pilot-2026-11-13.md) completed on a Tesla T4. Qwen3.5-0.8B scored 42.5% and Qwen3.5-4B scored 74.0% over 200 development questions. On the 40-question diagnostic split, the semantic gate routed none to the small model, matched always-large accuracy (32/40), and was 13.1% slower in mean live latency. Do not advance this configuration to confirmation. See the [specification](docs/superpowers/specs/2026-10-21-colab-routing-study-design.md), [notebook](notebooks/routing_pilot_colab.ipynb) and [workflow](docs/real-evaluation-workflow.md).
+
+**Remote validation:** The October 22 free-Colab T4 run at `5ab58a8` verified real Qwen3.5 generation, MiniLM/FAISS search, scheduling, authenticated loopback API and cleanup. It exhausted host RAM during the next model reload, before any paired outcomes. The independently reviewed implementation at `842d92f` includes direct-to-CUDA loading and a stronger retrieval round-trip check; its [exact-source CI](https://github.com/MedvAx-AI/budgetroute-llm/actions/runs/42831640638) passed 203 tests on each Python version and two dedicated PostgreSQL tests. See [the evidence and remaining gates](docs/research-reassessment.md#off-local-validation-actual-evidence-and-remaining-gaps) for the distinction between component validation and a completed pilot. No confirmatory claim is made.
 
 ## What it answers
 
@@ -251,3 +255,7 @@ scripts/              PowerShell and Bash setup/check/demo helpers
 ## Resume use
 
 The architecture and test evidence can be described today. Replace every quality, latency, throughput, savings, recall, and scale placeholder with a link to a real immutable run. Never present fake-mode values as model evidence. See [portfolio notes](docs/portfolio-notes.md).
+# Research implementation status
+
+Measurement updates retain generation failures in quality denominators and report complete paired comparisons with grouped descriptive uncertainty. The completed [development pilot](reports/benchmarks/colab-routing-pilot-2026-11-13.md) reports matched-identity live timing separately from cached quality. It does not certify non-inferiority or generalize to other hardware or workloads.
+
